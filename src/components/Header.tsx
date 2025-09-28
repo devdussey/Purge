@@ -13,7 +13,7 @@ export function Header() {
               className="h-10 w-10 rounded-lg"
             />
             <div>
-              <h1 className="text-xl font-bold text-white">Purge - Antivirus</h1>
+              <h1 className="text-xl font-bold text-white">Purge</h1>
               <p className="text-sm text-gray-400">by DevDussey</p>
             </div>
           </div>
