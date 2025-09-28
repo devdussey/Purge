@@ -21,18 +21,19 @@ import {
 function App() {
   const [isScanning, setIsScanning] = useState(false);
   const [lastOutput, setLastOutput] = useState<string>('');
+  const [isElectron] = useState(!!window.electronAPI);
 
   const handleQuickScan = async () => {
     setIsScanning(true);
     
     try {
-      // Option 1: Execute via API/Electron
       const result = await executeScript('quickScan');
       setLastOutput(result.output);
       
-      // Option 2: Show command to run manually
-      const command = getCommandLineExecution('quickScan');
-      console.log('Run this command:', command);
+      if (!isElectron) {
+        const command = getCommandLineExecution('quickScan');
+        console.log('Run this command:', command);
+      }
       
     } catch (error) {
       console.error('Script execution failed:', error);
@@ -48,8 +49,10 @@ function App() {
       const result = await executeScript('fullScan');
       setLastOutput(result.output);
       
-      const command = getCommandLineExecution('fullScan');
-      console.log('Run this command:', command);
+      if (!isElectron) {
+        const command = getCommandLineExecution('fullScan');
+        console.log('Run this command:', command);
+      }
       
     } catch (error) {
       console.error('Script execution failed:', error);
@@ -63,8 +66,10 @@ function App() {
       const result = await executeScript('updateDefinitions');
       setLastOutput(result.output);
       
-      const command = getCommandLineExecution('updateDefinitions');
-      console.log('Run this command:', command);
+      if (!isElectron) {
+        const command = getCommandLineExecution('updateDefinitions');
+        console.log('Run this command:', command);
+      }
     } catch (error) {
       console.error('Script execution failed:', error);
     }
@@ -75,8 +80,10 @@ function App() {
       const result = await executeScript('toggleProtection');
       setLastOutput(result.output);
       
-      const command = getCommandLineExecution('toggleProtection');
-      console.log('Run this command:', command);
+      if (!isElectron) {
+        const command = getCommandLineExecution('toggleProtection');
+        console.log('Run this command:', command);
+      }
     } catch (error) {
       console.error('Script execution failed:', error);
     }
@@ -87,8 +94,10 @@ function App() {
       const result = await executeScript('scheduleScan');
       setLastOutput(result.output);
       
-      const command = getCommandLineExecution('scheduleScan');
-      console.log('Run this command:', command);
+      if (!isElectron) {
+        const command = getCommandLineExecution('scheduleScan');
+        console.log('Run this command:', command);
+      }
     } catch (error) {
       console.error('Script execution failed:', error);
     }
@@ -99,8 +108,10 @@ function App() {
       const result = await executeScript('viewHistory');
       setLastOutput(result.output);
       
-      const command = getCommandLineExecution('viewHistory');
-      console.log('Run this command:', command);
+      if (!isElectron) {
+        const command = getCommandLineExecution('viewHistory');
+        console.log('Run this command:', command);
+      }
     } catch (error) {
       console.error('Script execution failed:', error);
     }
@@ -111,8 +122,10 @@ function App() {
       const result = await executeScript('manageQuarantine');
       setLastOutput(result.output);
       
-      const command = getCommandLineExecution('manageQuarantine');
-      console.log('Run this command:', command);
+      if (!isElectron) {
+        const command = getCommandLineExecution('manageQuarantine');
+        console.log('Run this command:', command);
+      }
     } catch (error) {
       console.error('Script execution failed:', error);
     }
@@ -123,8 +136,10 @@ function App() {
       const result = await executeScript('emergencyCleanup');
       setLastOutput(result.output);
       
-      const command = getCommandLineExecution('emergencyCleanup');
-      console.log('Run this command:', command);
+      if (!isElectron) {
+        const command = getCommandLineExecution('emergencyCleanup');
+        console.log('Run this command:', command);
+      }
     } catch (error) {
       console.error('Script execution failed:', error);
     }
@@ -135,8 +150,10 @@ function App() {
       const result = await executeScript('systemRestore');
       setLastOutput(result.output);
       
-      const command = getCommandLineExecution('systemRestore');
-      console.log('Run this command:', command);
+      if (!isElectron) {
+        const command = getCommandLineExecution('systemRestore');
+        console.log('Run this command:', command);
+      }
     } catch (error) {
       console.error('Script execution failed:', error);
     }
@@ -151,6 +168,18 @@ function App() {
       <Header />
       
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        {/* Platform indicator */}
+        {!isElectron && (
+          <div className="mb-6 bg-yellow-900/20 border border-yellow-500/20 rounded-lg p-4">
+            <div className="flex items-center space-x-2">
+              <AlertTriangle className="h-5 w-5 text-yellow-400" />
+              <p className="text-yellow-300 text-sm">
+                You're using the web version. For full functionality including script execution, please download the desktop app.
+              </p>
+            </div>
+          </div>
+        )}
+
         {/* Status Overview */}
         <div className="mb-8">
           <h2 className="text-2xl font-bold text-white mb-6">System Status</h2>

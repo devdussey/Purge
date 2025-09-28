@@ -72,23 +72,17 @@ export async function executeScript(scriptKey: string, parameters?: string[]): P
   }
 
   try {
-    // Option 1: If this becomes an Electron app
+    // Electron app execution
     if (window.electronAPI) {
       return await window.electronAPI.executeScript(config.path, parameters, config.requiresElevation);
     }
 
-    // Option 2: If you have a local backend API
-    const response = await fetch('/api/execute-script', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        scriptPath: config.path,
-        parameters: parameters || [],
-        requiresElevation: config.requiresElevation
-      })
-    });
-
-    return await response.json();
+    // Fallback for web version
+    return { 
+      success: false, 
+      output: '', 
+      error: 'Script execution not available in web version. Please use the desktop app.' 
+    };
 
   } catch (error) {
     return { 
