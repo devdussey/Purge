@@ -7,9 +7,13 @@ module.exports = {
   files: [
     'dist/**/*',
     'dist-electron/**/*',
+    {
       icon: 'public/PurgedIcon.png',
+    },
     'node_modules/**/*',
   ],
+  extraResources: [
+    {
       installerIcon: 'public/PurgedIcon.png',
       uninstallerIcon: 'public/PurgedIcon.png',
       installerHeaderIcon: 'public/PurgedIcon.png',
