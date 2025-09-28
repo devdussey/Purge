@@ -128,7 +128,7 @@ export function PerformanceModeSelector({
       <div className="p-6 border-b border-dark-700">
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-3">
-            <Zap className="h-6 w-6 text-primary-400" />
+            <Zap className="h-6 w-6 text-accent-500" />
             <div>
               <h2 className="text-xl font-semibold text-white">Performance Mode</h2>
               <p className="text-sm text-gray-400">
@@ -159,7 +159,7 @@ export function PerformanceModeSelector({
               <span className="text-sm text-gray-400">Battery Level</span>
               <span className={`text-sm font-medium ${
                 batteryLevel < 30 ? 'text-red-400' : 
-                batteryLevel < 60 ? 'text-primary-400' : 'text-primary-300'
+                batteryLevel < 60 ? 'text-yellow-400' : 'text-accent-400'
               }`}>
                 {batteryLevel}%
               </span>
@@ -170,7 +170,7 @@ export function PerformanceModeSelector({
             <div className="flex items-center justify-between">
               <span className="text-sm text-gray-400">Gaming Detected</span>
               <span className={`text-sm font-medium ${
-                isGameRunning ? 'text-primary-400' : 'text-gray-400'
+                isGameRunning ? 'text-accent-400' : 'text-gray-400'
               }`}>
                 {isGameRunning ? 'Yes' : 'No'}
               </span>
@@ -181,7 +181,7 @@ export function PerformanceModeSelector({
             <div className="flex items-center justify-between">
               <span className="text-sm text-gray-400">Fullscreen App</span>
               <span className={`text-sm font-medium ${
-                isFullscreen ? 'text-primary-400' : 'text-gray-400'
+                isFullscreen ? 'text-accent-400' : 'text-gray-400'
               }`}>
                 {isFullscreen ? 'Yes' : 'No'}
               </span>
@@ -201,16 +201,16 @@ export function PerformanceModeSelector({
                 onClick={() => handleModeChange(mode.id)}
                 className={`p-4 rounded-lg border-2 transition-all text-left ${
                   isActive 
-                    ? 'border-primary-500 bg-primary-900/20' 
+                    ? 'border-accent-500 bg-accent-900/20' 
                     : 'border-dark-600 bg-black hover:border-dark-500'
                 }`}
               >
                 <div className="flex items-center space-x-3 mb-2">
                   <IconComponent className={`h-6 w-6 ${
-                    isActive ? 'text-primary-400' : 'text-gray-400'
+                    isActive ? 'text-accent-400' : 'text-gray-400'
                   }`} />
                   <span className={`font-medium ${
-                    isActive ? 'text-primary-400' : 'text-white'
+                    isActive ? 'text-accent-400' : 'text-white'
                   }`}>
                     {mode.name}
                   </span>
@@ -232,7 +232,7 @@ export function PerformanceModeSelector({
                 </span>
                 <span className={`font-medium ${
                   typeof value === 'boolean' 
-                    ? (value ? 'text-primary-400' : 'text-red-400')
+                    ? (value ? 'text-accent-400' : 'text-red-400')
                     : 'text-white'
                 }`}>
                   {typeof value === 'boolean' 

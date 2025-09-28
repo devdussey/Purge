@@ -193,7 +193,7 @@ function App() {
         {!isElectron && (
           <div className="mb-6 bg-primary-900/20 border border-primary-500/20 rounded-lg p-4">
             <div className="flex items-center space-x-2">
-              <AlertTriangle className="h-5 w-5 text-primary-400" />
+              <AlertTriangle className="h-5 w-5 text-yellow-500" />
               <p className="text-primary-300 text-sm">
                 You're using the web version. For full functionality including script execution, please download the desktop app.
               </p>
@@ -218,7 +218,7 @@ function App() {
                     onClick={() => setActiveTab(tab.id)}
                     className={`flex items-center space-x-2 py-2 px-1 border-b-2 font-medium text-sm ${
                       activeTab === tab.id
-                        ? 'border-primary-500 text-primary-400'
+                        ? 'border-accent-500 text-accent-400'
                         : 'border-transparent text-gray-400 hover:text-gray-300 hover:border-gray-300'
                     }`}
                   >
@@ -390,7 +390,7 @@ function App() {
 
         {/* Scanning Status */}
         {isScanning && (
-          <div className="fixed bottom-6 right-6 bg-primary-600 text-white p-4 rounded-lg shadow-lg">
+          <div className="fixed bottom-6 right-6 bg-gradient-to-r from-primary-600 to-accent-600 text-white p-4 rounded-lg shadow-lg">
             <div className="flex items-center space-x-3">
               <div className="animate-spin rounded-full h-5 w-5 border-2 border-white border-t-transparent"></div>
               <span className="font-medium">Scanning in progress...</span>
@@ -400,7 +400,7 @@ function App() {
 
         {/* Output Display */}
         {lastOutput && (
-          <div className="fixed bottom-20 right-6 bg-dark-900 text-primary-400 p-4 rounded-lg shadow-lg max-w-md border border-dark-700">
+          <div className="fixed bottom-20 right-6 bg-dark-900 text-primary-400 p-4 rounded-lg shadow-lg max-w-md border border-primary-500/20">
             <h4 className="font-medium mb-2">Script Output:</h4>
             <pre className="text-xs overflow-auto max-h-32">{lastOutput}</pre>
             {/* Add false positive reporting button for detections */}
@@ -415,7 +415,7 @@ function App() {
                 });
                 setShowFPReporter(true);
               }}
-              className="mt-2 text-xs text-primary-300 hover:text-primary-200 underline"
+              className="mt-2 text-xs text-accent-400 hover:text-accent-300 underline"
             >
               Report False Positive
             </button>
