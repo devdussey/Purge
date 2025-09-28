@@ -1,4 +1,3 @@
-import { createHash } from 'crypto';
 import { EventEmitter } from 'events';
 
 export interface QuarantinedFile {
@@ -60,7 +59,15 @@ export class QuarantineManager extends EventEmitter {
     ruleId?: string,
     detectionMetadata?: any
   ): Promise<string> {
-    const hash = createHash('sha256').update(fileBuffer).digest('hex');
+    
+    // Use Electron API for hash computation
+    let hash: string;
+    if (window.electronAPI) {
+      hash = await window.electronAPI.computeHash(fileBuffer.buffer);
+    } else {
+      throw new Error('Electron API not available - this application must run in Electron environment');
+    }
+    
     const fileId = `quar_${Date.now()}_${hash.substring(0, 8)}`;
     const quarantinePath = `${this.quarantineBasePath}/${fileId}.quarantine`;
 
@@ -172,6 +179,11 @@ export class QuarantineManager extends EventEmitter {
     originalContent?: Buffer,
     newContent?: Buffer
   ) {
+    let hash = '';
+    if (originalContent && window.electronAPI) {
+      hash = await window.electronAPI.computeHash(originalContent.buffer);
+    }
+    
     const entry: RansomwareJournalEntry = {
       id: `journal_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
       filePath,
@@ -179,7 +191,7 @@ export class QuarantineManager extends EventEmitter {
       timestamp: new Date(),
       originalContent,
       newContent,
-      hash: originalContent ? createHash('sha256').update(originalContent).digest('hex') : ''
+      hash
     };
 
     if (!this.ransomwareJournal.has(filePath)) {

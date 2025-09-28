@@ -1,5 +1,4 @@
 import { EventEmitter } from 'events';
-import { createHash } from 'crypto';
 
 export interface DetectionRule {
   id: string;
@@ -171,7 +170,15 @@ export class DetectionEngine extends EventEmitter {
 
   async scanFile(filePath: string, fileBuffer: Buffer): Promise<ScanResult> {
     const startTime = Date.now();
-    const hash = createHash('sha256').update(fileBuffer).digest('hex');
+    
+    // Use Electron API for hash computation
+    let hash: string;
+    if (window.electronAPI) {
+      hash = await window.electronAPI.computeHash(fileBuffer.buffer);
+    } else {
+      throw new Error('Electron API not available - this application must run in Electron environment');
+    }
+    
     const fileSize = fileBuffer.length;
 
     // Check cache first

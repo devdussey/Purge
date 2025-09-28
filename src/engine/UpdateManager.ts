@@ -1,5 +1,4 @@
 import { EventEmitter } from 'events';
-import { createHash, createVerify } from 'crypto';
 
 export interface UpdateManifest {
   version: string;
@@ -95,20 +94,17 @@ export class UpdateManager extends EventEmitter {
   }
 
   private verifyManifestSignature(manifest: UpdateManifest): boolean {
-    try {
-      const verify = createVerify('RSA-SHA256');
-      const manifestData = JSON.stringify({
-        version: manifest.version,
-        timestamp: manifest.timestamp,
-        components: manifest.components
-      });
-      
-      verify.update(manifestData);
-      return verify.verify(this.config.publicKey, manifest.signature, 'base64');
-    } catch (error) {
-      console.error('Signature verification failed:', error);
-      return false;
+    if (!window.electronAPI) {
+      throw new Error('Electron API not available - this application must run in Electron environment');
     }
+    
+    const manifestData = JSON.stringify({
+      version: manifest.version,
+      timestamp: manifest.timestamp,
+      components: manifest.components
+    });
+    
+    return window.electronAPI.verifySignature(manifestData, manifest.signature, this.config.publicKey);
   }
 
   private isUpdateAvailable(manifest: UpdateManifest): boolean {
@@ -195,7 +191,13 @@ export class UpdateManager extends EventEmitter {
       const buffer = Buffer.from(componentData);
 
       // Verify hash
-      const actualHash = createHash('sha256').update(buffer).digest('hex');
+      let actualHash: string;
+      if (window.electronAPI) {
+        actualHash = await window.electronAPI.computeHash(componentData);
+      } else {
+        throw new Error('Electron API not available - this application must run in Electron environment');
+      }
+      
       if (actualHash !== component.hash) {
         throw new Error(`Hash mismatch for ${name}: expected ${component.hash}, got ${actualHash}`);
       }

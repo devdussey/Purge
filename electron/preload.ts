@@ -20,6 +20,12 @@ contextBridge.exposeInMainWorld('electronAPI', {
   
   getAppPath: () =>
     ipcRenderer.invoke('get-app-path'),
+  
+  computeHash: (data: ArrayBuffer) =>
+    ipcRenderer.invoke('compute-hash', data),
+  
+  verifySignature: (data: string, signature: string, publicKey: string) =>
+    ipcRenderer.invoke('verify-signature', data, signature, publicKey),
 });
 
 // Type definitions for the exposed API
@@ -34,6 +40,8 @@ export interface ElectronAPI {
   showOpenDialog: (options: any) => Promise<any>;
   getAppVersion: () => Promise<string>;
   getAppPath: () => Promise<string>;
+  computeHash: (data: ArrayBuffer) => Promise<string>;
+  verifySignature: (data: string, signature: string, publicKey: string) => Promise<boolean>;
 }
 
 declare global {

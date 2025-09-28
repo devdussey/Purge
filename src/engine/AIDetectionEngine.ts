@@ -192,7 +192,13 @@ export class AIDetectionEngine extends EventEmitter {
   private async runThreatIntelligence(model: AIModel, filePath: string, fileBuffer: Buffer): Promise<AIDetection | null> {
     if (!this.isOnline || !this.apiKey) return null;
 
-    const hash = require('crypto').createHash('sha256').update(fileBuffer).digest('hex');
+    // Use Electron API for hash computation
+    let hash: string;
+    if (window.electronAPI) {
+      hash = await window.electronAPI.computeHash(fileBuffer.buffer);
+    } else {
+      throw new Error('Electron API not available - this application must run in Electron environment');
+    }
     
     // Check cache first
     const cached = this.threatIntelCache.get(hash);

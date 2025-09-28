@@ -5,6 +5,13 @@ export interface ElectronAPI {
     output: string;
     error?: string;
   }>;
+  openExternal: (url: string) => Promise<void>;
+  showMessageBox: (options: any) => Promise<any>;
+  showOpenDialog: (options: any) => Promise<any>;
+  getAppVersion: () => Promise<string>;
+  getAppPath: () => Promise<string>;
+  computeHash: (data: ArrayBuffer) => Promise<string>;
+  verifySignature: (data: string, signature: string, publicKey: string) => Promise<boolean>;
 }
 
 declare global {

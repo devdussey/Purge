@@ -2,6 +2,7 @@ import { app, BrowserWindow, ipcMain, dialog, shell } from 'electron';
 import { spawn } from 'child_process';
 import * as path from 'path';
 import * as fs from 'fs';
+import { createHash, createVerify } from 'crypto';
 
 const isDev = process.env.NODE_ENV === 'development';
 
@@ -164,4 +165,27 @@ ipcMain.handle('get-app-version', async () => {
 // Get app path
 ipcMain.handle('get-app-path', async () => {
   return app.getAppPath();
+});
+
+// Handle hash computation
+ipcMain.handle('compute-hash', async (event, data: ArrayBuffer) => {
+  try {
+    const buffer = Buffer.from(data);
+    const hash = createHash('sha256').update(buffer).digest('hex');
+    return hash;
+  } catch (error) {
+    throw new Error(`Hash computation failed: ${error instanceof Error ? error.message : 'Unknown error'}`);
+  }
+});
+
+// Handle signature verification
+ipcMain.handle('verify-signature', async (event, data: string, signature: string, publicKey: string) => {
+  try {
+    const verify = createVerify('RSA-SHA256');
+    verify.update(data);
+    return verify.verify(publicKey, signature, 'base64');
+  } catch (error) {
+    console.error('Signature verification failed:', error);
+    return false;
+  }
 });
