@@ -5,7 +5,7 @@ export function Header() {
   const [notifications] = useState(3);
 
   const handleDownload = () => {
-    const downloadUrl = 'https://github.com/DevDussey/purge-antivirus/releases/latest';
+    const downloadUrl = 'https://github.com/devdussey/purged/releases/latest';
     window.open(downloadUrl, '_blank');
   };
 
