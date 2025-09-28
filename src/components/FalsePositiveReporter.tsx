@@ -58,7 +58,7 @@ export function FalsePositiveReporter({ detection, onReport, onClose }: FalsePos
         <div className="p-6 border-b border-dark-700">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-3">
-              <AlertTriangle className="h-6 w-6 text-primary-400" />
+              <AlertTriangle className="h-6 w-6 text-yellow-500" />
               <h2 className="text-xl font-semibold text-white">Report False Positive</h2>
             </div>
             <button
@@ -92,7 +92,7 @@ export function FalsePositiveReporter({ detection, onReport, onClose }: FalsePos
                 <span className={`px-2 py-1 rounded-full text-xs font-medium ${
                   detection.severity === 'critical' ? 'bg-red-100 text-red-800' :
                   detection.severity === 'high' ? 'bg-orange-100 text-orange-800' :
-                  detection.severity === 'medium' ? 'bg-primary-900 text-primary-300' :
+                  detection.severity === 'medium' ? 'bg-yellow-900 text-yellow-300' :
                   'bg-primary-950 text-primary-400'
                 }`}>
                   {detection.severity}
@@ -187,7 +187,7 @@ export function FalsePositiveReporter({ detection, onReport, onClose }: FalsePos
             <button
               type="submit"
               disabled={!reason || isSubmitting}
-              className="flex-1 flex items-center justify-center space-x-2 px-4 py-2 bg-primary-600 text-white rounded-lg hover:bg-primary-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+              className="flex-1 flex items-center justify-center space-x-2 px-4 py-2 bg-accent-600 text-white rounded-lg hover:bg-accent-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
             >
               <Send className="h-4 w-4" />
               <span>{isSubmitting ? 'Submitting...' : 'Submit Report'}</span>

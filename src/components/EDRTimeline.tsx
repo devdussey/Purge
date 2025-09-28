@@ -157,7 +157,7 @@ export function EDRTimeline({ detectionId, timeRange }: EDRTimelineProps) {
       <div className="p-6 border-b border-dark-700">
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-3">
-            <Activity className="h-6 w-6 text-primary-400" />
+            <Activity className="h-6 w-6 text-primary-500" />
             <div>
               <h2 className="text-xl font-semibold text-white">EDR Timeline</h2>
               <p className="text-sm text-gray-400">
@@ -168,7 +168,7 @@ export function EDRTimeline({ detectionId, timeRange }: EDRTimelineProps) {
           <div className="flex items-center space-x-2">
             <button
               onClick={exportTimeline}
-              className="flex items-center space-x-2 px-3 py-2 bg-primary-600 text-white rounded-lg hover:bg-primary-700 transition-colors"
+              className="flex items-center space-x-2 px-3 py-2 bg-accent-600 text-white rounded-lg hover:bg-accent-700 transition-colors"
             >
               <Download className="h-4 w-4" />
               <span>Export</span>
@@ -233,7 +233,7 @@ export function EDRTimeline({ detectionId, timeRange }: EDRTimelineProps) {
                       <span className={`px-2 py-1 rounded-full text-xs font-medium ${
                         event.severity === 'critical' ? 'bg-red-100 text-red-800' :
                         event.severity === 'high' ? 'bg-orange-100 text-orange-800' :
-                        event.severity === 'medium' ? 'bg-primary-900 text-primary-300' :
+                        event.severity === 'medium' ? 'bg-yellow-900 text-yellow-300' :
                         'bg-primary-950 text-primary-400'
                       }`}>
                         {event.severity}
@@ -304,7 +304,7 @@ export function EDRTimeline({ detectionId, timeRange }: EDRTimelineProps) {
                     <span className={`ml-2 px-2 py-1 rounded-full text-xs font-medium ${
                       selectedEvent.severity === 'critical' ? 'bg-red-100 text-red-800' :
                       selectedEvent.severity === 'high' ? 'bg-orange-100 text-orange-800' :
-                      selectedEvent.severity === 'medium' ? 'bg-primary-900 text-primary-300' :
+                      selectedEvent.severity === 'medium' ? 'bg-yellow-900 text-yellow-300' :
                       'bg-primary-950 text-primary-400'
                     }`}>
                       {selectedEvent.severity}

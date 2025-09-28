@@ -21,13 +21,13 @@ export function ActionButton({
   const getVariantClasses = () => {
     switch (variant) {
       case 'primary':
-        return 'bg-primary-600 hover:bg-primary-700 text-white';
+        return 'bg-gradient-to-r from-primary-600 to-primary-700 hover:from-primary-700 hover:to-primary-800 text-white shadow-lg';
       case 'secondary':
-        return 'bg-dark-700 hover:bg-dark-600 text-white';
+        return 'bg-gradient-to-r from-dark-700 to-dark-600 hover:from-dark-600 hover:to-dark-500 text-white shadow-lg';
       case 'danger':
-        return 'bg-red-600 hover:bg-red-700 text-white';
+        return 'bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white shadow-lg';
       case 'warning':
-        return 'bg-primary-500 hover:bg-primary-600 text-white';
+        return 'bg-gradient-to-r from-accent-500 to-accent-600 hover:from-accent-600 hover:to-accent-700 text-white shadow-lg';
     }
   };
 

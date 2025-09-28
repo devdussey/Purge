@@ -63,7 +63,7 @@ export function ScriptConfigPanel() {
                     )}
                     <button
                       onClick={() => handleEditScript(key)}
-                      className="p-1 text-gray-400 hover:text-white"
+                      className="p-1 text-gray-400 hover:text-primary-400"
                     >
                       <Edit3 className="h-4 w-4" />
                     </button>
@@ -87,7 +87,7 @@ export function ScriptConfigPanel() {
                     <div className="flex space-x-2">
                       <button
                         onClick={handleSaveScript}
-                        className="px-3 py-1 bg-primary-600 text-white text-sm rounded-md hover:bg-primary-700 flex items-center space-x-1"
+                        className="px-3 py-1 bg-accent-600 text-white text-sm rounded-md hover:bg-accent-700 flex items-center space-x-1"
                       >
                         <Save className="h-3 w-3" />
                         <span>Save</span>

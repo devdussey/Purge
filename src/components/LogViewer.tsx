@@ -15,7 +15,7 @@ export function LogViewer() {
       case 'INFO':
         return 'text-primary-400 bg-primary-950';
       case 'WARNING':
-        return 'text-primary-300 bg-primary-900';
+        return 'text-yellow-400 bg-yellow-950';
       case 'ERROR':
         return 'text-red-400 bg-red-950';
       default:
@@ -28,17 +28,17 @@ export function LogViewer() {
       <div className="p-6 border-b border-dark-700">
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-3">
-            <FileText className="h-6 w-6 text-primary-400" />
+            <FileText className="h-6 w-6 text-primary-500" />
             <h2 className="text-xl font-semibold text-white">Activity Log</h2>
           </div>
           <div className="flex space-x-2">
-            <button className="p-2 text-gray-400 hover:text-white hover:bg-dark-700 rounded-lg transition-colors">
+            <button className="p-2 text-gray-400 hover:text-white hover:bg-primary-700 rounded-lg transition-colors">
               <RefreshCw className="h-5 w-5" />
             </button>
-            <button className="p-2 text-gray-400 hover:text-white hover:bg-dark-700 rounded-lg transition-colors">
+            <button className="p-2 text-gray-400 hover:text-white hover:bg-primary-700 rounded-lg transition-colors">
               <Download className="h-5 w-5" />
             </button>
-            <button className="p-2 text-gray-400 hover:text-white hover:bg-dark-700 rounded-lg transition-colors">
+            <button className="p-2 text-gray-400 hover:text-white hover:bg-primary-700 rounded-lg transition-colors">
               <Trash2 className="h-5 w-5" />
             </button>
           </div>

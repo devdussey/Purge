@@ -87,7 +87,7 @@ export function RansomwareShield({ isActive, onToggle, onRollback }: RansomwareS
       <div className="p-6 border-b border-dark-700">
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-3">
-            <Shield className={`h-6 w-6 ${isActive ? 'text-primary-400' : 'text-gray-400'}`} />
+            <Shield className={`h-6 w-6 ${isActive ? 'text-accent-500' : 'text-gray-400'}`} />
             <div>
               <h2 className="text-xl font-semibold text-white">Ransomware Shield</h2>
               <p className="text-sm text-gray-400">
@@ -97,14 +97,14 @@ export function RansomwareShield({ isActive, onToggle, onRollback }: RansomwareS
           </div>
           <div className="flex items-center space-x-3">
             <span className={`px-3 py-1 rounded-full text-sm font-medium ${
-              isActive ? 'bg-primary-900 text-primary-300' : 'bg-dark-700 text-gray-300'
+              isActive ? 'bg-accent-900 text-accent-300' : 'bg-dark-700 text-gray-300'
             }`}>
               {isActive ? 'Active' : 'Inactive'}
             </span>
             <button
               onClick={() => onToggle(!isActive)}
               className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
-                isActive ? 'bg-primary-600' : 'bg-dark-600'
+                isActive ? 'bg-accent-600' : 'bg-dark-600'
               }`}
             >
               <span
@@ -139,7 +139,7 @@ export function RansomwareShield({ isActive, onToggle, onRollback }: RansomwareS
               </div>
               <button
                 onClick={handleEmergencyRollback}
-                className="w-full flex items-center justify-center space-x-2 px-3 py-2 bg-primary-700 text-white rounded-lg hover:bg-primary-800 transition-colors"
+                className="w-full flex items-center justify-center space-x-2 px-3 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors"
               >
                 <RotateCcw className="h-4 w-4" />
                 <span>Emergency Rollback</span>
@@ -160,8 +160,8 @@ export function RansomwareShield({ isActive, onToggle, onRollback }: RansomwareS
                 onClick={handleNetworkIsolation}
                 className={`w-full flex items-center justify-center space-x-2 px-3 py-2 rounded-lg transition-colors ${
                   networkIsolated 
-                    ? 'bg-primary-600 text-white hover:bg-primary-700' 
-                    : 'bg-primary-500 text-white hover:bg-primary-600'
+                    ? 'bg-accent-600 text-white hover:bg-accent-700' 
+                    : 'bg-primary-600 text-white hover:bg-primary-700'
                 }`}
               >
                 <Network className="h-4 w-4" />
@@ -220,27 +220,27 @@ export function RansomwareShield({ isActive, onToggle, onRollback }: RansomwareS
           <h4 className="font-medium text-white mb-3">Active Protection Features</h4>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-3 text-sm">
             <div className="flex items-center space-x-2">
-              <div className={`w-2 h-2 rounded-full ${isActive ? 'bg-primary-400' : 'bg-gray-400'}`} />
+              <div className={`w-2 h-2 rounded-full ${isActive ? 'bg-accent-400' : 'bg-gray-400'}`} />
               <span className="text-gray-300">File system monitoring</span>
             </div>
             <div className="flex items-center space-x-2">
-              <div className={`w-2 h-2 rounded-full ${isActive ? 'bg-primary-400' : 'bg-gray-400'}`} />
+              <div className={`w-2 h-2 rounded-full ${isActive ? 'bg-accent-400' : 'bg-gray-400'}`} />
               <span className="text-gray-300">Behavior analysis</span>
             </div>
             <div className="flex items-center space-x-2">
-              <div className={`w-2 h-2 rounded-full ${isActive ? 'bg-primary-400' : 'bg-gray-400'}`} />
+              <div className={`w-2 h-2 rounded-full ${isActive ? 'bg-accent-400' : 'bg-gray-400'}`} />
               <span className="text-gray-300">Network monitoring</span>
             </div>
             <div className="flex items-center space-x-2">
-              <div className={`w-2 h-2 rounded-full ${isActive ? 'bg-primary-400' : 'bg-gray-400'}`} />
+              <div className={`w-2 h-2 rounded-full ${isActive ? 'bg-accent-400' : 'bg-gray-400'}`} />
               <span className="text-gray-300">Registry protection</span>
             </div>
             <div className="flex items-center space-x-2">
-              <div className={`w-2 h-2 rounded-full ${isActive ? 'bg-primary-400' : 'bg-gray-400'}`} />
+              <div className={`w-2 h-2 rounded-full ${isActive ? 'bg-accent-400' : 'bg-gray-400'}`} />
               <span className="text-gray-300">Shadow copy protection</span>
             </div>
             <div className="flex items-center space-x-2">
-              <div className={`w-2 h-2 rounded-full ${isActive ? 'bg-primary-400' : 'bg-gray-400'}`} />
+              <div className={`w-2 h-2 rounded-full ${isActive ? 'bg-accent-400' : 'bg-gray-400'}`} />
               <span className="text-gray-300">Automatic journaling</span>
             </div>
           </div>

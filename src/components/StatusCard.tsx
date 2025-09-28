@@ -14,16 +14,16 @@ export function StatusCard({ title, status, description, lastUpdate }: StatusCar
       case 'active':
         return {
           icon: CheckCircle,
-          bgColor: 'bg-primary-500',
-          textColor: 'text-primary-400',
-          bgSecondary: 'bg-dark-900 border-primary-500/20',
+          bgColor: 'bg-accent-500',
+          textColor: 'text-accent-400',
+          bgSecondary: 'bg-dark-900 border-accent-500/20',
         };
       case 'warning':
         return {
           icon: AlertTriangle,
-          bgColor: 'bg-primary-400',
-          textColor: 'text-primary-300',
-          bgSecondary: 'bg-dark-900 border-primary-400/20',
+          bgColor: 'bg-yellow-500',
+          textColor: 'text-yellow-400',
+          bgSecondary: 'bg-dark-900 border-yellow-500/20',
         };
       case 'inactive':
         return {
