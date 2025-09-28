@@ -96,7 +96,7 @@ MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA...
     return {
       isValid: true,
       licenseType: 'trial',
-      expirationDate: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
+      expirationDate: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000),
       features: ['realTimeProtection', 'fullSystemScan']
     };
   }

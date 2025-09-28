@@ -81,7 +81,7 @@ export class PaymentManager {
       {
         id: 'basic',
         name: 'Basic Protection',
-        price: 29.99,
+        price: 9.99,
         priceId: 'price_basic_annual',
         features: [
           'Real-time Protection',
@@ -94,7 +94,7 @@ export class PaymentManager {
       {
         id: 'premium',
         name: 'Premium Security',
-        price: 49.99,
+        price: 19.99,
         priceId: 'price_premium_annual',
         popular: true,
         features: [
@@ -109,7 +109,7 @@ export class PaymentManager {
       {
         id: 'enterprise',
         name: 'Enterprise Suite',
-        price: 99.99,
+        price: 39.99,
         priceId: 'price_enterprise_annual',
         features: [
           'Everything in Premium',

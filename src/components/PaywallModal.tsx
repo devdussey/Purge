@@ -27,7 +27,7 @@ export function PaywallModal({ isOpen, onClose, license, featureBlocked }: Paywa
     {
       id: 'basic',
       name: 'Basic Protection',
-      price: 29.99,
+      price: 9.99,
       period: 'year',
       description: 'Essential antivirus protection for personal use',
       icon: Shield,
@@ -42,7 +42,7 @@ export function PaywallModal({ isOpen, onClose, license, featureBlocked }: Paywa
     {
       id: 'premium',
       name: 'Premium Security',
-      price: 49.99,
+      price: 19.99,
       period: 'year',
       description: 'Advanced protection with AI-powered detection',
       icon: Star,
@@ -59,7 +59,7 @@ export function PaywallModal({ isOpen, onClose, license, featureBlocked }: Paywa
     {
       id: 'enterprise',
       name: 'Enterprise Suite',
-      price: 99.99,
+      price: 39.99,
       period: 'year',
       description: 'Complete security solution for businesses',
       icon: Users,

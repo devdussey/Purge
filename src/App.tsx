@@ -46,7 +46,7 @@ function App() {
   const [license, setLicense] = useState<LicenseInfo>({
     isValid: false,
     isTrialActive: true,
-    trialDaysRemaining: 7,
+    trialDaysRemaining: 3,
     licenseType: 'trial',
     features: {
       realTimeProtection: true,

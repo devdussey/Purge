@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Shield, CreditCard, Clock, CheckCircle, AlertTriangle, X, Key } from 'lucide-react';
+import { PaymentRequiredModal } from './PaymentRequiredModal';
 
 export interface LicenseInfo {
   isValid: boolean;
@@ -25,8 +26,8 @@ interface LicenseManagerProps {
 export function LicenseManager({ onLicenseUpdate }: LicenseManagerProps) {
   const [license, setLicense] = useState<LicenseInfo>({
     isValid: false,
-    isTrialActive: true,
-    trialDaysRemaining: 7,
+    isTrialActive: false,
+    trialDaysRemaining: 3,
     licenseType: 'trial',
     features: {
       realTimeProtection: true,
@@ -42,6 +43,8 @@ export function LicenseManager({ onLicenseUpdate }: LicenseManagerProps) {
   const [showLicenseDialog, setShowLicenseDialog] = useState(false);
   const [licenseKey, setLicenseKey] = useState('');
   const [isValidating, setIsValidating] = useState(false);
+  const [showPaymentRequired, setShowPaymentRequired] = useState(false);
+  const [hasPaymentMethod, setHasPaymentMethod] = useState(false);
 
   useEffect(() => {
     // Load license from storage
@@ -60,27 +63,35 @@ export function LicenseManager({ onLicenseUpdate }: LicenseManagerProps) {
   const loadLicenseFromStorage = () => {
     try {
       const storedLicense = localStorage.getItem('purge_license');
+      const storedPaymentMethod = localStorage.getItem('purge_payment_method');
+      setHasPaymentMethod(!!storedPaymentMethod);
+      
       if (storedLicense) {
         const parsed = JSON.parse(storedLicense);
         setLicense(parsed);
         validateLicense(parsed);
       } else {
-        // First time user - start trial
-        startTrial();
+        // First time user - require payment method for trial
+        setShowPaymentRequired(true);
       }
     } catch (error) {
       console.error('Failed to load license:', error);
-      startTrial();
+      setShowPaymentRequired(true);
     }
   };
 
-  const startTrial = () => {
+  const startTrial = (withPaymentMethod: boolean = false) => {
+    if (!withPaymentMethod && !hasPaymentMethod) {
+      setShowPaymentRequired(true);
+      return;
+    }
+    
     const trialLicense: LicenseInfo = {
       isValid: true,
       isTrialActive: true,
-      trialDaysRemaining: 7,
+      trialDaysRemaining: 3,
       licenseType: 'trial',
-      expirationDate: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
+      expirationDate: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000),
       features: {
         realTimeProtection: true,
         fullSystemScan: true,
@@ -96,6 +107,15 @@ export function LicenseManager({ onLicenseUpdate }: LicenseManagerProps) {
     localStorage.setItem('purge_license', JSON.stringify(trialLicense));
   };
 
+  const handlePaymentMethodAdded = () => {
+    localStorage.setItem('purge_payment_method', JSON.stringify({
+      added: true,
+      timestamp: new Date().toISOString()
+    }));
+    setHasPaymentMethod(true);
+    setShowPaymentRequired(false);
+    startTrial(true);
+  };
   const validateLicense = async (licenseToValidate?: LicenseInfo) => {
     const currentLicense = licenseToValidate || license;
     
@@ -292,6 +312,12 @@ export function LicenseManager({ onLicenseUpdate }: LicenseManagerProps) {
         </div>
       </div>
 
+      {/* Payment Required Modal */}
+      <PaymentRequiredModal
+        isOpen={showPaymentRequired}
+        onClose={() => setShowPaymentRequired(false)}
+        onPaymentMethodAdded={handlePaymentMethodAdded}
+      />
       {/* License Key Dialog */}
       {showLicenseDialog && (
         <div className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50">

@@ -9,7 +9,7 @@ interface TrialBannerProps {
 }
 
 export function TrialBanner({ license, onUpgrade, onDismiss }: TrialBannerProps) {
-  if (!license.isTrialActive || license.trialDaysRemaining > 3) {
+  if (!license.isTrialActive || license.trialDaysRemaining > 2) {
     return null;
   }
 
