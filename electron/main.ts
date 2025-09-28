@@ -19,7 +19,7 @@ function createWindow() {
       contextIsolation: true,
       preload: path.join(__dirname, 'preload.js'),
     },
-    icon: path.join(__dirname, '../public/Dusscord.png'),
+    icon: path.join(__dirname, '../public/PurgedIcon.png'),
     title: 'Purge by DevDussey',
     titleBarStyle: 'default',
     show: false,
