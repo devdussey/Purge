@@ -1,7 +1,13 @@
 import React from 'react';
-import { Settings, Info } from 'lucide-react';
+import { Settings, Info, Download } from 'lucide-react';
 
 export function Header() {
+  const handleDownload = () => {
+    // In a real implementation, this would link to your GitHub releases or download page
+    const downloadUrl = 'https://github.com/DevDussey/purge-antivirus/releases/latest';
+    window.open(downloadUrl, '_blank');
+  };
+
   return (
     <header className="bg-gray-800 shadow-lg border-b border-gray-700">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -18,6 +24,13 @@ export function Header() {
             </div>
           </div>
           <div className="flex items-center space-x-2">
+            <button 
+              onClick={handleDownload}
+              className="flex items-center space-x-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors font-medium"
+            >
+              <Download className="h-4 w-4" />
+              <span>Download Desktop App</span>
+            </button>
             <button className="p-2 text-gray-400 hover:text-white hover:bg-gray-700 rounded-lg transition-colors">
               <Settings className="h-5 w-5" />
             </button>
