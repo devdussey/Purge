@@ -10,6 +10,10 @@ import { FalsePositiveReporter } from './components/FalsePositiveReporter';
 import { RansomwareShield } from './components/RansomwareShield';
 import { EDRTimeline } from './components/EDRTimeline';
 import { PerformanceModeSelector } from './components/PerformanceModeSelector';
+import { AIAssistant } from './components/AIAssistant';
+import { AIDetectionPanel } from './components/AIDetectionPanel';
+import { AIDetectionEngine } from './engine/AIDetectionEngine';
+import { DetectionEngine } from './engine/DetectionEngine';
 import { executeScript, getCommandLineExecution } from './utils/scriptRunner';
 import { 
   Shield, 
@@ -17,7 +21,8 @@ import {
   Activity, 
   Zap,
   BarChart3,
-  Settings as SettingsIcon
+  Settings as SettingsIcon,
+  Brain
 } from 'lucide-react';
 
 function App() {
@@ -29,6 +34,12 @@ function App() {
   const [ransomwareShieldActive, setRansomwareShieldActive] = useState(true);
   const [performanceMode, setPerformanceMode] = useState('balanced');
   const [activeTab, setActiveTab] = useState('dashboard');
+  const [showAIAssistant, setShowAIAssistant] = useState(false);
+  const [aiEngine] = useState(() => {
+    const baseEngine = new DetectionEngine();
+    return new AIDetectionEngine(baseEngine, 'demo-api-key');
+  });
+  const [aiModels, setAiModels] = useState(() => aiEngine.getModelStatus());
 
   const handleQuickScan = async () => {
     setIsScanning(true);
@@ -180,12 +191,24 @@ function App() {
     // In a real implementation, trigger quarantine manager rollback
   };
 
+  const handleUpdateAIModel = async (modelId: string) => {
+    const success = await aiEngine.updateModel(modelId);
+    if (success) {
+      setAiModels(aiEngine.getModelStatus());
+    }
+  };
+
+  const handleToggleAIModel = (modelId: string, enabled: boolean) => {
+    // In a real implementation, enable/disable the model
+    console.log(`Toggle AI model ${modelId}: ${enabled}`);
+  };
   const tabs = [
     { id: 'dashboard', name: 'Dashboard', icon: Shield },
     { id: 'analytics', name: 'Analytics', icon: BarChart3 },
     { id: 'ransomware', name: 'Ransomware Shield', icon: AlertTriangle },
     { id: 'timeline', name: 'EDR Timeline', icon: Activity },
     { id: 'performance', name: 'Performance', icon: Zap },
+    { id: 'ai', name: 'AI Detection', icon: Brain },
     { id: 'settings', name: 'Settings', icon: SettingsIcon }
   ];
 
@@ -284,6 +307,14 @@ function App() {
           />
         )}
 
+        {activeTab === 'ai' && (
+          <AIDetectionPanel
+            models={aiModels}
+            onUpdateModel={handleUpdateAIModel}
+            onToggleModel={handleToggleAIModel}
+          />
+        )}
+
         {activeTab === 'settings' && (
           <div className="bg-gradient-to-br from-gray-900/50 to-black/50 rounded-2xl border border-gray-700/30 backdrop-blur-sm p-8">
             <h2 className="text-2xl font-bold text-white mb-6">Settings</h2>
@@ -293,6 +324,12 @@ function App() {
 
         {/* Script Configuration Panel */}
         <ScriptConfigPanel />
+
+        {/* AI Assistant */}
+        <AIAssistant
+          isOpen={showAIAssistant}
+          onToggle={() => setShowAIAssistant(!showAIAssistant)}
+        />
 
         {/* False Positive Reporter */}
         {showFPReporter && selectedDetection && (
