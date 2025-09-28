@@ -9,7 +9,7 @@ export function Header() {
   };
 
   return (
-    <header className="bg-black shadow-lg border-b border-primary-900">
+    <header className="bg-dark-blue-900 shadow-lg border-b border-primary-700">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           <div className="flex items-center space-x-3">
