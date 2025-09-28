@@ -124,7 +124,7 @@ export function PerformanceModeSelector({
   };
 
   return (
-    <div className="bg-dark-900 rounded-lg shadow-lg border border-dark-700">
+    <div className="bg-dark-blue-900 rounded-lg shadow-lg border border-dark-700">
       <div className="p-6 border-b border-dark-700">
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-3">
@@ -154,7 +154,7 @@ export function PerformanceModeSelector({
       <div className="p-6">
         {/* System Status */}
         <div className="mb-6 grid grid-cols-1 md:grid-cols-3 gap-4">
-          <div className="bg-black p-3 rounded-lg">
+          <div className="bg-dark-blue-950 p-3 rounded-lg">
             <div className="flex items-center justify-between">
               <span className="text-sm text-gray-400">Battery Level</span>
               <span className={`text-sm font-medium ${
@@ -166,7 +166,7 @@ export function PerformanceModeSelector({
             </div>
           </div>
           
-          <div className="bg-black p-3 rounded-lg">
+          <div className="bg-dark-blue-950 p-3 rounded-lg">
             <div className="flex items-center justify-between">
               <span className="text-sm text-gray-400">Gaming Detected</span>
               <span className={`text-sm font-medium ${
@@ -177,7 +177,7 @@ export function PerformanceModeSelector({
             </div>
           </div>
           
-          <div className="bg-black p-3 rounded-lg">
+          <div className="bg-dark-blue-950 p-3 rounded-lg">
             <div className="flex items-center justify-between">
               <span className="text-sm text-gray-400">Fullscreen App</span>
               <span className={`text-sm font-medium ${
@@ -202,7 +202,7 @@ export function PerformanceModeSelector({
                 className={`p-4 rounded-lg border-2 transition-all text-left ${
                   isActive 
                     ? 'border-accent-500 bg-accent-900/20' 
-                    : 'border-dark-600 bg-black hover:border-dark-500'
+                    : 'border-dark-600 bg-dark-blue-950 hover:border-dark-500'
                 }`}
               >
                 <div className="flex items-center space-x-3 mb-2">
@@ -222,7 +222,7 @@ export function PerformanceModeSelector({
         </div>
 
         {/* Current Mode Settings */}
-        <div className="bg-black rounded-lg p-4">
+        <div className="bg-dark-blue-950 rounded-lg p-4">
           <h3 className="font-medium text-white mb-3">Current Settings</h3>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
             {Object.entries(getCurrentModeSettings()).map(([key, value]) => (
