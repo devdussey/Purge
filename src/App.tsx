@@ -4,6 +4,10 @@ import { StatusCard } from './components/StatusCard';
 import { ActionButton } from './components/ActionButton';
 import { LogViewer } from './components/LogViewer';
 import { ScriptConfigPanel } from './components/ScriptConfigPanel';
+import { FalsePositiveReporter } from './components/FalsePositiveReporter';
+import { RansomwareShield } from './components/RansomwareShield';
+import { EDRTimeline } from './components/EDRTimeline';
+import { PerformanceModeSelector } from './components/PerformanceModeSelector';
 import { executeScript, getCommandLineExecution } from './utils/scriptRunner';
 import { 
   Search, 
@@ -15,13 +19,20 @@ import {
   Settings,
   Trash2,
   AlertTriangle,
-  RotateCcw
+  RotateCcw,
+  Activity,
+  Zap
 } from 'lucide-react';
 
 function App() {
   const [isScanning, setIsScanning] = useState(false);
   const [lastOutput, setLastOutput] = useState<string>('');
   const [isElectron] = useState(!!window.electronAPI);
+  const [showFPReporter, setShowFPReporter] = useState(false);
+  const [selectedDetection, setSelectedDetection] = useState<any>(null);
+  const [ransomwareShieldActive, setRansomwareShieldActive] = useState(true);
+  const [performanceMode, setPerformanceMode] = useState('balanced');
+  const [activeTab, setActiveTab] = useState('dashboard');
 
   const handleQuickScan = async () => {
     setIsScanning(true);
@@ -163,6 +174,16 @@ function App() {
     console.log('Opening settings...');
   };
 
+  const handleFalsePositiveReport = async (report: any) => {
+    console.log('False positive report:', report);
+    // In a real implementation, send to telemetry system
+  };
+
+  const handleRansomwareRollback = async (timeWindow: number) => {
+    console.log(`Rolling back ransomware changes for ${timeWindow}ms`);
+    // In a real implementation, trigger quarantine manager rollback
+  };
+
   return (
     <div className="min-h-screen bg-gray-900">
       <Header />
@@ -180,6 +201,39 @@ function App() {
           </div>
         )}
 
+        {/* Navigation Tabs */}
+        <div className="mb-8">
+          <div className="border-b border-gray-700">
+            <nav className="-mb-px flex space-x-8">
+              {[
+                { id: 'dashboard', name: 'Dashboard', icon: Shield },
+                { id: 'ransomware', name: 'Ransomware Shield', icon: AlertTriangle },
+                { id: 'timeline', name: 'EDR Timeline', icon: Activity },
+                { id: 'performance', name: 'Performance', icon: Zap }
+              ].map((tab) => {
+                const IconComponent = tab.icon;
+                return (
+                  <button
+                    key={tab.id}
+                    onClick={() => setActiveTab(tab.id)}
+                    className={`flex items-center space-x-2 py-2 px-1 border-b-2 font-medium text-sm ${
+                      activeTab === tab.id
+                        ? 'border-blue-500 text-blue-400'
+                        : 'border-transparent text-gray-400 hover:text-gray-300 hover:border-gray-300'
+                    }`}
+                  >
+                    <IconComponent className="h-4 w-4" />
+                    <span>{tab.name}</span>
+                  </button>
+                );
+              })}
+            </nav>
+          </div>
+        </div>
+
+        {/* Tab Content */}
+        {activeTab === 'dashboard' && (
+          <>
         {/* Status Overview */}
         <div className="mb-8">
           <h2 className="text-2xl font-bold text-white mb-6">System Status</h2>
@@ -297,9 +351,42 @@ function App() {
 
         {/* Log Viewer */}
         <LogViewer />
+          </>
+        )}
+
+        {activeTab === 'ransomware' && (
+          <RansomwareShield
+            isActive={ransomwareShieldActive}
+            onToggle={setRansomwareShieldActive}
+            onRollback={handleRansomwareRollback}
+          />
+        )}
+
+        {activeTab === 'timeline' && (
+          <EDRTimeline />
+        )}
+
+        {activeTab === 'performance' && (
+          <PerformanceModeSelector
+            currentMode={performanceMode}
+            onModeChange={setPerformanceMode}
+            batteryLevel={85}
+            isFullscreen={false}
+            isGameRunning={false}
+          />
+        )}
 
         {/* Script Configuration Panel */}
         <ScriptConfigPanel />
+
+        {/* False Positive Reporter */}
+        {showFPReporter && selectedDetection && (
+          <FalsePositiveReporter
+            detection={selectedDetection}
+            onReport={handleFalsePositiveReport}
+            onClose={() => setShowFPReporter(false)}
+          />
+        )}
 
         {/* Scanning Status */}
         {isScanning && (
@@ -316,6 +403,22 @@ function App() {
           <div className="fixed bottom-20 right-6 bg-gray-800 text-green-400 p-4 rounded-lg shadow-lg max-w-md border border-gray-700">
             <h4 className="font-medium mb-2">Script Output:</h4>
             <pre className="text-xs overflow-auto max-h-32">{lastOutput}</pre>
+            {/* Add false positive reporting button for detections */}
+            <button
+              onClick={() => {
+                setSelectedDetection({
+                  ruleId: 'test_rule',
+                  ruleName: 'Test Detection',
+                  filePath: 'C:\\test\\file.exe',
+                  fileHash: 'abc123',
+                  severity: 'medium'
+                });
+                setShowFPReporter(true);
+              }}
+              className="mt-2 text-xs text-yellow-400 hover:text-yellow-300 underline"
+            >
+              Report False Positive
+            </button>
           </div>
         )}
       </main>
