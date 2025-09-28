@@ -1,0 +1,26 @@
+directories:
+  output: release
+  buildResources: build
+appId: com.devdussey.purge
+productName: Purge by DevDussey
+files:
+  - filter:
+      - dist/**/*
+      - dist-electron/**/*
+      - scripts/**/*
+win:
+  target: nsis
+  icon: public/icon.ico
+  requestedExecutionLevel: requireAdministrator
+mac:
+  target: dmg
+  icon: public/icon.icns
+linux:
+  target: AppImage
+  icon: public/icon.png
+nsis:
+  oneClick: false
+  allowToChangeInstallationDirectory: true
+  createDesktopShortcut: true
+  createStartMenuShortcut: true
+electronVersion: 28.3.3
