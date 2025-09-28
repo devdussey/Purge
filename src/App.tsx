@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import { Header } from './components/Header';
-import { StatusCard } from './components/StatusCard';
-import { ActionButton } from './components/ActionButton';
+import { DashboardStats } from './components/DashboardStats';
+import { SystemStatus } from './components/SystemStatus';
+import { QuickActions } from './components/QuickActions';
+import { ThreatFeed } from './components/ThreatFeed';
 import { LogViewer } from './components/LogViewer';
 import { ScriptConfigPanel } from './components/ScriptConfigPanel';
 import { FalsePositiveReporter } from './components/FalsePositiveReporter';
@@ -10,18 +12,12 @@ import { EDRTimeline } from './components/EDRTimeline';
 import { PerformanceModeSelector } from './components/PerformanceModeSelector';
 import { executeScript, getCommandLineExecution } from './utils/scriptRunner';
 import { 
-  Search, 
-  HardDrive, 
-  Download, 
   Shield, 
-  Clock, 
-  History, 
-  Settings,
-  Trash2,
-  AlertTriangle,
-  RotateCcw,
-  Activity,
-  Zap
+  AlertTriangle, 
+  Activity, 
+  Zap,
+  BarChart3,
+  Settings as SettingsIcon
 } from 'lucide-react';
 
 function App() {
@@ -184,45 +180,52 @@ function App() {
     // In a real implementation, trigger quarantine manager rollback
   };
 
+  const tabs = [
+    { id: 'dashboard', name: 'Dashboard', icon: Shield },
+    { id: 'analytics', name: 'Analytics', icon: BarChart3 },
+    { id: 'ransomware', name: 'Ransomware Shield', icon: AlertTriangle },
+    { id: 'timeline', name: 'EDR Timeline', icon: Activity },
+    { id: 'performance', name: 'Performance', icon: Zap },
+    { id: 'settings', name: 'Settings', icon: SettingsIcon }
+  ];
+
   return (
-    <div className="min-h-screen bg-black">
+    <div className="min-h-screen bg-gradient-to-br from-black via-gray-900 to-black">
       <Header />
       
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <main className="max-w-7xl mx-auto px-6 lg:px-8 py-8">
         {/* Platform indicator */}
         {!isElectron && (
-          <div className="mb-6 bg-primary-950/50 border border-primary-500/30 rounded-lg p-4">
-            <div className="flex items-center space-x-2">
-              <AlertTriangle className="h-5 w-5 text-accent-500" />
-              <p className="text-primary-200 text-sm">
-                You're using the web version. For full functionality including script execution, please download the desktop app.
-              </p>
+          <div className="mb-8 bg-gradient-to-r from-red-900/30 to-red-800/30 border border-red-500/30 rounded-2xl p-6 backdrop-blur-sm">
+            <div className="flex items-center space-x-3">
+              <AlertTriangle className="h-6 w-6 text-red-400" />
+              <div>
+                <p className="text-red-300 font-semibold">Web Version Limitations</p>
+                <p className="text-red-200/80 text-sm">
+                  You're using the web version. For full functionality including script execution, please download the desktop app.
+                </p>
+              </div>
             </div>
           </div>
         )}
 
         {/* Navigation Tabs */}
         <div className="mb-8">
-          <div className="border-b border-dark-800">
-            <nav className="-mb-px flex space-x-8">
-              {[
-                { id: 'dashboard', name: 'Dashboard', icon: Shield },
-                { id: 'ransomware', name: 'Ransomware Shield', icon: AlertTriangle },
-                { id: 'timeline', name: 'EDR Timeline', icon: Activity },
-                { id: 'performance', name: 'Performance', icon: Zap }
-              ].map((tab) => {
+          <div className="bg-gradient-to-r from-gray-900/50 to-black/50 rounded-2xl border border-gray-700/30 backdrop-blur-sm p-2">
+            <nav className="flex space-x-2">
+              {tabs.map((tab) => {
                 const IconComponent = tab.icon;
                 return (
                   <button
                     key={tab.id}
                     onClick={() => setActiveTab(tab.id)}
-                    className={`flex items-center space-x-2 py-2 px-1 border-b-2 font-medium text-sm ${
+                    className={`flex items-center space-x-3 px-6 py-3 rounded-xl font-medium text-sm transition-all duration-300 ${
                       activeTab === tab.id
-                        ? 'border-primary-500 text-primary-400'
-                        : 'border-transparent text-gray-400 hover:text-gray-300 hover:border-gray-300'
+                        ? 'bg-gradient-to-r from-red-600/30 to-red-700/30 text-red-400 border border-red-500/30 shadow-lg'
+                        : 'text-gray-400 hover:text-white hover:bg-gray-800/50'
                     }`}
                   >
-                    <IconComponent className="h-4 w-4" />
+                    <IconComponent className="h-5 w-5" />
                     <span>{tab.name}</span>
                   </button>
                 );
@@ -233,125 +236,30 @@ function App() {
 
         {/* Tab Content */}
         {activeTab === 'dashboard' && (
-          <>
-        {/* Status Overview */}
-        <div className="mb-8">
-          <h2 className="text-2xl font-bold text-white mb-6">System Status</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            <StatusCard
-              title="Real-time Protection"
-              status="active"
-              description="Active and monitoring"
-              lastUpdate="2 minutes ago"
-            />
-            <StatusCard
-              title="Virus Definitions"
-              status="active"
-              description="Up to date"
-              lastUpdate="1 hour ago"
-            />
-            <StatusCard
-              title="Last Full Scan"
-              status="warning"
-              description="3 days ago"
-              lastUpdate="3 days ago"
-            />
-            <StatusCard
-              title="Quarantine Items"
-              status="inactive"
-              description="2 items in quarantine"
-              lastUpdate="Yesterday"
+          <div className="space-y-8">
+            <DashboardStats />
+            <SystemStatus />
+            <QuickActions
+              onQuickScan={handleQuickScan}
+              onFullScan={handleFullScan}
+              onUpdateDefinitions={handleUpdateDefinitions}
+              onToggleProtection={handleToggleRealTimeProtection}
+              onScheduleScan={handleScheduleScan}
+              onViewHistory={handleViewHistory}
+              onManageQuarantine={handleManageQuarantine}
+              onEmergencyCleanup={handleEmergencyCleanup}
+              onSystemRestore={handleSystemRestore}
+              onSettings={handleSettings}
+              isScanning={isScanning}
             />
           </div>
-        </div>
+        )}
 
-        {/* Action Buttons */}
-        <div className="mb-8">
-          <h2 className="text-2xl font-bold text-white mb-6">Quick Actions</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            <ActionButton
-              title="Quick Scan"
-              description="Scan critical system areas"
-              icon={Search}
-              onClick={handleQuickScan}
-              disabled={isScanning}
-            />
-            <ActionButton
-              title="Full System Scan"
-              description="Complete system scan"
-              icon={HardDrive}
-              onClick={handleFullScan}
-              variant="secondary"
-              disabled={isScanning}
-            />
-            <ActionButton
-              title="Update Definitions"
-              description="Download latest virus signatures"
-              icon={Download}
-              onClick={handleUpdateDefinitions}
-              variant="secondary"
-            />
-            <ActionButton
-              title="Toggle Protection"
-              description="Enable/disable real-time protection"
-              icon={Shield}
-              onClick={handleToggleRealTimeProtection}
-            />
-            <ActionButton
-              title="Schedule Scan"
-              description="Set up automatic scanning"
-              icon={Clock}
-              onClick={handleScheduleScan}
-              variant="secondary"
-            />
-            <ActionButton
-              title="Scan History"
-              description="View previous scan results"
-              icon={History}
-              onClick={handleViewHistory}
-              variant="secondary"
-            />
+        {activeTab === 'analytics' && (
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <ThreatFeed />
+            <LogViewer />
           </div>
-        </div>
-
-        {/* Advanced Actions */}
-        <div className="mb-8">
-          <h2 className="text-2xl font-bold text-white mb-6">Advanced Tools</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            <ActionButton
-              title="Quarantine Manager"
-              description="Manage quarantined files"
-              icon={Trash2}
-              onClick={handleManageQuarantine}
-              variant="warning"
-            />
-            <ActionButton
-              title="Emergency Cleanup"
-              description="Remove malicious threats"
-              icon={AlertTriangle}
-              onClick={handleEmergencyCleanup}
-              variant="danger"
-            />
-            <ActionButton
-              title="System Restore"
-              description="Restore system to clean state"
-              icon={RotateCcw}
-              onClick={handleSystemRestore}
-              variant="secondary"
-            />
-            <ActionButton
-              title="Settings"
-              description="Configure antivirus options"
-              icon={Settings}
-              onClick={handleSettings}
-              variant="secondary"
-            />
-          </div>
-        </div>
-
-        {/* Log Viewer */}
-        <LogViewer />
-          </>
         )}
 
         {activeTab === 'ransomware' && (
@@ -376,6 +284,13 @@ function App() {
           />
         )}
 
+        {activeTab === 'settings' && (
+          <div className="bg-gradient-to-br from-gray-900/50 to-black/50 rounded-2xl border border-gray-700/30 backdrop-blur-sm p-8">
+            <h2 className="text-2xl font-bold text-white mb-6">Settings</h2>
+            <p className="text-gray-400">Settings panel coming soon...</p>
+          </div>
+        )}
+
         {/* Script Configuration Panel */}
         <ScriptConfigPanel />
 
@@ -390,20 +305,25 @@ function App() {
 
         {/* Scanning Status */}
         {isScanning && (
-          <div className="fixed bottom-6 right-6 bg-gradient-to-r from-primary-600 to-accent-600 text-white p-4 rounded-lg shadow-lg">
-            <div className="flex items-center space-x-3">
-              <div className="animate-spin rounded-full h-5 w-5 border-2 border-white border-t-transparent"></div>
-              <span className="font-medium">Scanning in progress...</span>
+          <div className="fixed bottom-6 right-6 bg-gradient-to-r from-red-600/90 to-red-700/90 backdrop-blur-sm text-white p-6 rounded-2xl shadow-2xl border border-red-500/30">
+            <div className="flex items-center space-x-4">
+              <div className="relative">
+                <div className="animate-spin rounded-full h-8 w-8 border-2 border-white border-t-transparent"></div>
+                <div className="absolute inset-0 rounded-full bg-red-400/20 animate-pulse"></div>
+              </div>
+              <div>
+                <p className="font-bold text-lg">Scanning in progress...</p>
+                <p className="text-red-200 text-sm">Please wait while we secure your system</p>
+              </div>
             </div>
           </div>
         )}
 
         {/* Output Display */}
         {lastOutput && (
-          <div className="fixed bottom-20 right-6 bg-dark-900 text-primary-400 p-4 rounded-lg shadow-lg max-w-md border border-primary-500/20">
-            <h4 className="font-medium mb-2">Script Output:</h4>
-            <pre className="text-xs overflow-auto max-h-32">{lastOutput}</pre>
-            {/* Add false positive reporting button for detections */}
+          <div className="fixed bottom-6 left-6 bg-gradient-to-br from-gray-900/95 to-black/95 backdrop-blur-sm text-red-400 p-6 rounded-2xl shadow-2xl max-w-md border border-red-500/30">
+            <h4 className="font-bold text-lg mb-3 text-white">Script Output</h4>
+            <pre className="text-sm overflow-auto max-h-32 text-gray-300 bg-black/30 p-3 rounded-lg">{lastOutput}</pre>
             <button
               onClick={() => {
                 setSelectedDetection({
@@ -415,7 +335,7 @@ function App() {
                 });
                 setShowFPReporter(true);
               }}
-              className="mt-2 text-xs text-accent-400 hover:text-accent-300 underline"
+              className="mt-3 text-sm text-red-400 hover:text-red-300 underline font-medium"
             >
               Report False Positive
             </button>
