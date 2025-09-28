@@ -14,6 +14,9 @@ import { AIAssistant } from './components/AIAssistant';
 import { AIDetectionPanel } from './components/AIDetectionPanel';
 import { AIDetectionEngine } from './engine/AIDetectionEngine';
 import { DetectionEngine } from './engine/DetectionEngine';
+import { LicenseManager, LicenseInfo } from './components/LicenseManager';
+import { PaywallModal } from './components/PaywallModal';
+import { FeatureGate } from './components/FeatureGate';
 import { executeScript, getCommandLineExecution } from './utils/scriptRunner';
 import { 
   Shield, 
@@ -40,8 +43,31 @@ function App() {
     return new AIDetectionEngine(baseEngine, 'demo-api-key');
   });
   const [aiModels, setAiModels] = useState(() => aiEngine.getModelStatus());
+  const [license, setLicense] = useState<LicenseInfo>({
+    isValid: false,
+    isTrialActive: true,
+    trialDaysRemaining: 7,
+    licenseType: 'trial',
+    features: {
+      realTimeProtection: true,
+      fullSystemScan: false,
+      aiDetection: false,
+      ransomwareShield: false,
+      edrTimeline: false,
+      prioritySupport: false,
+      multiDevice: false
+    }
+  });
+  const [showPaywall, setShowPaywall] = useState(false);
+  const [blockedFeature, setBlockedFeature] = useState('');
 
   const handleQuickScan = async () => {
+    if (!license.features.realTimeProtection) {
+      setBlockedFeature('Quick Scan');
+      setShowPaywall(true);
+      return;
+    }
+    
     setIsScanning(true);
     
     try {
@@ -61,6 +87,12 @@ function App() {
   };
 
   const handleFullScan = async () => {
+    if (!license.features.fullSystemScan) {
+      setBlockedFeature('Full System Scan');
+      setShowPaywall(true);
+      return;
+    }
+    
     setIsScanning(true);
     
     try {
@@ -202,6 +234,12 @@ function App() {
     // In a real implementation, enable/disable the model
     console.log(`Toggle AI model ${modelId}: ${enabled}`);
   };
+
+  const handleUpgradeClick = (feature: string) => {
+    setBlockedFeature(feature);
+    setShowPaywall(true);
+  };
+
   const tabs = [
     { id: 'dashboard', name: 'Dashboard', icon: Shield },
     { id: 'analytics', name: 'Analytics', icon: BarChart3 },
@@ -233,6 +271,10 @@ function App() {
         )}
 
         {/* Navigation Tabs */}
+        <div className="mb-8">
+          <LicenseManager onLicenseUpdate={setLicense} />
+        </div>
+
         <div className="mb-8">
           <div className="bg-gradient-to-r from-gray-900/50 to-black/50 rounded-2xl border border-gray-700/30 backdrop-blur-sm p-2">
             <nav className="flex space-x-2">
@@ -286,15 +328,31 @@ function App() {
         )}
 
         {activeTab === 'ransomware' && (
-          <RansomwareShield
-            isActive={ransomwareShieldActive}
-            onToggle={setRansomwareShieldActive}
-            onRollback={handleRansomwareRollback}
-          />
+          <FeatureGate
+            feature="ransomwareShield"
+            license={license}
+            onUpgradeClick={handleUpgradeClick}
+            featureName="Ransomware Shield"
+            description="Advanced ransomware protection with automatic rollback capabilities"
+          >
+            <RansomwareShield
+              isActive={ransomwareShieldActive}
+              onToggle={setRansomwareShieldActive}
+              onRollback={handleRansomwareRollback}
+            />
+          </FeatureGate>
         )}
 
         {activeTab === 'timeline' && (
-          <EDRTimeline />
+          <FeatureGate
+            feature="edrTimeline"
+            license={license}
+            onUpgradeClick={handleUpgradeClick}
+            featureName="EDR Timeline"
+            description="Advanced endpoint detection and response with process tree analysis"
+          >
+            <EDRTimeline />
+          </FeatureGate>
         )}
 
         {activeTab === 'performance' && (
@@ -308,11 +366,19 @@ function App() {
         )}
 
         {activeTab === 'ai' && (
-          <AIDetectionPanel
-            models={aiModels}
-            onUpdateModel={handleUpdateAIModel}
-            onToggleModel={handleToggleAIModel}
-          />
+          <FeatureGate
+            feature="aiDetection"
+            license={license}
+            onUpgradeClick={handleUpgradeClick}
+            featureName="AI Detection"
+            description="Machine learning powered threat detection with advanced behavioral analysis"
+          >
+            <AIDetectionPanel
+              models={aiModels}
+              onUpdateModel={handleUpdateAIModel}
+              onToggleModel={handleToggleAIModel}
+            />
+          </FeatureGate>
         )}
 
         {activeTab === 'settings' && (
@@ -339,6 +405,14 @@ function App() {
             onClose={() => setShowFPReporter(false)}
           />
         )}
+
+        {/* Paywall Modal */}
+        <PaywallModal
+          isOpen={showPaywall}
+          onClose={() => setShowPaywall(false)}
+          license={license}
+          featureBlocked={blockedFeature}
+        />
 
         {/* Scanning Status */}
         {isScanning && (
