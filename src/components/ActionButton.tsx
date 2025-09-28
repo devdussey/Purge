@@ -21,13 +21,13 @@ export function ActionButton({
   const getVariantClasses = () => {
     switch (variant) {
       case 'primary':
-        return 'bg-blue-600 hover:bg-blue-700 text-white';
+        return 'bg-primary-600 hover:bg-primary-700 text-white';
       case 'secondary':
-        return 'bg-gray-600 hover:bg-gray-700 text-white';
+        return 'bg-dark-700 hover:bg-dark-600 text-white';
       case 'danger':
         return 'bg-red-600 hover:bg-red-700 text-white';
       case 'warning':
-        return 'bg-yellow-600 hover:bg-yellow-700 text-white';
+        return 'bg-primary-500 hover:bg-primary-600 text-white';
     }
   };
 
@@ -39,7 +39,7 @@ export function ActionButton({
         ${getVariantClasses()}
         ${disabled ? 'opacity-50 cursor-not-allowed' : 'hover:scale-105'}
         w-full p-6 rounded-lg shadow-md transition-all duration-200 text-left
-        focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2
+        focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2
       `}
     >
       <div className="flex items-center space-x-4">

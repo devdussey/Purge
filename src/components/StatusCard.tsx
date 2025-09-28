@@ -14,30 +14,30 @@ export function StatusCard({ title, status, description, lastUpdate }: StatusCar
       case 'active':
         return {
           icon: CheckCircle,
-          bgColor: 'bg-green-500',
-          textColor: 'text-green-400',
-          bgSecondary: 'bg-gray-800 border-green-500/20',
+          bgColor: 'bg-primary-500',
+          textColor: 'text-primary-400',
+          bgSecondary: 'bg-dark-900 border-primary-500/20',
         };
       case 'warning':
         return {
           icon: AlertTriangle,
-          bgColor: 'bg-yellow-500',
-          textColor: 'text-yellow-400',
-          bgSecondary: 'bg-gray-800 border-yellow-500/20',
+          bgColor: 'bg-primary-400',
+          textColor: 'text-primary-300',
+          bgSecondary: 'bg-dark-900 border-primary-400/20',
         };
       case 'inactive':
         return {
           icon: Shield,
-          bgColor: 'bg-gray-500',
+          bgColor: 'bg-dark-500',
           textColor: 'text-gray-400',
-          bgSecondary: 'bg-gray-800 border-gray-500/20',
+          bgSecondary: 'bg-dark-900 border-dark-500/20',
         };
       case 'error':
         return {
           icon: XCircle,
           bgColor: 'bg-red-500',
           textColor: 'text-red-400',
-          bgSecondary: 'bg-gray-800 border-red-500/20',
+          bgSecondary: 'bg-dark-900 border-red-500/20',
         };
     }
   };

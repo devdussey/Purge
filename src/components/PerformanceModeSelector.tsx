@@ -124,11 +124,11 @@ export function PerformanceModeSelector({
   };
 
   return (
-    <div className="bg-gray-800 rounded-lg shadow-lg border border-gray-700">
-      <div className="p-6 border-b border-gray-700">
+    <div className="bg-dark-900 rounded-lg shadow-lg border border-dark-700">
+      <div className="p-6 border-b border-dark-700">
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-3">
-            <Zap className="h-6 w-6 text-blue-400" />
+            <Zap className="h-6 w-6 text-primary-400" />
             <div>
               <h2 className="text-xl font-semibold text-white">Performance Mode</h2>
               <p className="text-sm text-gray-400">
@@ -143,7 +143,7 @@ export function PerformanceModeSelector({
                 type="checkbox"
                 checked={autoModeEnabled}
                 onChange={(e) => setAutoModeEnabled(e.target.checked)}
-                className="rounded border-gray-600 bg-gray-700 text-blue-600 focus:ring-blue-500"
+                className="rounded border-dark-600 bg-dark-700 text-primary-600 focus:ring-primary-500"
               />
               <span>Auto Mode</span>
             </label>
@@ -154,34 +154,34 @@ export function PerformanceModeSelector({
       <div className="p-6">
         {/* System Status */}
         <div className="mb-6 grid grid-cols-1 md:grid-cols-3 gap-4">
-          <div className="bg-gray-900 p-3 rounded-lg">
+          <div className="bg-black p-3 rounded-lg">
             <div className="flex items-center justify-between">
               <span className="text-sm text-gray-400">Battery Level</span>
               <span className={`text-sm font-medium ${
                 batteryLevel < 30 ? 'text-red-400' : 
-                batteryLevel < 60 ? 'text-yellow-400' : 'text-green-400'
+                batteryLevel < 60 ? 'text-primary-400' : 'text-primary-300'
               }`}>
                 {batteryLevel}%
               </span>
             </div>
           </div>
           
-          <div className="bg-gray-900 p-3 rounded-lg">
+          <div className="bg-black p-3 rounded-lg">
             <div className="flex items-center justify-between">
               <span className="text-sm text-gray-400">Gaming Detected</span>
               <span className={`text-sm font-medium ${
-                isGameRunning ? 'text-green-400' : 'text-gray-400'
+                isGameRunning ? 'text-primary-400' : 'text-gray-400'
               }`}>
                 {isGameRunning ? 'Yes' : 'No'}
               </span>
             </div>
           </div>
           
-          <div className="bg-gray-900 p-3 rounded-lg">
+          <div className="bg-black p-3 rounded-lg">
             <div className="flex items-center justify-between">
               <span className="text-sm text-gray-400">Fullscreen App</span>
               <span className={`text-sm font-medium ${
-                isFullscreen ? 'text-green-400' : 'text-gray-400'
+                isFullscreen ? 'text-primary-400' : 'text-gray-400'
               }`}>
                 {isFullscreen ? 'Yes' : 'No'}
               </span>
@@ -201,16 +201,16 @@ export function PerformanceModeSelector({
                 onClick={() => handleModeChange(mode.id)}
                 className={`p-4 rounded-lg border-2 transition-all text-left ${
                   isActive 
-                    ? 'border-blue-500 bg-blue-900/20' 
-                    : 'border-gray-600 bg-gray-900 hover:border-gray-500'
+                    ? 'border-primary-500 bg-primary-900/20' 
+                    : 'border-dark-600 bg-black hover:border-dark-500'
                 }`}
               >
                 <div className="flex items-center space-x-3 mb-2">
                   <IconComponent className={`h-6 w-6 ${
-                    isActive ? 'text-blue-400' : 'text-gray-400'
+                    isActive ? 'text-primary-400' : 'text-gray-400'
                   }`} />
                   <span className={`font-medium ${
-                    isActive ? 'text-blue-400' : 'text-white'
+                    isActive ? 'text-primary-400' : 'text-white'
                   }`}>
                     {mode.name}
                   </span>
@@ -222,7 +222,7 @@ export function PerformanceModeSelector({
         </div>
 
         {/* Current Mode Settings */}
-        <div className="bg-gray-900 rounded-lg p-4">
+        <div className="bg-black rounded-lg p-4">
           <h3 className="font-medium text-white mb-3">Current Settings</h3>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
             {Object.entries(getCurrentModeSettings()).map(([key, value]) => (
@@ -232,7 +232,7 @@ export function PerformanceModeSelector({
                 </span>
                 <span className={`font-medium ${
                   typeof value === 'boolean' 
-                    ? (value ? 'text-green-400' : 'text-red-400')
+                    ? (value ? 'text-primary-400' : 'text-red-400')
                     : 'text-white'
                 }`}>
                   {typeof value === 'boolean' 
@@ -251,12 +251,12 @@ export function PerformanceModeSelector({
 
         {/* Auto Mode Info */}
         {autoModeEnabled && (
-          <div className="mt-4 bg-blue-900/20 border border-blue-500/20 rounded-lg p-4">
-            <h4 className="font-medium text-blue-400 mb-2">Auto Mode Active</h4>
-            <p className="text-sm text-blue-300">
+          <div className="mt-4 bg-primary-900/20 border border-primary-500/20 rounded-lg p-4">
+            <h4 className="font-medium text-primary-400 mb-2">Auto Mode Active</h4>
+            <p className="text-sm text-primary-300">
               Performance mode will automatically adjust based on:
             </p>
-            <ul className="text-sm text-blue-300 mt-2 space-y-1">
+            <ul className="text-sm text-primary-300 mt-2 space-y-1">
               <li>• Gaming/fullscreen application detection</li>
               <li>• Battery level (switches to Laptop mode below 30%)</li>
               <li>• System resource usage</li>

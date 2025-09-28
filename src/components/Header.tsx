@@ -9,7 +9,7 @@ export function Header() {
   };
 
   return (
-    <header className="bg-gray-800 shadow-lg border-b border-gray-700">
+    <header className="bg-black shadow-lg border-b border-primary-900">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           <div className="flex items-center space-x-3">
@@ -26,15 +26,15 @@ export function Header() {
           <div className="flex items-center space-x-2">
             <button 
               onClick={handleDownload}
-              className="flex items-center space-x-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors font-medium"
+              className="flex items-center space-x-2 px-4 py-2 bg-primary-600 hover:bg-primary-700 text-white rounded-lg transition-colors font-medium"
             >
               <Download className="h-4 w-4" />
               <span>Download Desktop App</span>
             </button>
-            <button className="p-2 text-gray-400 hover:text-white hover:bg-gray-700 rounded-lg transition-colors">
+            <button className="p-2 text-gray-400 hover:text-white hover:bg-dark-800 rounded-lg transition-colors">
               <Settings className="h-5 w-5" />
             </button>
-            <button className="p-2 text-gray-400 hover:text-white hover:bg-gray-700 rounded-lg transition-colors">
+            <button className="p-2 text-gray-400 hover:text-white hover:bg-dark-800 rounded-lg transition-colors">
               <Info className="h-5 w-5" />
             </button>
           </div>

@@ -13,32 +13,32 @@ export function LogViewer() {
   const getLogTypeColor = (type: string) => {
     switch (type) {
       case 'INFO':
-        return 'text-blue-600 bg-blue-50';
+        return 'text-primary-400 bg-primary-950';
       case 'WARNING':
-        return 'text-yellow-600 bg-yellow-50';
+        return 'text-primary-300 bg-primary-900';
       case 'ERROR':
-        return 'text-red-600 bg-red-50';
+        return 'text-red-400 bg-red-950';
       default:
-        return 'text-gray-600 bg-gray-50';
+        return 'text-gray-400 bg-dark-800';
     }
   };
 
   return (
-    <div className="bg-gray-800 rounded-lg shadow-lg border border-gray-700">
-      <div className="p-6 border-b border-gray-700">
+    <div className="bg-dark-900 rounded-lg shadow-lg border border-dark-700">
+      <div className="p-6 border-b border-dark-700">
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-3">
-            <FileText className="h-6 w-6 text-blue-400" />
+            <FileText className="h-6 w-6 text-primary-400" />
             <h2 className="text-xl font-semibold text-white">Activity Log</h2>
           </div>
           <div className="flex space-x-2">
-            <button className="p-2 text-gray-400 hover:text-white hover:bg-gray-700 rounded-lg transition-colors">
+            <button className="p-2 text-gray-400 hover:text-white hover:bg-dark-700 rounded-lg transition-colors">
               <RefreshCw className="h-5 w-5" />
             </button>
-            <button className="p-2 text-gray-400 hover:text-white hover:bg-gray-700 rounded-lg transition-colors">
+            <button className="p-2 text-gray-400 hover:text-white hover:bg-dark-700 rounded-lg transition-colors">
               <Download className="h-5 w-5" />
             </button>
-            <button className="p-2 text-gray-400 hover:text-white hover:bg-gray-700 rounded-lg transition-colors">
+            <button className="p-2 text-gray-400 hover:text-white hover:bg-dark-700 rounded-lg transition-colors">
               <Trash2 className="h-5 w-5" />
             </button>
           </div>

@@ -83,11 +83,11 @@ export function RansomwareShield({ isActive, onToggle, onRollback }: RansomwareS
   };
 
   return (
-    <div className="bg-gray-800 rounded-lg shadow-lg border border-gray-700">
-      <div className="p-6 border-b border-gray-700">
+    <div className="bg-dark-900 rounded-lg shadow-lg border border-dark-700">
+      <div className="p-6 border-b border-dark-700">
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-3">
-            <Shield className={`h-6 w-6 ${isActive ? 'text-green-400' : 'text-gray-400'}`} />
+            <Shield className={`h-6 w-6 ${isActive ? 'text-primary-400' : 'text-gray-400'}`} />
             <div>
               <h2 className="text-xl font-semibold text-white">Ransomware Shield</h2>
               <p className="text-sm text-gray-400">
@@ -97,14 +97,14 @@ export function RansomwareShield({ isActive, onToggle, onRollback }: RansomwareS
           </div>
           <div className="flex items-center space-x-3">
             <span className={`px-3 py-1 rounded-full text-sm font-medium ${
-              isActive ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800'
+              isActive ? 'bg-primary-900 text-primary-300' : 'bg-dark-700 text-gray-300'
             }`}>
               {isActive ? 'Active' : 'Inactive'}
             </span>
             <button
               onClick={() => onToggle(!isActive)}
               className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
-                isActive ? 'bg-green-600' : 'bg-gray-600'
+                isActive ? 'bg-primary-600' : 'bg-dark-600'
               }`}
             >
               <span
@@ -129,7 +129,7 @@ export function RansomwareShield({ isActive, onToggle, onRollback }: RansomwareS
                 <select
                   value={rollbackTimeWindow}
                   onChange={(e) => setRollbackTimeWindow(Number(e.target.value))}
-                  className="px-2 py-1 bg-gray-700 text-white text-sm rounded border border-gray-600"
+                  className="px-2 py-1 bg-dark-700 text-white text-sm rounded border border-dark-600"
                 >
                   <option value={15}>15 minutes</option>
                   <option value={30}>30 minutes</option>
@@ -139,7 +139,7 @@ export function RansomwareShield({ isActive, onToggle, onRollback }: RansomwareS
               </div>
               <button
                 onClick={handleEmergencyRollback}
-                className="w-full flex items-center justify-center space-x-2 px-3 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors"
+                className="w-full flex items-center justify-center space-x-2 px-3 py-2 bg-primary-700 text-white rounded-lg hover:bg-primary-800 transition-colors"
               >
                 <RotateCcw className="h-4 w-4" />
                 <span>Emergency Rollback</span>
@@ -147,12 +147,12 @@ export function RansomwareShield({ isActive, onToggle, onRollback }: RansomwareS
             </div>
           </div>
 
-          <div className="bg-orange-900/20 border border-orange-500/20 rounded-lg p-4">
-            <h3 className="font-medium text-orange-400 mb-3">Network Isolation</h3>
+          <div className="bg-primary-900/20 border border-primary-500/20 rounded-lg p-4">
+            <h3 className="font-medium text-primary-400 mb-3">Network Isolation</h3>
             <div className="space-y-3">
               <div className="flex items-center space-x-2">
-                <Network className="h-4 w-4 text-orange-400" />
-                <span className="text-sm text-orange-300">
+                <Network className="h-4 w-4 text-primary-400" />
+                <span className="text-sm text-primary-300">
                   Status: {networkIsolated ? 'Isolated' : 'Connected'}
                 </span>
               </div>
@@ -160,8 +160,8 @@ export function RansomwareShield({ isActive, onToggle, onRollback }: RansomwareS
                 onClick={handleNetworkIsolation}
                 className={`w-full flex items-center justify-center space-x-2 px-3 py-2 rounded-lg transition-colors ${
                   networkIsolated 
-                    ? 'bg-green-600 text-white hover:bg-green-700' 
-                    : 'bg-orange-600 text-white hover:bg-orange-700'
+                    ? 'bg-primary-600 text-white hover:bg-primary-700' 
+                    : 'bg-primary-500 text-white hover:bg-primary-600'
                 }`}
               >
                 <Network className="h-4 w-4" />
@@ -216,31 +216,31 @@ export function RansomwareShield({ isActive, onToggle, onRollback }: RansomwareS
         </div>
 
         {/* Protection Features */}
-        <div className="bg-gray-900 rounded-lg p-4">
+        <div className="bg-black rounded-lg p-4">
           <h4 className="font-medium text-white mb-3">Active Protection Features</h4>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-3 text-sm">
             <div className="flex items-center space-x-2">
-              <div className={`w-2 h-2 rounded-full ${isActive ? 'bg-green-400' : 'bg-gray-400'}`} />
+              <div className={`w-2 h-2 rounded-full ${isActive ? 'bg-primary-400' : 'bg-gray-400'}`} />
               <span className="text-gray-300">File system monitoring</span>
             </div>
             <div className="flex items-center space-x-2">
-              <div className={`w-2 h-2 rounded-full ${isActive ? 'bg-green-400' : 'bg-gray-400'}`} />
+              <div className={`w-2 h-2 rounded-full ${isActive ? 'bg-primary-400' : 'bg-gray-400'}`} />
               <span className="text-gray-300">Behavior analysis</span>
             </div>
             <div className="flex items-center space-x-2">
-              <div className={`w-2 h-2 rounded-full ${isActive ? 'bg-green-400' : 'bg-gray-400'}`} />
+              <div className={`w-2 h-2 rounded-full ${isActive ? 'bg-primary-400' : 'bg-gray-400'}`} />
               <span className="text-gray-300">Network monitoring</span>
             </div>
             <div className="flex items-center space-x-2">
-              <div className={`w-2 h-2 rounded-full ${isActive ? 'bg-green-400' : 'bg-gray-400'}`} />
+              <div className={`w-2 h-2 rounded-full ${isActive ? 'bg-primary-400' : 'bg-gray-400'}`} />
               <span className="text-gray-300">Registry protection</span>
             </div>
             <div className="flex items-center space-x-2">
-              <div className={`w-2 h-2 rounded-full ${isActive ? 'bg-green-400' : 'bg-gray-400'}`} />
+              <div className={`w-2 h-2 rounded-full ${isActive ? 'bg-primary-400' : 'bg-gray-400'}`} />
               <span className="text-gray-300">Shadow copy protection</span>
             </div>
             <div className="flex items-center space-x-2">
-              <div className={`w-2 h-2 rounded-full ${isActive ? 'bg-green-400' : 'bg-gray-400'}`} />
+              <div className={`w-2 h-2 rounded-full ${isActive ? 'bg-primary-400' : 'bg-gray-400'}`} />
               <span className="text-gray-300">Automatic journaling</span>
             </div>
           </div>

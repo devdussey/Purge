@@ -153,11 +153,11 @@ export function EDRTimeline({ detectionId, timeRange }: EDRTimelineProps) {
   };
 
   return (
-    <div className="bg-gray-800 rounded-lg shadow-lg border border-gray-700">
-      <div className="p-6 border-b border-gray-700">
+    <div className="bg-dark-900 rounded-lg shadow-lg border border-dark-700">
+      <div className="p-6 border-b border-dark-700">
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-3">
-            <Activity className="h-6 w-6 text-blue-400" />
+            <Activity className="h-6 w-6 text-primary-400" />
             <div>
               <h2 className="text-xl font-semibold text-white">EDR Timeline</h2>
               <p className="text-sm text-gray-400">
@@ -168,7 +168,7 @@ export function EDRTimeline({ detectionId, timeRange }: EDRTimelineProps) {
           <div className="flex items-center space-x-2">
             <button
               onClick={exportTimeline}
-              className="flex items-center space-x-2 px-3 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+              className="flex items-center space-x-2 px-3 py-2 bg-primary-600 text-white rounded-lg hover:bg-primary-700 transition-colors"
             >
               <Download className="h-4 w-4" />
               <span>Export</span>
@@ -185,7 +185,7 @@ export function EDRTimeline({ detectionId, timeRange }: EDRTimelineProps) {
             <select
               value={filterType}
               onChange={(e) => setFilterType(e.target.value)}
-              className="px-3 py-2 bg-gray-700 text-white rounded-lg border border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="px-3 py-2 bg-dark-700 text-white rounded-lg border border-dark-600 focus:outline-none focus:ring-2 focus:ring-primary-500"
             >
               <option value="all">All Events</option>
               <option value="process">Process Events</option>
@@ -202,7 +202,7 @@ export function EDRTimeline({ detectionId, timeRange }: EDRTimelineProps) {
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
               placeholder="Search events..."
-              className="flex-1 px-3 py-2 bg-gray-700 text-white rounded-lg border border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="flex-1 px-3 py-2 bg-dark-700 text-white rounded-lg border border-dark-600 focus:outline-none focus:ring-2 focus:ring-primary-500"
             />
           </div>
         </div>
@@ -219,10 +219,10 @@ export function EDRTimeline({ detectionId, timeRange }: EDRTimelineProps) {
             filteredEvents.map((event, index) => (
               <div
                 key={event.id}
-                className={`relative border-l-4 pl-6 pb-4 cursor-pointer hover:bg-gray-700/50 rounded-r-lg p-3 transition-colors ${getSeverityColor(event.severity)}`}
+                className={`relative border-l-4 pl-6 pb-4 cursor-pointer hover:bg-dark-700/50 rounded-r-lg p-3 transition-colors ${getSeverityColor(event.severity)}`}
                 onClick={() => setSelectedEvent(event)}
               >
-                <div className="absolute -left-2 top-3 w-4 h-4 bg-gray-800 rounded-full border-2 border-current flex items-center justify-center text-xs">
+                <div className="absolute -left-2 top-3 w-4 h-4 bg-dark-800 rounded-full border-2 border-current flex items-center justify-center text-xs">
                   {getEventIcon(event.type)}
                 </div>
                 
@@ -233,8 +233,8 @@ export function EDRTimeline({ detectionId, timeRange }: EDRTimelineProps) {
                       <span className={`px-2 py-1 rounded-full text-xs font-medium ${
                         event.severity === 'critical' ? 'bg-red-100 text-red-800' :
                         event.severity === 'high' ? 'bg-orange-100 text-orange-800' :
-                        event.severity === 'medium' ? 'bg-yellow-100 text-yellow-800' :
-                        'bg-blue-100 text-blue-800'
+                        event.severity === 'medium' ? 'bg-primary-900 text-primary-300' :
+                        'bg-primary-950 text-primary-400'
                       }`}>
                         {event.severity}
                       </span>
@@ -272,8 +272,8 @@ export function EDRTimeline({ detectionId, timeRange }: EDRTimelineProps) {
         {/* Event Details Modal */}
         {selectedEvent && (
           <div className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50">
-            <div className="bg-gray-800 rounded-lg shadow-xl max-w-2xl w-full mx-4 border border-gray-700">
-              <div className="p-6 border-b border-gray-700">
+            <div className="bg-dark-900 rounded-lg shadow-xl max-w-2xl w-full mx-4 border border-dark-700">
+              <div className="p-6 border-b border-dark-700">
                 <div className="flex items-center justify-between">
                   <h3 className="text-lg font-semibold text-white">Event Details</h3>
                   <button
@@ -304,8 +304,8 @@ export function EDRTimeline({ detectionId, timeRange }: EDRTimelineProps) {
                     <span className={`ml-2 px-2 py-1 rounded-full text-xs font-medium ${
                       selectedEvent.severity === 'critical' ? 'bg-red-100 text-red-800' :
                       selectedEvent.severity === 'high' ? 'bg-orange-100 text-orange-800' :
-                      selectedEvent.severity === 'medium' ? 'bg-yellow-100 text-yellow-800' :
-                      'bg-blue-100 text-blue-800'
+                      selectedEvent.severity === 'medium' ? 'bg-primary-900 text-primary-300' :
+                      'bg-primary-950 text-primary-400'
                     }`}>
                       {selectedEvent.severity}
                     </span>
@@ -314,13 +314,13 @@ export function EDRTimeline({ detectionId, timeRange }: EDRTimelineProps) {
                 
                 <div>
                   <span className="text-gray-400 block mb-2">Details:</span>
-                  <p className="text-white bg-gray-900 p-3 rounded-lg">{selectedEvent.details}</p>
+                  <p className="text-white bg-black p-3 rounded-lg">{selectedEvent.details}</p>
                 </div>
                 
                 {selectedEvent.relatedDetection && (
                   <div>
                     <span className="text-gray-400 block mb-2">Related Detection:</span>
-                    <span className="text-blue-400 font-mono">{selectedEvent.relatedDetection}</span>
+                    <span className="text-primary-400 font-mono">{selectedEvent.relatedDetection}</span>
                   </div>
                 )}
               </div>
