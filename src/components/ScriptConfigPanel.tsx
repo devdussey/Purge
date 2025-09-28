@@ -26,7 +26,7 @@ export function ScriptConfigPanel() {
   if (!isOpen) {
     return (
       <button
-        <div className="bg-dark-blue-900 rounded-lg shadow-xl max-w-4xl w-full mx-4 max-h-[80vh] overflow-hidden border border-dark-700">
+        onClick={() => setIsOpen(true)}
         className="fixed bottom-6 left-6 bg-primary-600 hover:bg-primary-700 text-white p-3 rounded-full shadow-lg transition-colors"
       >
         <Settings className="h-6 w-6" />
