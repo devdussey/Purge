@@ -124,11 +124,11 @@ export function PerformanceModeSelector({
   };
 
   return (
-    <div className="bg-dark-blue-900 rounded-lg shadow-lg border border-dark-700">
+    <div className="bg-dark-900 rounded-lg shadow-lg border border-dark-700">
       <div className="p-6 border-b border-dark-700">
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-3">
-            <Zap className="h-6 w-6 text-accent-500" />
+            <Zap className="h-6 w-6 text-primary-500" />
             <div>
               <h2 className="text-xl font-semibold text-white">Performance Mode</h2>
               <p className="text-sm text-gray-400">
@@ -170,18 +170,18 @@ export function PerformanceModeSelector({
             <div className="flex items-center justify-between">
               <span className="text-sm text-gray-400">Gaming Detected</span>
               <span className={`text-sm font-medium ${
-                isGameRunning ? 'text-accent-400' : 'text-gray-400'
+                isGameRunning ? 'text-primary-400' : 'text-gray-400'
               }`}>
                 {isGameRunning ? 'Yes' : 'No'}
               </span>
             </div>
           </div>
           
-          <div className="bg-dark-blue-950 p-3 rounded-lg">
+          <div className="bg-dark-950 p-3 rounded-lg">
             <div className="flex items-center justify-between">
               <span className="text-sm text-gray-400">Fullscreen App</span>
               <span className={`text-sm font-medium ${
-                isFullscreen ? 'text-accent-400' : 'text-gray-400'
+                isFullscreen ? 'text-primary-400' : 'text-gray-400'
               }`}>
                 {isFullscreen ? 'Yes' : 'No'}
               </span>

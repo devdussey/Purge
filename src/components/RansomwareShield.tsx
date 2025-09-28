@@ -83,11 +83,11 @@ export function RansomwareShield({ isActive, onToggle, onRollback }: RansomwareS
   };
 
   return (
-    <div className="bg-dark-blue-900 rounded-lg shadow-lg border border-dark-700">
+    <div className="bg-dark-900 rounded-lg shadow-lg border border-dark-700">
       <div className="p-6 border-b border-dark-700">
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-3">
-            <Shield className={`h-6 w-6 ${isActive ? 'text-accent-500' : 'text-gray-400'}`} />
+            <Shield className={`h-6 w-6 ${isActive ? 'text-primary-500' : 'text-gray-400'}`} />
             <div>
               <h2 className="text-xl font-semibold text-white">Ransomware Shield</h2>
               <p className="text-sm text-gray-400">
@@ -97,14 +97,14 @@ export function RansomwareShield({ isActive, onToggle, onRollback }: RansomwareS
           </div>
           <div className="flex items-center space-x-3">
             <span className={`px-3 py-1 rounded-full text-sm font-medium ${
-              isActive ? 'bg-accent-900 text-accent-300' : 'bg-dark-700 text-gray-300'
+              isActive ? 'bg-primary-900 text-primary-300' : 'bg-dark-700 text-gray-300'
             }`}>
               {isActive ? 'Active' : 'Inactive'}
             </span>
             <button
               onClick={() => onToggle(!isActive)}
               className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
-                isActive ? 'bg-accent-600' : 'bg-dark-600'
+                isActive ? 'bg-primary-600' : 'bg-dark-600'
               }`}
             >
               <span

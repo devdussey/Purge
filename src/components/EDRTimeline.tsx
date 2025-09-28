@@ -153,7 +153,7 @@ export function EDRTimeline({ detectionId, timeRange }: EDRTimelineProps) {
   };
 
   return (
-    <div className="bg-dark-blue-900 rounded-lg shadow-lg border border-dark-700">
+    <div className="bg-dark-900 rounded-lg shadow-lg border border-dark-700">
       <div className="p-6 border-b border-dark-700">
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-3">
@@ -168,7 +168,7 @@ export function EDRTimeline({ detectionId, timeRange }: EDRTimelineProps) {
           <div className="flex items-center space-x-2">
             <button
               onClick={exportTimeline}
-              className="flex items-center space-x-2 px-3 py-2 bg-accent-600 text-white rounded-lg hover:bg-accent-700 transition-colors"
+              className="flex items-center space-x-2 px-3 py-2 bg-primary-600 text-white rounded-lg hover:bg-primary-700 transition-colors"
             >
               <Download className="h-4 w-4" />
               <span>Export</span>

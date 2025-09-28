@@ -24,7 +24,7 @@ export function LogViewer() {
   };
 
   return (
-    <div className="bg-dark-blue-900 rounded-lg shadow-lg border border-dark-700">
+    <div className="bg-dark-900 rounded-lg shadow-lg border border-dark-700">
       <div className="p-6 border-b border-dark-700">
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-3">

@@ -185,16 +185,16 @@ function App() {
   };
 
   return (
-    <div className="min-h-screen bg-dark-blue-950">
+    <div className="min-h-screen bg-black">
       <Header />
       
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Platform indicator */}
         {!isElectron && (
-          <div className="mb-6 bg-primary-900/20 border border-primary-500/20 rounded-lg p-4">
+          <div className="mb-6 bg-primary-950/50 border border-primary-500/30 rounded-lg p-4">
             <div className="flex items-center space-x-2">
-              <AlertTriangle className="h-5 w-5 text-yellow-500" />
-              <p className="text-primary-300 text-sm">
+              <AlertTriangle className="h-5 w-5 text-accent-500" />
+              <p className="text-primary-200 text-sm">
                 You're using the web version. For full functionality including script execution, please download the desktop app.
               </p>
             </div>
@@ -203,7 +203,7 @@ function App() {
 
         {/* Navigation Tabs */}
         <div className="mb-8">
-          <div className="border-b border-dark-700">
+          <div className="border-b border-dark-800">
             <nav className="-mb-px flex space-x-8">
               {[
                 { id: 'dashboard', name: 'Dashboard', icon: Shield },
@@ -218,7 +218,7 @@ function App() {
                     onClick={() => setActiveTab(tab.id)}
                     className={`flex items-center space-x-2 py-2 px-1 border-b-2 font-medium text-sm ${
                       activeTab === tab.id
-                        ? 'border-accent-500 text-accent-400'
+                        ? 'border-primary-500 text-primary-400'
                         : 'border-transparent text-gray-400 hover:text-gray-300 hover:border-gray-300'
                     }`}
                   >
