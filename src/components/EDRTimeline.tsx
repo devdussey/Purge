@@ -153,7 +153,7 @@ export function EDRTimeline({ detectionId, timeRange }: EDRTimelineProps) {
   };
 
   return (
-    <div className="bg-dark-900 rounded-lg shadow-lg border border-dark-700">
+    <div className="bg-dark-blue-900 rounded-lg shadow-lg border border-dark-700">
       <div className="p-6 border-b border-dark-700">
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-3">
@@ -272,7 +272,7 @@ export function EDRTimeline({ detectionId, timeRange }: EDRTimelineProps) {
         {/* Event Details Modal */}
         {selectedEvent && (
           <div className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50">
-            <div className="bg-dark-900 rounded-lg shadow-xl max-w-2xl w-full mx-4 border border-dark-700">
+            <div className="bg-dark-blue-900 rounded-lg shadow-xl max-w-2xl w-full mx-4 border border-dark-700">
               <div className="p-6 border-b border-dark-700">
                 <div className="flex items-center justify-between">
                   <h3 className="text-lg font-semibold text-white">Event Details</h3>
@@ -314,7 +314,7 @@ export function EDRTimeline({ detectionId, timeRange }: EDRTimelineProps) {
                 
                 <div>
                   <span className="text-gray-400 block mb-2">Details:</span>
-                  <p className="text-white bg-black p-3 rounded-lg">{selectedEvent.details}</p>
+                  <p className="text-white bg-dark-blue-950 p-3 rounded-lg">{selectedEvent.details}</p>
                 </div>
                 
                 {selectedEvent.relatedDetection && (

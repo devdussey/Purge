@@ -83,7 +83,7 @@ export function RansomwareShield({ isActive, onToggle, onRollback }: RansomwareS
   };
 
   return (
-    <div className="bg-dark-900 rounded-lg shadow-lg border border-dark-700">
+    <div className="bg-dark-blue-900 rounded-lg shadow-lg border border-dark-700">
       <div className="p-6 border-b border-dark-700">
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-3">
@@ -216,7 +216,7 @@ export function RansomwareShield({ isActive, onToggle, onRollback }: RansomwareS
         </div>
 
         {/* Protection Features */}
-        <div className="bg-black rounded-lg p-4">
+        <div className="bg-dark-blue-950 rounded-lg p-4">
           <h4 className="font-medium text-white mb-3">Active Protection Features</h4>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-3 text-sm">
             <div className="flex items-center space-x-2">

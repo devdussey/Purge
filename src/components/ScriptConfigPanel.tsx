@@ -26,7 +26,7 @@ export function ScriptConfigPanel() {
   if (!isOpen) {
     return (
       <button
-        onClick={() => setIsOpen(true)}
+        <div className="bg-dark-blue-900 rounded-lg shadow-xl max-w-4xl w-full mx-4 max-h-[80vh] overflow-hidden border border-dark-700">
         className="fixed bottom-6 left-6 bg-primary-600 hover:bg-primary-700 text-white p-3 rounded-full shadow-lg transition-colors"
       >
         <Settings className="h-6 w-6" />
@@ -52,7 +52,7 @@ export function ScriptConfigPanel() {
         <div className="p-6 overflow-y-auto max-h-[60vh]">
           <div className="space-y-4">
             {Object.entries(SCRIPT_CONFIGS).map(([key, config]) => (
-              <div key={key} className="border border-dark-700 rounded-lg p-4 bg-black">
+              <div key={key} className="border border-dark-700 rounded-lg p-4 bg-dark-blue-950">
                 <div className="flex items-center justify-between mb-2">
                   <h3 className="font-medium text-white">{config.name}</h3>
                   <div className="flex items-center space-x-2">
