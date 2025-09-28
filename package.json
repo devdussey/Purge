@@ -8,7 +8,11 @@
     "build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "typecheck": "tsc --noEmit -p tsconfig.app.json"
+    "typecheck": "tsc --noEmit -p tsconfig.app.json",
+    "electron": "electron dist-electron/main.js",
+    "electron-dev": "concurrently \"npm run dev\" \"wait-on http://localhost:5173 && electron dist-electron/main.js\"",
+    "build-electron": "node scripts/build-electron.js",
+    "dist": "npm run build && npm run build-electron && electron-builder"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.57.4",
