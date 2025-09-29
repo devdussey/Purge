@@ -1,37 +1,15 @@
-"use strict";
-var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    var desc = Object.getOwnPropertyDescriptor(m, k);
-    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
-      desc = { enumerable: true, get: function() { return m[k]; } };
-    }
-    Object.defineProperty(o, k2, desc);
-}) : (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    o[k2] = m[k];
-}));
-var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
-    Object.defineProperty(o, "default", { enumerable: true, value: v });
-}) : function(o, v) {
-    o["default"] = v;
-});
-var __importStar = (this && this.__importStar) || function (mod) {
-    if (mod && mod.__esModule) return mod;
-    var result = {};
-    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
-    __setModuleDefault(result, mod);
-    return result;
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-const electron_1 = require("electron");
-const child_process_1 = require("child_process");
-const path = __importStar(require("path"));
-const fs = __importStar(require("fs"));
-const crypto_1 = require("crypto");
+import { app, BrowserWindow, ipcMain, dialog, shell } from 'electron';
+import { spawn } from 'node:child_process';
+import { existsSync } from 'node:fs';
+import { createHash, createVerify } from 'node:crypto';
+import { dirname, join, resolve } from 'node:path';
+import { fileURLToPath } from 'node:url';
 const isDev = process.env.NODE_ENV === 'development';
 let mainWindow;
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 function createWindow() {
-    mainWindow = new electron_1.BrowserWindow({
+    mainWindow = new BrowserWindow({
         width: 1200,
         height: 800,
         minWidth: 800,
@@ -39,9 +17,9 @@ function createWindow() {
         webPreferences: {
             nodeIntegration: false,
             contextIsolation: true,
-            preload: path.join(__dirname, 'preload.js'),
+            preload: join(__dirname, 'preload.js'),
         },
-        icon: path.join(__dirname, '../public/Dusscord.png'),
+        icon: join(__dirname, '../public/PurgedIcon.png'),
         title: 'Purge by DevDussey',
         titleBarStyle: 'default',
         show: false,
@@ -52,36 +30,36 @@ function createWindow() {
         mainWindow.webContents.openDevTools();
     }
     else {
-        mainWindow.loadFile(path.join(__dirname, '../dist/index.html'));
+        mainWindow.loadFile(join(__dirname, '../dist/index.html'));
     }
     mainWindow.once('ready-to-show', () => {
         mainWindow.show();
     });
     mainWindow.on('closed', () => {
-        electron_1.app.quit();
+        app.quit();
     });
 }
-electron_1.app.whenReady().then(() => {
+app.whenReady().then(() => {
     createWindow();
-    electron_1.app.on('activate', () => {
-        if (electron_1.BrowserWindow.getAllWindows().length === 0) {
+    app.on('activate', () => {
+        if (BrowserWindow.getAllWindows().length === 0) {
             createWindow();
         }
     });
 });
-electron_1.app.on('window-all-closed', () => {
+app.on('window-all-closed', () => {
     if (process.platform !== 'darwin') {
-        electron_1.app.quit();
+        app.quit();
     }
 });
 // IPC handlers for script execution
-electron_1.ipcMain.handle('execute-script', async (event, scriptPath, parameters = [], requiresElevation = false) => {
+ipcMain.handle('execute-script', async (event, scriptPath, parameters = [], requiresElevation = false) => {
     try {
         // Resolve script path relative to app directory
-        const appPath = electron_1.app.getAppPath();
-        const fullScriptPath = path.resolve(appPath, scriptPath);
+        const appPath = app.getAppPath();
+        const fullScriptPath = resolve(appPath, scriptPath);
         // Check if script exists
-        if (!fs.existsSync(fullScriptPath)) {
+        if (!existsSync(fullScriptPath)) {
             return {
                 success: false,
                 output: '',
@@ -99,7 +77,7 @@ electron_1.ipcMain.handle('execute-script', async (event, scriptPath, parameters
             spawnArgs = ['-Command', elevatedScript];
         }
         return new Promise((resolve) => {
-            const child = (0, child_process_1.spawn)(command, spawnArgs, {
+            const child = spawn(command, spawnArgs, {
                 stdio: ['pipe', 'pipe', 'pipe'],
                 shell: true
             });
@@ -145,32 +123,32 @@ electron_1.ipcMain.handle('execute-script', async (event, scriptPath, parameters
     }
 });
 // Handle opening external links
-electron_1.ipcMain.handle('open-external', async (event, url) => {
-    await electron_1.shell.openExternal(url);
+ipcMain.handle('open-external', async (event, url) => {
+    await shell.openExternal(url);
 });
 // Handle showing message boxes
-electron_1.ipcMain.handle('show-message-box', async (event, options) => {
-    const result = await electron_1.dialog.showMessageBox(mainWindow, options);
+ipcMain.handle('show-message-box', async (event, options) => {
+    const result = await dialog.showMessageBox(mainWindow, options);
     return result;
 });
 // Handle file/folder selection
-electron_1.ipcMain.handle('show-open-dialog', async (event, options) => {
-    const result = await electron_1.dialog.showOpenDialog(mainWindow, options);
+ipcMain.handle('show-open-dialog', async (event, options) => {
+    const result = await dialog.showOpenDialog(mainWindow, options);
     return result;
 });
 // Get app version
-electron_1.ipcMain.handle('get-app-version', async () => {
-    return electron_1.app.getVersion();
+ipcMain.handle('get-app-version', async () => {
+    return app.getVersion();
 });
 // Get app path
-electron_1.ipcMain.handle('get-app-path', async () => {
-    return electron_1.app.getAppPath();
+ipcMain.handle('get-app-path', async () => {
+    return app.getAppPath();
 });
 // Handle hash computation
-electron_1.ipcMain.handle('compute-hash', async (event, data) => {
+ipcMain.handle('compute-hash', async (event, data) => {
     try {
         const buffer = Buffer.from(data);
-        const hash = (0, crypto_1.createHash)('sha256').update(buffer).digest('hex');
+        const hash = createHash('sha256').update(buffer).digest('hex');
         return hash;
     }
     catch (error) {
@@ -178,9 +156,9 @@ electron_1.ipcMain.handle('compute-hash', async (event, data) => {
     }
 });
 // Handle signature verification
-electron_1.ipcMain.handle('verify-signature', async (event, data, signature, publicKey) => {
+ipcMain.handle('verify-signature', async (event, data, signature, publicKey) => {
     try {
-        const verify = (0, crypto_1.createVerify)('RSA-SHA256');
+        const verify = createVerify('RSA-SHA256');
         verify.update(data);
         return verify.verify(publicKey, signature, 'base64');
     }

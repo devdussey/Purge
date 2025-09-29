@@ -1,12 +1,16 @@
 import { app, BrowserWindow, ipcMain, dialog, shell } from 'electron';
-import { spawn } from 'child_process';
-import * as path from 'path';
-import * as fs from 'fs';
-import { createHash, createVerify } from 'crypto';
+import { spawn } from 'node:child_process';
+import { existsSync } from 'node:fs';
+import { createHash, createVerify } from 'node:crypto';
+import { dirname, join, resolve } from 'node:path';
+import { fileURLToPath } from 'node:url';
 
 const isDev = process.env.NODE_ENV === 'development';
 
 let mainWindow: BrowserWindow;
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 function createWindow() {
   mainWindow = new BrowserWindow({
@@ -17,9 +21,9 @@ function createWindow() {
     webPreferences: {
       nodeIntegration: false,
       contextIsolation: true,
-      preload: path.join(__dirname, 'preload.js'),
+      preload: join(__dirname, 'preload.js'),
     },
-    icon: path.join(__dirname, '../public/PurgedIcon.png'),
+    icon: join(__dirname, '../public/PurgedIcon.png'),
     title: 'Purge by DevDussey',
     titleBarStyle: 'default',
     show: false,
@@ -30,7 +34,7 @@ function createWindow() {
     mainWindow.loadURL('http://localhost:5173');
     mainWindow.webContents.openDevTools();
   } else {
-    mainWindow.loadFile(path.join(__dirname, '../dist/index.html'));
+    mainWindow.loadFile(join(__dirname, '../dist/index.html'));
   }
 
   mainWindow.once('ready-to-show', () => {
@@ -63,10 +67,10 @@ ipcMain.handle('execute-script', async (event, scriptPath: string, parameters: s
   try {
     // Resolve script path relative to app directory
     const appPath = app.getAppPath();
-    const fullScriptPath = path.resolve(appPath, scriptPath);
+    const fullScriptPath = resolve(appPath, scriptPath);
 
     // Check if script exists
-    if (!fs.existsSync(fullScriptPath)) {
+    if (!existsSync(fullScriptPath)) {
       return {
         success: false,
         output: '',
