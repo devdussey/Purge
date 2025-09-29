@@ -62,7 +62,8 @@
     "win": {
       "target": "nsis",
       "icon": "public/PurgedIcon.png",
-      "requestedExecutionLevel": "requireAdministrator"
+      "requestedExecutionLevel": "requireAdministrator",
+      "publisherName": "DevDussey"
     },
     "mac": {
       "target": "dmg",
@@ -76,7 +77,8 @@
       "oneClick": false,
       "allowToChangeInstallationDirectory": true,
       "createDesktopShortcut": true,
-      "createStartMenuShortcut": true
+      "createStartMenuShortcut": true,
+      "publisherName": "DevDussey"
     }
   }
 }

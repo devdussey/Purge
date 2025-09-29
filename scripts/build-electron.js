@@ -7,14 +7,24 @@ import { fileURLToPath } from 'url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
+function cleanDirectory(directory) {
+  if (fs.existsSync(directory)) {
+    fs.rmSync(directory, { recursive: true, force: true });
+  }
+}
+
 async function buildElectron() {
   console.log('Building React app...');
-  
+
+  // Ensure previous build artifacts are removed
+  cleanDirectory(path.join(__dirname, '../dist'));
+  cleanDirectory(path.join(__dirname, '../dist-electron'));
+
   // Build the React app
   await build();
-  
+
   console.log('Building Electron main process...');
-  
+
   // Create dist-electron directory
   if (!fs.existsSync('dist-electron')) {
     fs.mkdirSync('dist-electron');
