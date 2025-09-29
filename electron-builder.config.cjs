@@ -29,6 +29,7 @@ module.exports = {
     ],
     icon: 'public/icon.ico',
     requestedExecutionLevel: 'requireAdministrator',
+    publisherName: 'DevDussey',
   },
   mac: {
     target: 'dmg',
@@ -50,6 +51,7 @@ module.exports = {
     uninstallerIcon: 'public/icon.ico',
     installerHeaderIcon: 'public/icon.ico',
     deleteAppDataOnUninstall: true,
+    publisherName: 'DevDussey',
   },
   publish: {
     provider: 'github',

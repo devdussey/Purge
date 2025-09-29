@@ -1,13 +1,16 @@
-import { app, BrowserWindow, ipcMain, dialog, shell } from 'electron';
+import electron from 'electron';
+import type { BrowserWindow as BrowserWindowType } from 'electron';
 import { spawn } from 'node:child_process';
 import { existsSync } from 'node:fs';
 import { createHash, createVerify } from 'node:crypto';
 import { dirname, join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
+const { app, BrowserWindow, ipcMain, dialog, shell } = electron;
+
 const isDev = process.env.NODE_ENV === 'development';
 
-let mainWindow: BrowserWindow;
+let mainWindow: BrowserWindowType;
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
