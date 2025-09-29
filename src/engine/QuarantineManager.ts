@@ -173,12 +173,12 @@ export class QuarantineManager extends EventEmitter {
   }
 
   // Ransomware Journal for rollback protection
-  recordFileOperation(
-    filePath: string, 
+  async recordFileOperation(
+    filePath: string,
     operation: 'create' | 'modify' | 'delete' | 'rename',
     originalContent?: Buffer,
     newContent?: Buffer
-  ) {
+  ): Promise<void> {
     let hash = '';
     if (originalContent && window.electronAPI) {
       hash = await window.electronAPI.computeHash(originalContent.buffer);
