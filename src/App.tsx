@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Header } from './components/Header';
 import { DashboardStats } from './components/DashboardStats';
 import { SystemStatus } from './components/SystemStatus';
@@ -13,10 +13,14 @@ import { PerformanceModeSelector } from './components/PerformanceModeSelector';
 import { AIAssistant } from './components/AIAssistant';
 import { AIDetectionPanel } from './components/AIDetectionPanel';
 import { AISettings } from './components/AISettings';
+import { Settings } from './components/Settings';
 import { CryptoProtection } from './components/CryptoProtection';
 import { AIDetectionEngine } from './engine/AIDetectionEngine';
 import { DetectionEngine } from './engine/DetectionEngine';
 import { executeScript, getCommandLineExecution } from './utils/scriptRunner';
+import { useSettings } from './hooks/useSettings';
+import { UITestPanel } from './components/UITestPanel';
+import { useUITest } from './contexts/UITestContext';
 import {
   Shield,
   AlertTriangle,
@@ -24,17 +28,19 @@ import {
   Zap,
   BarChart3,
   Settings as SettingsIcon,
-  Brain
+  Brain,
+  Wallet
 } from 'lucide-react';
 
 function App() {
+  const { settings, updateSettings } = useSettings();
+  const { recordButtonClick } = useUITest();
   const [isScanning, setIsScanning] = useState(false);
   const [lastOutput, setLastOutput] = useState<string>('');
   const [isElectron] = useState(!!window.electronAPI);
   const [showFPReporter, setShowFPReporter] = useState(false);
   const [selectedDetection, setSelectedDetection] = useState<any>(null);
   const [ransomwareShieldActive, setRansomwareShieldActive] = useState(true);
-  const [performanceMode, setPerformanceMode] = useState('balanced');
   const [activeTab, setActiveTab] = useState('dashboard');
   const [showAIAssistant, setShowAIAssistant] = useState(false);
   const [aiEngine] = useState(() => {
@@ -42,6 +48,28 @@ function App() {
     return new AIDetectionEngine(baseEngine, 'demo-api-key');
   });
   const [aiModels, setAiModels] = useState(() => aiEngine.getModelStatus());
+
+  // Apply theme to document root whenever settings.theme changes
+  useEffect(() => {
+    let effectiveTheme: 'dark' | 'light' = 'dark';
+
+    if (settings.theme === 'auto') {
+      // Check system preference
+      if (window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches) {
+        effectiveTheme = 'light';
+      }
+    } else if (settings.theme === 'light') {
+      effectiveTheme = 'light';
+    } else {
+      effectiveTheme = 'dark';
+    }
+
+    // Apply to document root
+    document.documentElement.classList.remove('dark', 'light');
+    document.documentElement.classList.add(effectiveTheme);
+
+    console.log('Theme applied:', effectiveTheme, 'from settings.theme:', settings.theme);
+  }, [settings, settings.theme]); // Watch both settings object AND settings.theme
   const handleQuickScan = async () => {
     setIsScanning(true);
 
@@ -177,7 +205,7 @@ function App() {
   };
 
   const handleSettings = () => {
-    console.log('Opening settings...');
+    setActiveTab('settings');
   };
 
   const handleFalsePositiveReport = async (report: any) => {
@@ -204,16 +232,26 @@ function App() {
 
   const tabs = [
     { id: 'dashboard', name: 'Dashboard', icon: Shield },
+    { id: 'crypto', name: 'Crypto Protection', icon: Wallet },
     { id: 'analytics', name: 'Analytics', icon: BarChart3 },
     { id: 'ransomware', name: 'Ransomware Shield', icon: AlertTriangle },
     { id: 'timeline', name: 'EDR Timeline', icon: Activity },
     { id: 'performance', name: 'Performance', icon: Zap },
-    { id: 'ai', name: 'AI Detection', icon: Brain },
+    { id: 'ai', name: 'AI', icon: Brain },
     { id: 'settings', name: 'Settings', icon: SettingsIcon }
   ];
 
+  // Determine theme classes
+  const getThemeClasses = () => {
+    if (settings.theme === 'light') {
+      return 'min-h-screen bg-gradient-to-br from-gray-50 via-white to-gray-100';
+    }
+    // Dark theme (default)
+    return 'min-h-screen bg-gradient-to-br from-black via-gray-900 to-black';
+  };
+
   return (
-    <div className="min-h-screen bg-gradient-to-br from-black via-gray-900 to-black">
+    <div className={`${getThemeClasses()} ${settings.compactMode ? 'compact-mode' : ''}`}>
       <Header />
       
       <main className="max-w-7xl mx-auto px-6 lg:px-8 py-8">
@@ -241,8 +279,22 @@ function App() {
                 return (
                   <button
                     key={tab.id}
-                    onClick={() => setActiveTab(tab.id)}
-                    className={`flex items-center space-x-3 px-6 py-3 rounded-xl font-medium text-sm transition-all duration-300 ${
+                    onClick={(e) => {
+                      console.log(`[Navigation] Tab clicked: ${tab.name}`);
+                      const target = e.currentTarget;
+
+                      // Record in UI Test Panel
+                      recordButtonClick(`nav-${tab.id}`, `Navigation: ${tab.name}`);
+
+                      target.style.transform = 'scale(0.97)';
+                      setTimeout(() => {
+                        if (target) {
+                          target.style.transform = '';
+                        }
+                      }, 100);
+                      setActiveTab(tab.id);
+                    }}
+                    className={`flex items-center space-x-3 px-6 py-3 rounded-xl font-medium text-sm transition-all duration-300 click-feedback ${
                       activeTab === tab.id
                         ? 'bg-gradient-to-r from-red-600/30 to-red-700/30 text-red-400 border border-red-500/30 shadow-lg'
                         : 'text-gray-400 hover:text-white hover:bg-gray-800/50'
@@ -303,8 +355,8 @@ function App() {
 
         {activeTab === 'performance' && (
           <PerformanceModeSelector
-            currentMode={performanceMode}
-            onModeChange={setPerformanceMode}
+            currentMode={settings.performanceMode}
+            onModeChange={(mode) => updateSettings({ performanceMode: mode as any })}
             batteryLevel={85}
             isFullscreen={false}
             isGameRunning={false}
@@ -312,15 +364,18 @@ function App() {
         )}
 
         {activeTab === 'ai' && (
-          <AIDetectionPanel
-            models={aiModels}
-            onUpdateModel={handleUpdateAIModel}
-            onToggleModel={handleToggleAIModel}
-          />
+          <div className="space-y-8">
+            <AIDetectionPanel
+              models={aiModels}
+              onUpdateModel={handleUpdateAIModel}
+              onToggleModel={handleToggleAIModel}
+            />
+            <AISettings />
+          </div>
         )}
 
         {activeTab === 'settings' && (
-          <AISettings />
+          <Settings />
         )}
 
         {/* Script Configuration Panel */}
@@ -379,6 +434,16 @@ function App() {
             </button>
           </div>
         )}
+
+        {/* UI Test Panel - Debug */}
+        <div className="fixed bottom-6 right-6 z-50">
+          <UITestPanel />
+        </div>
+
+        {/* Temporary Debug Indicator */}
+        <div className="fixed bottom-24 right-6 z-50 bg-yellow-500 text-black px-4 py-2 rounded-lg text-xs">
+          Test Panel Mounted
+        </div>
       </main>
     </div>
   );

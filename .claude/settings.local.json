@@ -9,7 +9,8 @@
       "Bash(npm run:*)",
       "Bash(tasklist)",
       "Bash(findstr:*)",
-      "Bash(taskkill:*)"
+      "Bash(taskkill:*)",
+      "Read(//c/Users/Main User/Desktop/purge-errors/**)"
     ],
     "deny": [],
     "ask": []

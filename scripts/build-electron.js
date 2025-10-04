@@ -38,6 +38,14 @@ async function buildElectron() {
   
   tscProcess.on('close', (code) => {
     if (code === 0) {
+      // Rename .js files to .cjs for CommonJS compatibility
+      const distElectronPath = path.join(__dirname, '../dist-electron');
+      if (fs.existsSync(path.join(distElectronPath, 'main.js'))) {
+        fs.renameSync(path.join(distElectronPath, 'main.js'), path.join(distElectronPath, 'main.cjs'));
+      }
+      if (fs.existsSync(path.join(distElectronPath, 'preload.js'))) {
+        fs.renameSync(path.join(distElectronPath, 'preload.js'), path.join(distElectronPath, 'preload.cjs'));
+      }
       console.log('Electron build completed successfully!');
     } else {
       console.error('Electron build failed with code:', code);

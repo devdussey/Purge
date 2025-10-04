@@ -2,8 +2,10 @@ import { useState, useEffect } from 'react';
 import { Shield, AlertTriangle, Copy, Wallet, CheckCircle, XCircle, Activity, Lock } from 'lucide-react';
 import { cryptoProtection, ClipboardThreat } from '../services/CryptoProtection';
 import { PhishingChecker } from './PhishingChecker';
+import { useSettings } from '../hooks/useSettings';
 
 export function CryptoProtection() {
+  const { settings } = useSettings();
   const [isActive, setIsActive] = useState(false);
   const [threats, setThreats] = useState<ClipboardThreat[]>([]);
   const [stats, setStats] = useState(cryptoProtection.getStats());
@@ -11,9 +13,11 @@ export function CryptoProtection() {
   const [currentThreat, setCurrentThreat] = useState<ClipboardThreat | null>(null);
 
   useEffect(() => {
-    // Start monitoring on mount
-    cryptoProtection.startClipboardMonitoring();
-    setIsActive(true);
+    // Start monitoring based on settings
+    if (settings.cryptoClipboardMonitoring) {
+      cryptoProtection.startClipboardMonitoring();
+      setIsActive(true);
+    }
 
     // Listen for threats
     const handleThreat = (event: CustomEvent) => {
@@ -44,7 +48,7 @@ export function CryptoProtection() {
       window.removeEventListener('wallet-file-threat' as any, handleWalletThreat);
       clearInterval(statsInterval);
     };
-  }, []);
+  }, [settings.cryptoClipboardMonitoring]);
 
   const toggleProtection = () => {
     if (isActive) {

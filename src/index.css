@@ -1,3 +1,235 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Dark theme (default) */
+.dark {
+  color-scheme: dark;
+}
+
+/* Light theme overrides */
+.light {
+  color-scheme: light;
+}
+
+/* Light mode styles - override the dark gradients */
+.light .min-h-screen {
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%) !important;
+}
+
+.light body {
+  @apply bg-gray-100 text-gray-900;
+}
+
+/* Light mode: change text colors */
+.light h1, .light h2, .light h3, .light h4, .light h5, .light h6 {
+  @apply text-gray-900;
+}
+
+.light p, .light span, .light div {
+  color: inherit;
+}
+
+/* Light mode: update card backgrounds */
+.light .bg-gradient-to-br {
+  background: rgba(255, 255, 255, 0.9) !important;
+  border-color: rgba(0, 0, 0, 0.1) !important;
+}
+
+.light .bg-gradient-to-r {
+  background: rgba(255, 255, 255, 0.8) !important;
+}
+
+/* Light mode: borders */
+.light .border-gray-700,
+.light .border-gray-600,
+.light .border-red-500 {
+  border-color: rgba(0, 0, 0, 0.1) !important;
+}
+
+/* Light mode: make sure text is visible */
+.light .text-white {
+  @apply text-gray-900 !important;
+}
+
+.light .text-gray-400,
+.light .text-gray-300 {
+  @apply text-gray-700 !important;
+}
+
+.light .text-red-400 {
+  @apply text-red-600 !important;
+}
+
+/* Custom slider styles */
+input[type="range"].slider-red::-webkit-slider-thumb {
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  background: linear-gradient(135deg, #ef4444, #dc2626);
+  cursor: pointer;
+  border-radius: 50%;
+  border: 2px solid #991b1b;
+  box-shadow: 0 0 10px rgba(239, 68, 68, 0.5);
+}
+
+input[type="range"].slider-red::-moz-range-thumb {
+  width: 20px;
+  height: 20px;
+  background: linear-gradient(135deg, #ef4444, #dc2626);
+  cursor: pointer;
+  border-radius: 50%;
+  border: 2px solid #991b1b;
+  box-shadow: 0 0 10px rgba(239, 68, 68, 0.5);
+}
+
+input[type="range"].slider-red::-webkit-slider-runnable-track {
+  background: linear-gradient(to right, #dc2626 0%, #ef4444 100%);
+  border-radius: 10px;
+}
+
+input[type="range"].slider-red::-moz-range-track {
+  background: linear-gradient(to right, #dc2626 0%, #ef4444 100%);
+  border-radius: 10px;
+}
+
+/* Button feedback animations */
+@keyframes button-press {
+  0% { transform: scale(1); }
+  50% { transform: scale(0.95); }
+  100% { transform: scale(1); }
+}
+
+@keyframes ripple {
+  0% {
+    transform: scale(0);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(4);
+    opacity: 0;
+  }
+}
+
+.button-feedback {
+  position: relative;
+  overflow: hidden;
+}
+
+.button-feedback:active {
+  animation: button-press 0.2s ease-out;
+}
+
+.button-feedback::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 20px;
+  height: 20px;
+  background: rgba(255, 255, 255, 0.5);
+  border-radius: 50%;
+  transform: translate(-50%, -50%) scale(0);
+  pointer-events: none;
+}
+
+.button-feedback:active::after {
+  animation: ripple 0.6s ease-out;
+}
+
+/* Hover effects */
+.hover-lift {
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.hover-lift:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+
+.hover-lift:active {
+  transform: translateY(0);
+}
+
+/* Click visual feedback */
+.click-feedback:active {
+  transform: scale(0.97);
+  transition: transform 0.1s ease;
+}
+
+/* Pulse animation for important actions */
+@keyframes pulse-glow {
+  0%, 100% {
+    box-shadow: 0 0 10px rgba(239, 68, 68, 0.3);
+  }
+  50% {
+    box-shadow: 0 0 20px rgba(239, 68, 68, 0.6);
+  }
+}
+
+.pulse-glow {
+  animation: pulse-glow 2s ease-in-out infinite;
+}
+
+/* Compact Mode */
+.compact-mode .max-w-7xl {
+  padding-left: 1rem !important;
+  padding-right: 1rem !important;
+}
+
+.compact-mode .py-8 {
+  padding-top: 1rem !important;
+  padding-bottom: 1rem !important;
+}
+
+.compact-mode .space-y-8 > * + * {
+  margin-top: 1rem !important;
+}
+
+.compact-mode .space-y-6 > * + * {
+  margin-top: 0.75rem !important;
+}
+
+.compact-mode .p-6 {
+  padding: 0.75rem !important;
+}
+
+.compact-mode .p-8 {
+  padding: 1rem !important;
+}
+
+.compact-mode .gap-6 {
+  gap: 0.75rem !important;
+}
+
+.compact-mode .gap-8 {
+  gap: 1rem !important;
+}
+
+.compact-mode .mb-8 {
+  margin-bottom: 1rem !important;
+}
+
+.compact-mode .mb-6 {
+  margin-bottom: 0.75rem !important;
+}
+
+.compact-mode h1 {
+  font-size: 1.5rem !important;
+}
+
+.compact-mode h2 {
+  font-size: 1.25rem !important;
+}
+
+.compact-mode h3 {
+  font-size: 1.125rem !important;
+}
+
+.compact-mode .text-lg {
+  font-size: 0.9375rem !important;
+}
+
+.compact-mode .rounded-2xl {
+  border-radius: 0.75rem !important;
+}

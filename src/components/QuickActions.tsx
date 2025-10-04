@@ -1,4 +1,5 @@
 import { Search, HardDrive, Download, Shield, Clock, History, Trash2, AlertTriangle, RotateCcw, Settings, Activity } from 'lucide-react';
+import { useUITest } from '../contexts/UITestContext';
 
 interface QuickActionProps {
   title: string;
@@ -11,6 +12,8 @@ interface QuickActionProps {
 }
 
 function QuickActionCard({ title, description, icon: Icon, onClick, variant = 'primary', disabled = false, badge }: QuickActionProps) {
+  const { recordButtonClick } = useUITest();
+
   const getVariantClasses = () => {
     switch (variant) {
       case 'primary':
@@ -38,11 +41,29 @@ function QuickActionCard({ title, description, icon: Icon, onClick, variant = 'p
 
   return (
     <button
-      onClick={onClick}
+      onClick={(e) => {
+        console.log(`[QuickAction] Button clicked: ${title}`);
+        // Save reference before async operations
+        const target = e.currentTarget;
+        const buttonId = title.toLowerCase().replace(/\s+/g, '-');
+
+        // Record click in test panel
+        recordButtonClick(buttonId, title);
+
+        // Visual feedback
+        target.style.transform = 'scale(0.95)';
+        setTimeout(() => {
+          if (target) {
+            target.style.transform = '';
+          }
+        }, 100);
+        // Call the actual handler
+        onClick();
+      }}
       disabled={disabled}
       className={`
         ${getVariantClasses()}
-        ${disabled ? 'opacity-50 cursor-not-allowed' : 'hover:scale-105 hover:shadow-lg'}
+        ${disabled ? 'opacity-50 cursor-not-allowed' : 'hover:scale-105 hover:shadow-lg button-feedback click-feedback'}
         relative w-full p-6 rounded-2xl border backdrop-blur-sm transition-all duration-300 text-left group
       `}
     >

@@ -1,14 +1,20 @@
-import electron from 'electron';
-import { spawn } from 'node:child_process';
-import { existsSync } from 'node:fs';
-import { createHash, createVerify } from 'node:crypto';
-import { dirname, join, resolve } from 'node:path';
-import { fileURLToPath } from 'node:url';
-const { app, BrowserWindow, ipcMain, dialog, shell } = electron;
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+const electron_1 = __importDefault(require("electron"));
+const electron_updater_1 = require("electron-updater");
+const node_child_process_1 = require("node:child_process");
+const node_fs_1 = require("node:fs");
+const node_crypto_1 = require("node:crypto");
+const node_path_1 = require("node:path");
+const { app, BrowserWindow, ipcMain, dialog, shell } = electron_1.default;
 const isDev = process.env.NODE_ENV === 'development';
+// Configure auto-updater
+electron_updater_1.autoUpdater.autoDownload = false; // Don't auto-download, ask user first
+electron_updater_1.autoUpdater.autoInstallOnAppQuit = true;
 let mainWindow;
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
 function createWindow() {
     mainWindow = new BrowserWindow({
         width: 1200,
@@ -18,9 +24,9 @@ function createWindow() {
         webPreferences: {
             nodeIntegration: false,
             contextIsolation: true,
-            preload: join(__dirname, 'preload.js'),
+            preload: (0, node_path_1.join)(__dirname, 'preload.cjs'),
         },
-        icon: join(__dirname, '../public/PurgedIcon.png'),
+        icon: (0, node_path_1.join)(__dirname, '../public/PurgedIcon.png'),
         title: 'Purge by DevDussey',
         titleBarStyle: 'default',
         show: false,
@@ -31,7 +37,7 @@ function createWindow() {
         mainWindow.webContents.openDevTools();
     }
     else {
-        mainWindow.loadFile(join(__dirname, '../dist/index.html'));
+        mainWindow.loadFile((0, node_path_1.join)(__dirname, '../dist/index.html'));
     }
     mainWindow.once('ready-to-show', () => {
         mainWindow.show();
@@ -42,11 +48,47 @@ function createWindow() {
 }
 app.whenReady().then(() => {
     createWindow();
+    // Check for updates after app starts (only in production)
+    if (!isDev) {
+        setTimeout(() => {
+            electron_updater_1.autoUpdater.checkForUpdates();
+        }, 3000);
+    }
     app.on('activate', () => {
         if (BrowserWindow.getAllWindows().length === 0) {
             createWindow();
         }
     });
+});
+// Auto-updater event handlers
+electron_updater_1.autoUpdater.on('update-available', (info) => {
+    dialog.showMessageBox(mainWindow, {
+        type: 'info',
+        title: 'Update Available',
+        message: `A new version (${info.version}) is available!`,
+        buttons: ['Download', 'Later'],
+        defaultId: 0
+    }).then((result) => {
+        if (result.response === 0) {
+            electron_updater_1.autoUpdater.downloadUpdate();
+        }
+    });
+});
+electron_updater_1.autoUpdater.on('update-downloaded', () => {
+    dialog.showMessageBox(mainWindow, {
+        type: 'info',
+        title: 'Update Ready',
+        message: 'Update downloaded. The app will restart to install the update.',
+        buttons: ['Restart Now', 'Later'],
+        defaultId: 0
+    }).then((result) => {
+        if (result.response === 0) {
+            electron_updater_1.autoUpdater.quitAndInstall();
+        }
+    });
+});
+electron_updater_1.autoUpdater.on('error', (err) => {
+    console.error('Auto-updater error:', err);
 });
 app.on('window-all-closed', () => {
     if (process.platform !== 'darwin') {
@@ -58,9 +100,9 @@ ipcMain.handle('execute-script', async (event, scriptPath, parameters = [], requ
     try {
         // Resolve script path relative to app directory
         const appPath = app.getAppPath();
-        const fullScriptPath = resolve(appPath, scriptPath);
+        const fullScriptPath = (0, node_path_1.resolve)(appPath, scriptPath);
         // Check if script exists
-        if (!existsSync(fullScriptPath)) {
+        if (!(0, node_fs_1.existsSync)(fullScriptPath)) {
             return {
                 success: false,
                 output: '',
@@ -78,7 +120,7 @@ ipcMain.handle('execute-script', async (event, scriptPath, parameters = [], requ
             spawnArgs = ['-Command', elevatedScript];
         }
         return new Promise((resolve) => {
-            const child = spawn(command, spawnArgs, {
+            const child = (0, node_child_process_1.spawn)(command, spawnArgs, {
                 stdio: ['pipe', 'pipe', 'pipe'],
                 shell: true
             });
@@ -149,7 +191,7 @@ ipcMain.handle('get-app-path', async () => {
 ipcMain.handle('compute-hash', async (event, data) => {
     try {
         const buffer = Buffer.from(data);
-        const hash = createHash('sha256').update(buffer).digest('hex');
+        const hash = (0, node_crypto_1.createHash)('sha256').update(buffer).digest('hex');
         return hash;
     }
     catch (error) {
@@ -159,7 +201,7 @@ ipcMain.handle('compute-hash', async (event, data) => {
 // Handle signature verification
 ipcMain.handle('verify-signature', async (event, data, signature, publicKey) => {
     try {
-        const verify = createVerify('RSA-SHA256');
+        const verify = (0, node_crypto_1.createVerify)('RSA-SHA256');
         verify.update(data);
         return verify.verify(publicKey, signature, 'base64');
     }
@@ -201,7 +243,52 @@ ipcMain.handle('ai-get-ollama-models', async (event, config) => {
 });
 // Clipboard handler
 ipcMain.handle('read-clipboard', async () => {
-    const { clipboard } = electron;
+    const { clipboard } = electron_1.default;
     return clipboard.readText();
+});
+// Settings persistence handlers
+const settingsPath = (0, node_path_1.join)(app.getPath('userData'), 'settings.json');
+ipcMain.handle('get-settings', () => {
+    try {
+        if ((0, node_fs_1.existsSync)(settingsPath)) {
+            const data = (0, node_fs_1.readFileSync)(settingsPath, 'utf8');
+            return JSON.parse(data);
+        }
+    }
+    catch (error) {
+        console.error('Failed to load settings:', error);
+    }
+    return null;
+});
+ipcMain.handle('save-settings', async (event, settings) => {
+    try {
+        const userDataPath = app.getPath('userData');
+        if (!(0, node_fs_1.existsSync)(userDataPath)) {
+            (0, node_fs_1.mkdirSync)(userDataPath, { recursive: true });
+        }
+        (0, node_fs_1.writeFileSync)(settingsPath, JSON.stringify(settings, null, 2), 'utf8');
+    }
+    catch (error) {
+        console.error('Failed to save settings:', error);
+        throw error;
+    }
+});
+// Manual update check
+ipcMain.handle('check-for-updates', async () => {
+    if (isDev) {
+        return { available: false, message: 'Auto-updates disabled in development mode' };
+    }
+    try {
+        const result = await electron_updater_1.autoUpdater.checkForUpdates();
+        return {
+            available: result !== null,
+            version: result?.updateInfo?.version,
+            message: result ? 'Update available' : 'You are on the latest version'
+        };
+    }
+    catch (error) {
+        console.error('Update check failed:', error);
+        return { available: false, error: error instanceof Error ? error.message : 'Unknown error' };
+    }
 });
 //# sourceMappingURL=main.js.map

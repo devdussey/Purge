@@ -1,19 +1,20 @@
 import electron from 'electron';
 import type { BrowserWindow as BrowserWindowType } from 'electron';
+import { autoUpdater } from 'electron-updater';
 import { spawn } from 'node:child_process';
-import { existsSync } from 'node:fs';
+import { existsSync, readFileSync, writeFileSync, mkdirSync } from 'node:fs';
 import { createHash, createVerify } from 'node:crypto';
-import { dirname, join, resolve } from 'node:path';
-import { fileURLToPath } from 'node:url';
+import { join, resolve } from 'node:path';
 
 const { app, BrowserWindow, ipcMain, dialog, shell } = electron;
 
 const isDev = process.env.NODE_ENV === 'development';
 
-let mainWindow: BrowserWindowType;
+// Configure auto-updater
+autoUpdater.autoDownload = false; // Don't auto-download, ask user first
+autoUpdater.autoInstallOnAppQuit = true;
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
+let mainWindow: BrowserWindowType;
 
 function createWindow() {
   mainWindow = new BrowserWindow({
@@ -24,7 +25,7 @@ function createWindow() {
     webPreferences: {
       nodeIntegration: false,
       contextIsolation: true,
-      preload: join(__dirname, 'preload.js'),
+      preload: join(__dirname, 'preload.cjs'),
     },
     icon: join(__dirname, '../public/PurgedIcon.png'),
     title: 'Purge by DevDussey',
@@ -52,11 +53,51 @@ function createWindow() {
 app.whenReady().then(() => {
   createWindow();
 
+  // Check for updates after app starts (only in production)
+  if (!isDev) {
+    setTimeout(() => {
+      autoUpdater.checkForUpdates();
+    }, 3000);
+  }
+
   app.on('activate', () => {
     if (BrowserWindow.getAllWindows().length === 0) {
       createWindow();
     }
   });
+});
+
+// Auto-updater event handlers
+autoUpdater.on('update-available', (info) => {
+  dialog.showMessageBox(mainWindow, {
+    type: 'info',
+    title: 'Update Available',
+    message: `A new version (${info.version}) is available!`,
+    buttons: ['Download', 'Later'],
+    defaultId: 0
+  }).then((result) => {
+    if (result.response === 0) {
+      autoUpdater.downloadUpdate();
+    }
+  });
+});
+
+autoUpdater.on('update-downloaded', () => {
+  dialog.showMessageBox(mainWindow, {
+    type: 'info',
+    title: 'Update Ready',
+    message: 'Update downloaded. The app will restart to install the update.',
+    buttons: ['Restart Now', 'Later'],
+    defaultId: 0
+  }).then((result) => {
+    if (result.response === 0) {
+      autoUpdater.quitAndInstall();
+    }
+  });
+});
+
+autoUpdater.on('error', (err) => {
+  console.error('Auto-updater error:', err);
 });
 
 app.on('window-all-closed', () => {
@@ -238,4 +279,50 @@ ipcMain.handle('ai-get-ollama-models', async (event, config: any) => {
 ipcMain.handle('read-clipboard', async () => {
   const { clipboard } = electron;
   return clipboard.readText();
+});
+
+// Settings persistence handlers
+const settingsPath = join(app.getPath('userData'), 'settings.json');
+
+ipcMain.handle('get-settings', () => {
+  try {
+    if (existsSync(settingsPath)) {
+      const data = readFileSync(settingsPath, 'utf8');
+      return JSON.parse(data);
+    }
+  } catch (error) {
+    console.error('Failed to load settings:', error);
+  }
+  return null;
+});
+
+ipcMain.handle('save-settings', async (event, settings: any) => {
+  try {
+    const userDataPath = app.getPath('userData');
+    if (!existsSync(userDataPath)) {
+      mkdirSync(userDataPath, { recursive: true });
+    }
+    writeFileSync(settingsPath, JSON.stringify(settings, null, 2), 'utf8');
+  } catch (error) {
+    console.error('Failed to save settings:', error);
+    throw error;
+  }
+});
+
+// Manual update check
+ipcMain.handle('check-for-updates', async () => {
+  if (isDev) {
+    return { available: false, message: 'Auto-updates disabled in development mode' };
+  }
+  try {
+    const result = await autoUpdater.checkForUpdates();
+    return {
+      available: result !== null,
+      version: result?.updateInfo?.version,
+      message: result ? 'Update available' : 'You are on the latest version'
+    };
+  } catch (error) {
+    console.error('Update check failed:', error);
+    return { available: false, error: error instanceof Error ? error.message : 'Unknown error' };
+  }
 });

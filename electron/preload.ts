@@ -49,6 +49,13 @@ contextBridge.exposeInMainWorld('electronAPI', {
   // Clipboard API
   readClipboard: () =>
     ipcRenderer.invoke('read-clipboard'),
+
+  // Settings API
+  getSettings: () =>
+    ipcRenderer.invoke('get-settings'),
+
+  saveSettings: (settings: any) =>
+    ipcRenderer.invoke('save-settings', settings),
 });
 
 // Type definitions for the exposed API
@@ -72,6 +79,8 @@ export interface ElectronAPI {
   aiCheckOllama: (config: any) => Promise<{success: boolean; available: boolean}>;
   aiGetOllamaModels: (config: any) => Promise<{success: boolean; models: string[]}>;
   readClipboard: () => Promise<string>;
+  getSettings: () => any;
+  saveSettings: (settings: any) => Promise<void>;
 }
 
 declare global {
