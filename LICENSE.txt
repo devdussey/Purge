@@ -1,0 +1,34 @@
+END USER LICENSE AGREEMENT (EULA)
+Purge Antivirus by DevDussey
+
+Copyright (c) 2025 DevDussey. All rights reserved.
+
+GRANT OF LICENSE
+DevDussey grants you a non-exclusive, non-transferable license to use Purge Antivirus software ("the Software") on your personal or business computers.
+
+RESTRICTIONS
+You may NOT:
+- Reverse engineer, decompile, or disassemble the Software
+- Remove or modify any copyright notices
+- Distribute, sell, or sublicense the Software without written permission
+- Use the Software for illegal purposes
+
+WARRANTY DISCLAIMER
+THE SOFTWARE IS PROVIDED "AS IS" WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+
+LIMITATION OF LIABILITY
+IN NO EVENT SHALL DEVDUSSEY BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+UPDATES AND SUPPORT
+This software includes automatic update functionality. Updates will be downloaded and installed with your permission. Technical support may be available through our GitHub repository.
+
+TERMINATION
+This license is effective until terminated. Your rights will terminate automatically without notice if you fail to comply with any term of this agreement.
+
+GOVERNING LAW
+This agreement shall be governed by the laws applicable in your jurisdiction.
+
+By installing or using this software, you acknowledge that you have read this agreement and agree to be bound by its terms and conditions.
+
+Version 1.0
+Last Updated: October 4, 2025
