@@ -68,7 +68,8 @@ export class UpdateManager extends EventEmitter {
       const manifest: UpdateManifest = await response.json();
       
       // Verify manifest signature
-      if (!this.verifyManifestSignature(manifest)) {
+      const signatureValid = await this.verifyManifestSignature(manifest);
+      if (!signatureValid) {
         throw new Error('Invalid manifest signature');
       }
 
@@ -93,7 +94,7 @@ export class UpdateManager extends EventEmitter {
     }
   }
 
-  private verifyManifestSignature(manifest: UpdateManifest): boolean {
+  private async verifyManifestSignature(manifest: UpdateManifest): Promise<boolean> {
     if (!window.electronAPI) {
       throw new Error('Electron API not available - this application must run in Electron environment');
     }
@@ -217,7 +218,7 @@ export class UpdateManager extends EventEmitter {
     }
   }
 
-  private async storeComponent(name: string, data: Buffer, component: ComponentUpdate): Promise<void> {
+  private async storeComponent(name: string, data: Buffer, _component: ComponentUpdate): Promise<void> {
     // In a real implementation, store the component securely
     console.log(`Storing component ${name} (${data.length} bytes)`);
   }

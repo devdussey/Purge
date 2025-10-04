@@ -1,0 +1,168 @@
+/* Purge™ Brand Colors - Official Design System */
+
+:root {
+  /* === PRIMARY COLORS === */
+  --purge-primary: #00D4FF;           /* Electric Cyan - Main brand color */
+  --purge-primary-dark: #00A3CC;      /* Darker cyan for hover states */
+  --purge-primary-light: #33DDFF;     /* Lighter cyan for highlights */
+  --purge-primary-glow: rgba(0, 212, 255, 0.3); /* Glow effect */
+
+  /* === SECONDARY COLORS === */
+  --purge-secondary: #6B2FFF;         /* Deep Purple - AI/Tech accent */
+  --purge-secondary-dark: #5524CC;    /* Darker purple */
+  --purge-secondary-light: #8B5AFF;   /* Lighter purple */
+  --purge-secondary-glow: rgba(107, 47, 255, 0.3);
+
+  /* === ACCENT COLORS === */
+  --purge-success: #00FF88;           /* Neon Green - Success/Safe */
+  --purge-warning: #FFB800;           /* Gold - Warnings */
+  --purge-danger: #FF3B57;            /* Red - Threats/Danger */
+  --purge-info: #00D4FF;              /* Cyan - Information */
+
+  /* === BACKGROUND COLORS === */
+  --purge-bg-primary: #0A0E27;        /* Dark Navy - Main background */
+  --purge-bg-secondary: #141B3D;      /* Lighter navy - Cards */
+  --purge-bg-tertiary: #1E2749;       /* Even lighter - Hover states */
+  --purge-bg-overlay: rgba(10, 14, 39, 0.95); /* Overlay */
+
+  /* === TEXT COLORS === */
+  --purge-text-primary: #FFFFFF;      /* White - Primary text */
+  --purge-text-secondary: #A0AEC0;    /* Gray - Secondary text */
+  --purge-text-muted: #718096;        /* Muted gray - Disabled */
+  --purge-text-inverse: #0A0E27;      /* Dark - On light backgrounds */
+
+  /* === BORDER COLORS === */
+  --purge-border: rgba(255, 255, 255, 0.1); /* Subtle borders */
+  --purge-border-bright: rgba(0, 212, 255, 0.3); /* Bright borders */
+  --purge-border-glow: rgba(107, 47, 255, 0.5); /* Glowing borders */
+
+  /* === GRADIENTS === */
+  --purge-gradient-primary: linear-gradient(135deg, #00D4FF 0%, #6B2FFF 100%);
+  --purge-gradient-secondary: linear-gradient(135deg, #6B2FFF 0%, #00D4FF 100%);
+  --purge-gradient-success: linear-gradient(135deg, #00FF88 0%, #00D4FF 100%);
+  --purge-gradient-danger: linear-gradient(135deg, #FF3B57 0%, #FFB800 100%);
+  --purge-gradient-dark: linear-gradient(180deg, #0A0E27 0%, #141B3D 100%);
+
+  /* === SHADOWS === */
+  --purge-shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.2);
+  --purge-shadow-md: 0 4px 16px rgba(0, 0, 0, 0.3);
+  --purge-shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.4);
+  --purge-shadow-glow: 0 0 32px rgba(0, 212, 255, 0.3);
+  --purge-shadow-glow-purple: 0 0 32px rgba(107, 47, 255, 0.3);
+
+  /* === GLASSMORPHISM === */
+  --purge-glass-bg: rgba(255, 255, 255, 0.05);
+  --purge-glass-border: rgba(255, 255, 255, 0.1);
+  --purge-glass-blur: blur(12px);
+}
+
+/* === COLOR UTILITIES === */
+
+/* Backgrounds */
+.bg-primary { background-color: var(--purge-primary); }
+.bg-secondary { background-color: var(--purge-secondary); }
+.bg-success { background-color: var(--purge-success); }
+.bg-danger { background-color: var(--purge-danger); }
+.bg-dark { background-color: var(--purge-bg-primary); }
+
+/* Gradients */
+.bg-gradient-primary { background: var(--purge-gradient-primary); }
+.bg-gradient-secondary { background: var(--purge-gradient-secondary); }
+.bg-gradient-success { background: var(--purge-gradient-success); }
+.bg-gradient-danger { background: var(--purge-gradient-danger); }
+
+/* Text Colors */
+.text-primary { color: var(--purge-primary); }
+.text-secondary { color: var(--purge-secondary); }
+.text-success { color: var(--purge-success); }
+.text-danger { color: var(--purge-danger); }
+.text-muted { color: var(--purge-text-muted); }
+
+/* Borders */
+.border-primary { border-color: var(--purge-primary); }
+.border-secondary { border-color: var(--purge-secondary); }
+.border-glow { border-color: var(--purge-border-glow); }
+
+/* Shadows */
+.shadow-glow { box-shadow: var(--purge-shadow-glow); }
+.shadow-glow-purple { box-shadow: var(--purge-shadow-glow-purple); }
+
+/* Glassmorphism */
+.glass {
+  background: var(--purge-glass-bg);
+  backdrop-filter: var(--purge-glass-blur);
+  border: 1px solid var(--purge-glass-border);
+}
+
+/* === COMPONENT EXAMPLES === */
+
+/* Button Styles */
+.btn-primary {
+  background: var(--purge-gradient-primary);
+  color: var(--purge-text-primary);
+  padding: 12px 24px;
+  border-radius: 8px;
+  border: none;
+  font-weight: 600;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--purge-shadow-glow);
+}
+
+/* Card Styles */
+.card {
+  background: var(--purge-bg-secondary);
+  border: 1px solid var(--purge-border);
+  border-radius: 16px;
+  padding: 24px;
+  transition: border-color 0.3s;
+}
+
+.card:hover {
+  border-color: var(--purge-border-bright);
+}
+
+/* Alert Styles */
+.alert-danger {
+  background: rgba(255, 59, 87, 0.1);
+  border: 1px solid rgba(255, 59, 87, 0.3);
+  color: var(--purge-danger);
+  padding: 16px;
+  border-radius: 12px;
+}
+
+.alert-success {
+  background: rgba(0, 255, 136, 0.1);
+  border: 1px solid rgba(0, 255, 136, 0.3);
+  color: var(--purge-success);
+  padding: 16px;
+  border-radius: 12px;
+}
+
+/* === BRAND COLOR PALETTE === */
+
+/*
+PRIMARY PALETTE:
+#00D4FF - Electric Cyan (Main brand)
+#6B2FFF - Deep Purple (AI/Tech)
+#00FF88 - Neon Green (Success)
+
+BACKGROUND PALETTE:
+#0A0E27 - Dark Navy (Main BG)
+#141B3D - Mid Navy (Cards)
+#1E2749 - Light Navy (Hover)
+
+ACCENT PALETTE:
+#FF3B57 - Red (Danger)
+#FFB800 - Gold (Warning)
+#FFFFFF - White (Text)
+
+USAGE EXAMPLES:
+- Logo: Cyan (#00D4FF) + Purple (#6B2FFF)
+- Threats: Red (#FF3B57)
+- Safe/Success: Green (#00FF88)
+- Backgrounds: Navy (#0A0E27, #141B3D)
+*/

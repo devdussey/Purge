@@ -9,9 +9,12 @@ export default defineConfig({
   build: {
     outDir: 'dist',
     emptyOutDir: true,
+    rollupOptions: {
+      external: ['ollama']
+    }
   },
   optimizeDeps: {
-    exclude: ['lucide-react'],
+    exclude: ['lucide-react', 'ollama'],
   },
   server: {
     port: 5173,

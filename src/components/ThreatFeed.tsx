@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import {useState, useEffect} from 'react';
 import { AlertTriangle, Shield, Zap, Globe, Clock, TrendingUp } from 'lucide-react';
 
 interface ThreatAlert {

@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import {useState} from 'react';
 import { Settings, CreditCard as Edit3, Save, X, FolderOpen } from 'lucide-react';
-import { SCRIPT_CONFIGS, ScriptConfig } from '../utils/scriptRunner';
+import { SCRIPT_CONFIGS } from '../utils/scriptRunner';
 
 export function ScriptConfigPanel() {
   const [isOpen, setIsOpen] = useState(false);

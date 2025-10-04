@@ -1,4 +1,3 @@
-import React from 'react';
 import { Clock, CreditCard, X } from 'lucide-react';
 import { LicenseInfo } from './LicenseManager';
 

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import {useState} from 'react';
 import { AlertTriangle, Send, X, FileText } from 'lucide-react';
 
 interface FalsePositiveReporterProps {

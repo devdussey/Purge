@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import {useState} from 'react';
 import { FileText, Download, Trash2, RefreshCw } from 'lucide-react';
 
 export function LogViewer() {

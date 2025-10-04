@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import {useState, useEffect} from 'react';
 import { Activity, Download, Filter, Search, Calendar } from 'lucide-react';
 
 interface TimelineEvent {
@@ -216,7 +216,7 @@ export function EDRTimeline({ detectionId, timeRange }: EDRTimelineProps) {
               <p className="text-sm">Try adjusting your filters</p>
             </div>
           ) : (
-            filteredEvents.map((event, index) => (
+            filteredEvents.map((event) => (
               <div
                 key={event.id}
                 className={`relative border-l-4 pl-6 pb-4 cursor-pointer hover:bg-dark-700/50 rounded-r-lg p-3 transition-colors ${getSeverityColor(event.severity)}`}
@@ -331,3 +331,4 @@ export function EDRTimeline({ detectionId, timeRange }: EDRTimelineProps) {
     </div>
   );
 }
+

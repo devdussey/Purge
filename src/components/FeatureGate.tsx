@@ -1,4 +1,3 @@
-import React from 'react';
 import { Lock, Shield } from 'lucide-react';
 import { LicenseInfo } from './LicenseManager';
 

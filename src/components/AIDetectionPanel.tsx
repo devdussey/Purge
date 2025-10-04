@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { Brain, Zap, TrendingUp, Database, Cloud, AlertTriangle, CheckCircle, Clock } from 'lucide-react';
 import { AIModel } from '../engine/AIDetectionEngine';
 
@@ -19,12 +19,18 @@ export function AIDetectionPanel({ models, onUpdateModel, onToggleModel }: AIDet
       await onUpdateModel(modelId);
       setUpdateStatus(prev => ({ ...prev, [modelId]: 'success' }));
       setTimeout(() => {
-        setUpdateStatus(prev => ({ ...prev, [modelId]: undefined }));
+        setUpdateStatus(prev => {
+          const { [modelId]: _removed, ...rest } = prev;
+          return rest;
+        });
       }, 3000);
     } catch (error) {
       setUpdateStatus(prev => ({ ...prev, [modelId]: 'error' }));
       setTimeout(() => {
-        setUpdateStatus(prev => ({ ...prev, [modelId]: undefined }));
+        setUpdateStatus(prev => {
+          const { [modelId]: _removed, ...rest } = prev;
+          return rest;
+        });
       }, 3000);
     }
   };
@@ -45,7 +51,7 @@ export function AIDetectionPanel({ models, onUpdateModel, onToggleModel }: AIDet
     return 'text-orange-400';
   };
 
-  const getUpdateStatusIcon = (status: string) => {
+  const getUpdateStatusIcon = (status: 'updating' | 'success' | 'error' | undefined) => {
     switch (status) {
       case 'updating': return <Clock className="h-4 w-4 text-blue-400 animate-spin" />;
       case 'success': return <CheckCircle className="h-4 w-4 text-green-400" />;

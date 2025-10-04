@@ -1,5 +1,4 @@
-import React from 'react';
-import { Shield, CheckCircle, AlertTriangle, XCircle, Clock, Wifi, HardDrive, Cpu } from 'lucide-react';
+import { Shield, CheckCircle, Clock, Wifi, HardDrive, Cpu } from 'lucide-react';
 
 interface StatusItemProps {
   title: string;

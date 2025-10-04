@@ -168,4 +168,40 @@ ipcMain.handle('verify-signature', async (event, data, signature, publicKey) => 
         return false;
     }
 });
+// AI Service handlers - simplified for now
+ipcMain.handle('ai-chat', async (event, messages, config) => {
+    return {
+        success: false,
+        error: 'AI service not available in production build. Use electron-dev for AI features.'
+    };
+});
+ipcMain.handle('ai-analyze-threat', async (event, threatData, config) => {
+    return {
+        success: false,
+        error: 'AI service not available in production build. Use electron-dev for AI features.'
+    };
+});
+ipcMain.handle('ai-analyze-scan', async (event, scanResults, config) => {
+    return {
+        success: false,
+        error: 'AI service not available in production build. Use electron-dev for AI features.'
+    };
+});
+ipcMain.handle('ai-get-recommendations', async (event, systemData, config) => {
+    return {
+        success: false,
+        error: 'AI service not available in production build. Use electron-dev for AI features.'
+    };
+});
+ipcMain.handle('ai-check-ollama', async (event, config) => {
+    return { success: false, available: false };
+});
+ipcMain.handle('ai-get-ollama-models', async (event, config) => {
+    return { success: false, models: [] };
+});
+// Clipboard handler
+ipcMain.handle('read-clipboard', async () => {
+    const { clipboard } = electron;
+    return clipboard.readText();
+});
 //# sourceMappingURL=main.js.map

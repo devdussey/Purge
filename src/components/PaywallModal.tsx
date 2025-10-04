@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import {useState} from 'react';
 import { Shield, X, Check, CreditCard, Clock, Star, Users } from 'lucide-react';
 import { LicenseInfo } from './LicenseManager';
 

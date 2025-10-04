@@ -1,4 +1,3 @@
-import React from 'react';
 import { Shield, Zap, Clock, AlertTriangle, TrendingUp, Database } from 'lucide-react';
 
 interface StatCardProps {

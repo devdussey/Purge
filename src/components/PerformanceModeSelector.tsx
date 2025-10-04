@@ -1,11 +1,12 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
+import type { ComponentType } from 'react';
 import { Gamepad2, Laptop, Zap, Settings } from 'lucide-react';
 
 interface PerformanceMode {
   id: string;
   name: string;
   description: string;
-  icon: React.ComponentType<any>;
+  icon: ComponentType<any>;
   settings: {
     scanPriority: 'low' | 'normal' | 'high';
     realtimeProtection: boolean;
@@ -33,7 +34,6 @@ export function PerformanceModeSelector({
   isGameRunning = false 
 }: PerformanceModeSelectorProps) {
   const [autoModeEnabled, setAutoModeEnabled] = useState(true);
-  const [customSettings, setCustomSettings] = useState<any>({});
 
   const performanceModes: PerformanceMode[] = [
     {
@@ -268,3 +268,4 @@ export function PerformanceModeSelector({
     </div>
   );
 }
+

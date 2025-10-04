@@ -1,5 +1,6 @@
-import React, { useState, useRef, useEffect } from 'react';
-import { MessageCircle, Send, Bot, User, Lightbulb, Shield, AlertTriangle, X, Minimize2, Maximize2 } from 'lucide-react';
+import { useState, useRef, useEffect } from 'react';
+import { MessageCircle, Send, Bot, User, Lightbulb, X, Minimize2, Maximize2 } from 'lucide-react';
+import { useAI } from '../hooks/useAI';
 
 interface Message {
   id: string;
@@ -15,11 +16,12 @@ interface AIAssistantProps {
 }
 
 export function AIAssistant({ isOpen, onToggle }: AIAssistantProps) {
+  const { chat, config, isOllamaAvailable } = useAI();
   const [messages, setMessages] = useState<Message[]>([
     {
       id: '1',
       type: 'assistant',
-      content: "Hi! I'm your AI security assistant. I can help you with threat analysis, security questions, and explain detection results. What would you like to know?",
+      content: "Hi! I'm your AI security assistant powered by real AI. I can help you with threat analysis, security questions, and explain detection results. What would you like to know?",
       timestamp: new Date(),
       suggestions: [
         "What is this threat?",
@@ -60,23 +62,68 @@ export function AIAssistant({ isOpen, onToggle }: AIAssistantProps) {
     };
 
     setMessages(prev => [...prev, userMessage]);
+    const userInput = inputValue;
     setInputValue('');
     setIsTyping(true);
 
-    // Simulate AI response
-    setTimeout(() => {
-      const response = generateAIResponse(inputValue);
+    try {
+      // Use real AI
+      const conversationHistory = messages.map(m => ({
+        role: m.type === 'user' ? 'user' as const : 'assistant' as const,
+        content: m.content
+      }));
+
+      const systemMessage = {
+        role: 'system' as const,
+        content: 'You are a helpful security assistant for Purge Antivirus. Provide clear, concise, and actionable security advice. Keep responses brief (2-4 sentences) unless more detail is needed. At the end of each response, suggest 2-3 relevant follow-up questions the user might ask.'
+      };
+
+      const response = await chat([
+        systemMessage,
+        ...conversationHistory,
+        { role: 'user', content: userInput }
+      ]);
+
+      // Extract suggestions if present
+      const suggestionMatch = response.match(/(?:Suggestions?|Follow-up questions?):?\s*\n([\s\S]*?)$/i);
+      let content = response;
+      let suggestions: string[] | undefined;
+
+      if (suggestionMatch) {
+        content = response.substring(0, suggestionMatch.index).trim();
+        suggestions = suggestionMatch[1]
+          .split('\n')
+          .map(s => s.replace(/^[-•*]\s*/, '').trim())
+          .filter(s => s.length > 0)
+          .slice(0, 3);
+      }
+
       const assistantMessage: Message = {
         id: (Date.now() + 1).toString(),
         type: 'assistant',
-        content: response.content,
+        content,
+        timestamp: new Date(),
+        suggestions
+      };
+
+      setMessages(prev => [...prev, assistantMessage]);
+    } catch (error) {
+      console.error('AI Error:', error);
+
+      // Fallback to predefined responses
+      const response = generateAIResponse(userInput);
+      const assistantMessage: Message = {
+        id: (Date.now() + 1).toString(),
+        type: 'assistant',
+        content: `⚠️ AI service unavailable. ${response.content}\n\nTip: Configure an AI provider in Settings to enable real-time AI assistance.`,
         timestamp: new Date(),
         suggestions: response.suggestions
       };
 
       setMessages(prev => [...prev, assistantMessage]);
+    } finally {
       setIsTyping(false);
-    }, 1000 + Math.random() * 2000);
+    }
   };
 
   const generateAIResponse = (input: string): { content: string; suggestions?: string[] } => {
@@ -174,7 +221,15 @@ export function AIAssistant({ isOpen, onToggle }: AIAssistantProps) {
           <div>
             <h3 className="font-semibold text-white">AI Security Assistant</h3>
             {!isMinimized && (
-              <p className="text-xs text-gray-400">Powered by Purge AI</p>
+              <p className="text-xs text-gray-400">
+                {config.useLocal && isOllamaAvailable
+                  ? `Ollama (${config.ollamaModel || 'llama3.2'})`
+                  : config.provider === 'claude'
+                  ? 'Claude AI'
+                  : config.provider === 'openai'
+                  ? 'OpenAI'
+                  : 'Configure in Settings'}
+              </p>
             )}
           </div>
         </div>

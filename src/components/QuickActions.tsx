@@ -1,5 +1,4 @@
-import React from 'react';
-import { Search, HardDrive, Download, Shield, Clock, History, Trash2, AlertTriangle, RotateCcw, Settings, Zap, Activity } from 'lucide-react';
+import { Search, HardDrive, Download, Shield, Clock, History, Trash2, AlertTriangle, RotateCcw, Settings, Activity } from 'lucide-react';
 
 interface QuickActionProps {
   title: string;

@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Purge™ Logo Generator</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 40px;
+            background: #0A0E27;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            color: white;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 40px;
+            background: linear-gradient(135deg, #00D4FF, #6B2FFF);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .logo-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .logo-card {
+            background: #141B3D;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .logo-container {
+            background: #0A0E27;
+            border-radius: 12px;
+            padding: 30px;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 200px;
+        }
+
+        .logo-container.white-bg {
+            background: white;
+        }
+
+        .logo-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: #00D4FF;
+        }
+
+        .logo-size {
+            font-size: 14px;
+            color: #A0AEC0;
+            margin-bottom: 15px;
+        }
+
+        .download-btn {
+            background: linear-gradient(135deg, #00D4FF, #6B2FFF);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            font-size: 14px;
+            transition: transform 0.2s;
+        }
+
+        .download-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .instructions {
+            background: rgba(107, 47, 255, 0.1);
+            border: 1px solid rgba(107, 47, 255, 0.3);
+            border-radius: 12px;
+            padding: 20px;
+            margin-top: 40px;
+        }
+
+        .instructions h2 {
+            color: #6B2FFF;
+            margin-top: 0;
+        }
+
+        .instructions ol {
+            margin: 10px 0;
+            padding-left: 25px;
+        }
+
+        .instructions li {
+            margin: 8px 0;
+            color: #A0AEC0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🛡️ Purge™ Logo Generator</h1>
+
+        <div class="logo-grid">
+            <!-- Logo 512x512 -->
+            <div class="logo-card">
+                <div class="logo-title">App Icon / Profile Picture</div>
+                <div class="logo-size">512 × 512px</div>
+                <div class="logo-container" id="logo512">
+                    <svg width="512" height="512" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+                        <defs>
+                            <linearGradient id="gradient512" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" style="stop-color:#00D4FF"/>
+                                <stop offset="100%" style="stop-color:#6B2FFF"/>
+                            </linearGradient>
+                        </defs>
+                        <rect width="512" height="512" rx="100" fill="#0A0E27"/>
+                        <path d="M256 100 L380 150 L380 280 Q380 360 256 430 Q132 360 132 280 L132 150 Z"
+                              fill="url(#gradient512)"/>
+                        <text x="256" y="340" font-family="Inter, Arial, sans-serif" font-size="180" font-weight="bold"
+                              fill="#FFFFFF" text-anchor="middle">P</text>
+                    </svg>
+                </div>
+                <button class="download-btn" onclick="downloadSVG('logo512', 'purge-logo-512.svg')">Download SVG</button>
+            </div>
+
+            <!-- Logo 256x256 -->
+            <div class="logo-card">
+                <div class="logo-title">Medium Icon</div>
+                <div class="logo-size">256 × 256px</div>
+                <div class="logo-container" id="logo256">
+                    <svg width="256" height="256" viewBox="0 0 256 256" xmlns="http://www.w3.org/2000/svg">
+                        <defs>
+                            <linearGradient id="gradient256" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" style="stop-color:#00D4FF"/>
+                                <stop offset="100%" style="stop-color:#6B2FFF"/>
+                            </linearGradient>
+                        </defs>
+                        <rect width="256" height="256" rx="50" fill="#0A0E27"/>
+                        <path d="M128 50 L190 75 L190 140 Q190 180 128 215 Q66 180 66 140 L66 75 Z"
+                              fill="url(#gradient256)"/>
+                        <text x="128" y="170" font-family="Inter, Arial, sans-serif" font-size="90" font-weight="bold"
+                              fill="#FFFFFF" text-anchor="middle">P</text>
+                    </svg>
+                </div>
+                <button class="download-btn" onclick="downloadSVG('logo256', 'purge-logo-256.svg')">Download SVG</button>
+            </div>
+
+            <!-- Logo 64x64 (Favicon) -->
+            <div class="logo-card">
+                <div class="logo-title">Favicon</div>
+                <div class="logo-size">64 × 64px</div>
+                <div class="logo-container" id="logo64">
+                    <svg width="128" height="128" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+                        <defs>
+                            <linearGradient id="gradient64" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" style="stop-color:#00D4FF"/>
+                                <stop offset="100%" style="stop-color:#6B2FFF"/>
+                            </linearGradient>
+                        </defs>
+                        <rect width="64" height="64" rx="12" fill="#0A0E27"/>
+                        <path d="M32 12 L48 18 L48 35 Q48 45 32 54 Q16 45 16 35 L16 18 Z"
+                              fill="url(#gradient64)"/>
+                        <text x="32" y="42" font-family="Inter, Arial, sans-serif" font-size="22" font-weight="bold"
+                              fill="#FFFFFF" text-anchor="middle">P</text>
+                    </svg>
+                </div>
+                <button class="download-btn" onclick="downloadSVG('logo64', 'purge-favicon.svg')">Download SVG</button>
+            </div>
+
+            <!-- Horizontal Logo -->
+            <div class="logo-card">
+                <div class="logo-title">Horizontal Logo (Headers)</div>
+                <div class="logo-size">400 × 100px</div>
+                <div class="logo-container" id="logoHorizontal">
+                    <svg width="400" height="100" viewBox="0 0 400 100" xmlns="http://www.w3.org/2000/svg">
+                        <defs>
+                            <linearGradient id="gradientH" x1="0%" y1="0%" x2="100%" y2="0%">
+                                <stop offset="0%" style="stop-color:#00D4FF"/>
+                                <stop offset="100%" style="stop-color:#6B2FFF"/>
+                            </linearGradient>
+                        </defs>
+                        <path d="M40 25 L60 32 L60 52 Q60 65 40 75 Q20 65 20 52 L20 32 Z"
+                              fill="url(#gradientH)"/>
+                        <text x="80" y="65" font-family="Inter, Arial, sans-serif" font-size="48" font-weight="900"
+                              fill="url(#gradientH)">PURGE</text>
+                        <text x="280" y="35" font-family="Inter, Arial, sans-serif" font-size="16" font-weight="600"
+                              fill="#FFFFFF">™</text>
+                    </svg>
+                </div>
+                <button class="download-btn" onclick="downloadSVG('logoHorizontal', 'purge-logo-horizontal.svg')">Download SVG</button>
+            </div>
+
+            <!-- White Version -->
+            <div class="logo-card">
+                <div class="logo-title">White Logo (for dark backgrounds)</div>
+                <div class="logo-size">200 × 200px</div>
+                <div class="logo-container white-bg" id="logoWhite">
+                    <svg width="200" height="200" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M100 40 L140 55 L140 100 Q140 130 100 150 Q60 130 60 100 L60 55 Z"
+                              fill="none" stroke="#000000" stroke-width="6"/>
+                        <text x="100" y="125" font-family="Inter, Arial, sans-serif" font-size="60" font-weight="900"
+                              fill="#000000" text-anchor="middle">P</text>
+                    </svg>
+                </div>
+                <button class="download-btn" onclick="downloadSVG('logoWhite', 'purge-logo-white.svg')">Download SVG</button>
+            </div>
+
+            <!-- Black Version -->
+            <div class="logo-card">
+                <div class="logo-title">Black Logo (for light backgrounds)</div>
+                <div class="logo-size">200 × 200px</div>
+                <div class="logo-container" id="logoBlack">
+                    <svg width="200" height="200" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M100 40 L140 55 L140 100 Q140 130 100 150 Q60 130 60 100 L60 55 Z"
+                              fill="none" stroke="#FFFFFF" stroke-width="6"/>
+                        <text x="100" y="125" font-family="Inter, Arial, sans-serif" font-size="60" font-weight="900"
+                              fill="#FFFFFF" text-anchor="middle">P</text>
+                    </svg>
+                </div>
+                <button class="download-btn" onclick="downloadSVG('logoBlack', 'purge-logo-black.svg')">Download SVG</button>
+            </div>
+        </div>
+
+        <div class="instructions">
+            <h2>📥 How to Download as PNG:</h2>
+            <ol>
+                <li><strong>Method 1 (Easiest):</strong> Right-click on any logo above → "Save image as" → Save as PNG</li>
+                <li><strong>Method 2 (Best Quality):</strong> Click "Download SVG" → Upload to <a href="https://svgtopng.com" target="_blank" style="color: #00D4FF;">svgtopng.com</a> → Convert to PNG</li>
+                <li><strong>Method 3 (Screenshot):</strong> Take a screenshot of the logo on dark background</li>
+            </ol>
+
+            <h2 style="margin-top: 30px;">📁 Recommended File Names:</h2>
+            <ul style="list-style: none; padding: 0;">
+                <li>✅ <code>purge-logo-512.png</code> - Social media profiles</li>
+                <li>✅ <code>purge-logo-256.png</code> - App icon</li>
+                <li>✅ <code>purge-favicon.png</code> - Website favicon</li>
+                <li>✅ <code>purge-logo-horizontal.png</code> - Headers/footers</li>
+                <li>✅ <code>purge-logo-white.png</code> - Dark mode</li>
+                <li>✅ <code>purge-logo-black.png</code> - Light mode</li>
+            </ul>
+
+            <h2 style="margin-top: 30px;">🎨 Usage Guide:</h2>
+            <ul style="list-style: none; padding: 0;">
+                <li>✅ Use 512px for Twitter, Instagram, Discord profiles</li>
+                <li>✅ Use horizontal logo for website headers</li>
+                <li>✅ Use white/black versions for print materials</li>
+                <li>✅ Keep the gradient version for digital use</li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        function downloadSVG(elementId, filename) {
+            const svgElement = document.querySelector(`#${elementId} svg`);
+            const svgData = new XMLSerializer().serializeToString(svgElement);
+            const blob = new Blob([svgData], { type: 'image/svg+xml' });
+            const url = URL.createObjectURL(blob);
+
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = filename;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            URL.revokeObjectURL(url);
+        }
+
+        // Add copy to clipboard functionality
+        document.querySelectorAll('.logo-container').forEach(container => {
+            container.style.cursor = 'pointer';
+            container.title = 'Right-click to save as image';
+        });
+    </script>
+</body>
+</html>

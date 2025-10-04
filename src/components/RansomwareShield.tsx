@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import {useState, useEffect} from 'react';
 import { Shield, AlertTriangle, RotateCcw, Network, Clock } from 'lucide-react';
 
 interface RansomwareShieldProps {

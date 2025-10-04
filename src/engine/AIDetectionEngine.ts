@@ -1,5 +1,5 @@
 import { EventEmitter } from 'events';
-import { DetectionEngine, DetectionRule, ScanResult, Detection } from './DetectionEngine';
+import { DetectionEngine, ScanResult, Detection } from './DetectionEngine';
 
 export interface AIModel {
   id: string;
@@ -102,7 +102,7 @@ export class AIDetectionEngine extends EventEmitter {
 
     const aiResults = await Promise.allSettled(aiPromises);
     
-    aiResults.forEach((result, index) => {
+    aiResults.forEach((result) => {
       if (result.status === 'fulfilled' && result.value) {
         aiDetections.push(result.value);
       }
@@ -156,7 +156,8 @@ export class AIDetectionEngine extends EventEmitter {
         similarThreats: prediction.similarThreats,
         metadata: {
           family: prediction.family,
-          features: features
+          features,
+          filePath
         }
       };
     }
@@ -181,7 +182,8 @@ export class AIDetectionEngine extends EventEmitter {
         features: behaviors,
         metadata: {
           anomalyScore,
-          behaviors
+          behaviors,
+          filePath
         }
       };
     }
@@ -204,7 +206,7 @@ export class AIDetectionEngine extends EventEmitter {
     const cached = this.threatIntelCache.get(hash);
     if (cached) {
       if (cached.reputation === 'malicious') {
-        return this.createThreatIntelDetection(model, cached);
+        return this.createThreatIntelDetection(model, cached, filePath);
       }
       return null;
     }
@@ -215,7 +217,7 @@ export class AIDetectionEngine extends EventEmitter {
       this.threatIntelCache.set(hash, intel);
 
       if (intel.reputation === 'malicious') {
-        return this.createThreatIntelDetection(model, intel);
+        return this.createThreatIntelDetection(model, intel, filePath);
       }
     } catch (error) {
       console.error('Threat intelligence lookup failed:', error);
@@ -428,7 +430,7 @@ export class AIDetectionEngine extends EventEmitter {
     };
   }
 
-  private createThreatIntelDetection(model: AIModel, intel: ThreatIntelligence): AIDetection {
+  private createThreatIntelDetection(model: AIModel, intel: ThreatIntelligence, filePath?: string): AIDetection {
     return {
       ruleId: `ai_${model.id}`,
       ruleName: `AI: Known Threat - ${intel.familyName || 'Malicious File'}`,
@@ -443,7 +445,8 @@ export class AIDetectionEngine extends EventEmitter {
         familyName: intel.familyName,
         sources: intel.sources,
         firstSeen: intel.firstSeen,
-        tags: intel.tags
+        tags: intel.tags,
+        filePath
       }
     };
   }

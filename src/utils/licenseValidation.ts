@@ -63,6 +63,8 @@ MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA...
 
   private static async callLicenseAPI(licenseKey: string): Promise<any> {
     // Mock API response for demo purposes
+    void this.LICENSE_SERVER_URL;
+    void this.PUBLIC_KEY;
     await new Promise(resolve => setTimeout(resolve, 1000));
     
     const mockLicenses = {

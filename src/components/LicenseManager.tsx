@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { Shield, CreditCard, Clock, CheckCircle, AlertTriangle, X, Key } from 'lucide-react';
+import {useState, useEffect} from 'react';
+import { Shield, CreditCard, X, Key } from 'lucide-react';
 import { PaymentRequiredModal } from './PaymentRequiredModal';
 
 export interface LicenseInfo {

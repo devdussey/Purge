@@ -1,13 +1,8 @@
-import React, { useState } from 'react';
-import { Settings, Info, Download, Bell, User, Shield } from 'lucide-react';
+import {useState} from 'react';
+import { Settings, Bell, User, Shield } from 'lucide-react';
 
 export function Header() {
   const [notifications] = useState(3);
-
-  const handleDownload = () => {
-    const downloadUrl = 'https://github.com/devdussey/purged/releases/latest';
-    window.open(downloadUrl, '_blank');
-  };
 
   return (
     <header className="bg-gradient-to-r from-black via-gray-900 to-black shadow-2xl border-b border-red-900/30">
@@ -42,14 +37,6 @@ export function Header() {
 
           {/* Action Buttons */}
           <div className="flex items-center space-x-3">
-            <button 
-              onClick={handleDownload}
-              className="flex items-center space-x-2 px-6 py-3 bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 text-white rounded-xl transition-all duration-300 font-semibold shadow-lg hover:shadow-green-500/25 transform hover:scale-105"
-            >
-              <Download className="h-4 w-4" />
-              <span>Download to Desktop</span>
-            </button>
-            
             <div className="flex items-center space-x-2">
               <button className="relative p-3 text-gray-400 hover:text-white hover:bg-red-900/30 rounded-xl transition-all duration-200">
                 <Bell className="h-5 w-5" />

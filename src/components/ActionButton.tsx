@@ -1,5 +1,4 @@
-import React from 'react';
-import { Video as LucideIcon } from 'lucide-react';
+import type { LucideIcon } from "lucide-react";
 
 interface ActionButtonProps {
   title: string;
@@ -10,13 +9,13 @@ interface ActionButtonProps {
   disabled?: boolean;
 }
 
-export function ActionButton({ 
-  title, 
-  description, 
-  icon: Icon, 
-  onClick, 
+export function ActionButton({
+  title,
+  description,
+  icon: Icon,
+  onClick,
   variant = 'primary',
-  disabled = false 
+  disabled = false,
 }: ActionButtonProps) {
   const getVariantClasses = () => {
     switch (variant) {
@@ -28,6 +27,8 @@ export function ActionButton({
         return 'bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white shadow-lg hover:shadow-xl';
       case 'warning':
         return 'bg-gradient-to-r from-accent-500 to-accent-600 hover:from-accent-600 hover:to-accent-700 text-white shadow-lg hover:shadow-xl';
+      default:
+        return '';
     }
   };
 

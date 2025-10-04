@@ -1,6 +1,8 @@
-# Purge by DevDussey
+# Purge™ by DevDussey
 
-A comprehensive, production-ready antivirus and system security application built with React, TypeScript, and Electron. Features advanced detection engines, ransomware protection, EDR capabilities, and enterprise-grade security.
+A comprehensive, production-ready antivirus and system security application built with React, TypeScript, and Electron. Features advanced detection engines, ransomware protection, EDR capabilities, and **crypto wallet protection** - a unique feature not found in McAfee or Norton.
+
+**Purge™** is a trademark of DevDussey.
 
 ## Features
 
@@ -55,9 +57,11 @@ A comprehensive, production-ready antivirus and system security application buil
 ### Desktop Application (Recommended)
 
 For the full-featured desktop version with PowerShell script execution:
-1. Download from the releases page above
+1. Download **Purge™** from the releases page above
 2. Install and run as administrator when needed
 3. All antivirus functions will work natively
+
+**Note:** Purge™ is a trademark of DevDussey.
 
 ### Development Setup
 
@@ -277,9 +281,15 @@ We welcome contributions! Please see our [Contributing Guide](CONTRIBUTING.md) f
 - **Open Source Components**: Full disclosure of dependencies and licenses
 - **Bug Bounty Program**: Responsible disclosure with researcher recognition
 
+## Trademark
+
+**Purge™** is a trademark of DevDussey. See [TRADEMARK.md](TRADEMARK.md) for usage guidelines.
+
 ## License
 
-Copyright (c) 2024 DevDussey. All rights reserved.
+Copyright (c) 2025 DevDussey. All rights reserved.
+
+Purge™ is a trademark of DevDussey. Unauthorized use is prohibited.
 
 ## Certifications & Compliance
 
@@ -290,8 +300,14 @@ Copyright (c) 2024 DevDussey. All rights reserved.
 
 ## Support
 
-- **Documentation**: [docs.purgeantivirus.com](https://docs.purgeantivirus.com)
-- **Community Forum**: [community.purgeantivirus.com](https://community.purgeantivirus.com)
-- **Enterprise Support**: [enterprise@purgeantivirus.com](mailto:enterprise@purgeantivirus.com)
-- **Security Contact**: [security@purgeantivirus.com](mailto:security@purgeantivirus.com)
+- **Documentation**: [docs.devdussey.com](https://docs.devdussey.com)
+- **Community Forum**: [community.devdussey.com](https://community.devdussey.com)
+- **Enterprise Support**: [enterprise@devdussey.com](mailto:enterprise@devdussey.com)
+- **Security Contact**: [security@devdussey.com](mailto:security@devdussey.com)
 - **Bug Reports**: [GitHub Issues](https://github.com/DevDussey/purge-antivirus/issues)
+
+---
+
+**© 2025 DevDussey. All rights reserved.**
+
+Purge™ is a trademark of DevDussey. See [TRADEMARK.md](TRADEMARK.md) for proper usage guidelines.

@@ -43,12 +43,9 @@ export interface ScanCache {
 export class DetectionEngine extends EventEmitter {
   private rules: Map<string, DetectionRule> = new Map();
   private scanCache: Map<string, ScanCache> = new Map();
-  private behaviorWatchdog: BehaviorWatchdog;
-  private isScanning = false;
 
   constructor() {
     super();
-    this.behaviorWatchdog = new BehaviorWatchdog();
     this.loadDefaultRules();
   }
 
@@ -351,43 +348,5 @@ export class DetectionEngine extends EventEmitter {
   clearCache() {
     this.scanCache.clear();
     this.emit('cache-cleared');
-  }
-}
-
-class BehaviorWatchdog extends EventEmitter {
-  private patterns: Map<string, any> = new Map();
-
-  constructor() {
-    super();
-    this.initializePatterns();
-  }
-
-  private initializePatterns() {
-    // Ransomware detection patterns
-    this.patterns.set('mass_file_encryption', {
-      threshold: 10,
-      timeWindow: 60000, // 1 minute
-      extensions: ['.encrypted', '.locked', '.crypto']
-    });
-
-    // Process injection patterns
-    this.patterns.set('process_injection', {
-      apis: ['CreateRemoteThread', 'WriteProcessMemory', 'VirtualAllocEx']
-    });
-  }
-
-  detectRansomware(fileOperations: any[]) {
-    const pattern = this.patterns.get('mass_file_encryption');
-    const recentOps = fileOperations.filter(op => 
-      Date.now() - op.timestamp < pattern.timeWindow
-    );
-
-    if (recentOps.length >= pattern.threshold) {
-      this.emit('ransomware-detected', {
-        type: 'mass_encryption',
-        operations: recentOps,
-        confidence: 0.9
-      });
-    }
   }
 }
