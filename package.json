@@ -1,7 +1,9 @@
 {
   "name": "purge-antivirus",
   "private": true,
-  "version": "1.0.0",
+  "version": "1.0.2",
+  "description": "Advanced AI-powered antivirus with ransomware protection, cryptocurrency wallet monitoring, and real-time threat detection",
+  "author": "DevDussey <devdussey@example.com>",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -42,6 +44,7 @@
     "eslint-plugin-react-hooks": "^5.1.0-rc.0",
     "eslint-plugin-react-refresh": "^0.4.11",
     "globals": "^15.9.0",
+    "png-to-ico": "^3.0.1",
     "postcss": "^8.4.35",
     "tailwindcss": "^3.4.1",
     "typescript": "^5.5.3",
@@ -53,7 +56,7 @@
   "homepage": "./",
   "build": {
     "appId": "com.devdussey.purge",
-    "productName": "Purge by DevDussey",
+    "productName": "Purge",
     "directories": {
       "output": "release"
     },
@@ -70,7 +73,7 @@
     },
     "win": {
       "target": "nsis",
-      "icon": "public/PurgedIcon.png",
+      "icon": "public/purge-icon.ico",
       "requestedExecutionLevel": "requireAdministrator",
       "publisherName": "DevDussey"
     },
@@ -86,7 +89,18 @@
       "oneClick": false,
       "allowToChangeInstallationDirectory": true,
       "createDesktopShortcut": true,
-      "createStartMenuShortcut": true
+      "createStartMenuShortcut": true,
+      "deleteAppDataOnUninstall": false,
+      "shortcutName": "Purge Antivirus",
+      "runAfterFinish": true,
+      "menuCategory": true,
+      "displayLanguageSelector": false,
+      "installerLanguages": [
+        "en_US"
+      ],
+      "perMachine": true,
+      "allowElevation": true,
+      "license": "LICENSE.txt"
     }
   }
 }

@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SVG to PNG Converter</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 40px;
+            background: #0A0E27;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            color: white;
+            text-align: center;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        h1 {
+            background: linear-gradient(135deg, #00D4FF, #6B2FFF);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 40px;
+        }
+        canvas {
+            display: none;
+        }
+        .preview {
+            background: #141B3D;
+            border: 2px solid rgba(0, 212, 255, 0.3);
+            border-radius: 16px;
+            padding: 40px;
+            margin: 20px 0;
+        }
+        .btn {
+            background: linear-gradient(135deg, #00D4FF, #6B2FFF);
+            color: white;
+            border: none;
+            padding: 16px 32px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 16px;
+            cursor: pointer;
+            margin: 10px;
+            transition: transform 0.2s;
+        }
+        .btn:hover {
+            transform: translateY(-2px);
+        }
+        .status {
+            margin-top: 20px;
+            padding: 16px;
+            background: rgba(0, 255, 136, 0.1);
+            border: 1px solid rgba(0, 255, 136, 0.3);
+            border-radius: 12px;
+            color: #00FF88;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎨 SVG to PNG Converter</h1>
+
+        <div class="preview" id="preview512">
+            <h3>512x512 Icon Preview</h3>
+            <img id="img512" style="width: 256px; height: 256px;">
+        </div>
+
+        <button class="btn" onclick="convertAndDownload(512)">Download 512x512 PNG</button>
+        <button class="btn" onclick="convertAndDownload(256)">Download 256x256 PNG</button>
+        <button class="btn" onclick="convertAndDownload(64)">Download 64x64 PNG</button>
+
+        <div class="status" id="status" style="display: none;"></div>
+
+        <canvas id="canvas"></canvas>
+    </div>
+
+    <script>
+        // SVG source from purge-logo-512.svg
+        const svgSource = `<svg width="512" height="512" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+                <linearGradient id="gradient512" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" style="stop-color:#00D4FF"/>
+                    <stop offset="100%" style="stop-color:#6B2FFF"/>
+                </linearGradient>
+            </defs>
+            <rect width="512" height="512" rx="100" fill="#0A0E27"/>
+            <path d="M256 100 L380 150 L380 280 Q380 360 256 430 Q132 360 132 280 L132 150 Z"
+                  fill="url(#gradient512)"/>
+            <text x="256" y="340" font-family="Inter, Arial, sans-serif" font-size="180" font-weight="bold"
+                  fill="#FFFFFF" text-anchor="middle">P</text>
+        </svg>`;
+
+        // Load preview
+        const blob = new Blob([svgSource], { type: 'image/svg+xml' });
+        const url = URL.createObjectURL(blob);
+        document.getElementById('img512').src = url;
+
+        function convertAndDownload(size) {
+            const canvas = document.getElementById('canvas');
+            const ctx = canvas.getContext('2d');
+            const img = new Image();
+
+            img.onload = function() {
+                canvas.width = size;
+                canvas.height = size;
+                ctx.drawImage(img, 0, 0, size, size);
+
+                canvas.toBlob(function(blob) {
+                    const link = document.createElement('a');
+                    link.download = `purge-icon-${size}.png`;
+                    link.href = URL.createObjectURL(blob);
+                    link.click();
+
+                    showStatus(`✅ Downloaded purge-icon-${size}.png`);
+                }, 'image/png');
+            };
+
+            const svgBlob = new Blob([svgSource], { type: 'image/svg+xml' });
+            const svgUrl = URL.createObjectURL(svgBlob);
+            img.src = svgUrl;
+        }
+
+        function showStatus(message) {
+            const status = document.getElementById('status');
+            status.textContent = message;
+            status.style.display = 'block';
+            setTimeout(() => {
+                status.style.display = 'none';
+            }, 3000);
+        }
+    </script>
+</body>
+</html>

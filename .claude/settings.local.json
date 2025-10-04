@@ -10,7 +10,8 @@
       "Bash(tasklist)",
       "Bash(findstr:*)",
       "Bash(taskkill:*)",
-      "Read(//c/Users/Main User/Desktop/purge-errors/**)"
+      "Read(//c/Users/Main User/Desktop/purge-errors/**)",
+      "Read(//c/Users/Main User/Desktop/**)"
     ],
     "deny": [],
     "ask": []

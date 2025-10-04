@@ -54,10 +54,21 @@ app.whenReady().then(() => {
   createWindow();
 
   // Check for updates after app starts (only in production)
+  console.log('[Auto-Update] isDev:', isDev);
+  console.log('[Auto-Update] Current version:', app.getVersion());
+
   if (!isDev) {
+    console.log('[Auto-Update] Checking for updates in 3 seconds...');
     setTimeout(() => {
-      autoUpdater.checkForUpdates();
+      console.log('[Auto-Update] Initiating update check...');
+      autoUpdater.checkForUpdates().then((result) => {
+        console.log('[Auto-Update] Check result:', result);
+      }).catch((err) => {
+        console.error('[Auto-Update] Check failed:', err);
+      });
     }, 3000);
+  } else {
+    console.log('[Auto-Update] Skipped - running in development mode');
   }
 
   app.on('activate', () => {
@@ -68,7 +79,12 @@ app.whenReady().then(() => {
 });
 
 // Auto-updater event handlers
+autoUpdater.on('checking-for-update', () => {
+  console.log('[Auto-Update] Checking for update...');
+});
+
 autoUpdater.on('update-available', (info) => {
+  console.log('[Auto-Update] Update available:', info);
   dialog.showMessageBox(mainWindow, {
     type: 'info',
     title: 'Update Available',
@@ -77,12 +93,20 @@ autoUpdater.on('update-available', (info) => {
     defaultId: 0
   }).then((result) => {
     if (result.response === 0) {
+      console.log('[Auto-Update] User clicked Download');
       autoUpdater.downloadUpdate();
+    } else {
+      console.log('[Auto-Update] User clicked Later');
     }
   });
 });
 
+autoUpdater.on('update-not-available', (info) => {
+  console.log('[Auto-Update] Update not available:', info);
+});
+
 autoUpdater.on('update-downloaded', () => {
+  console.log('[Auto-Update] Update downloaded successfully');
   dialog.showMessageBox(mainWindow, {
     type: 'info',
     title: 'Update Ready',
@@ -91,13 +115,20 @@ autoUpdater.on('update-downloaded', () => {
     defaultId: 0
   }).then((result) => {
     if (result.response === 0) {
+      console.log('[Auto-Update] Restarting to install update...');
       autoUpdater.quitAndInstall();
+    } else {
+      console.log('[Auto-Update] User postponed installation');
     }
   });
 });
 
+autoUpdater.on('download-progress', (progressObj) => {
+  console.log(`[Auto-Update] Download progress: ${progressObj.percent.toFixed(2)}%`);
+});
+
 autoUpdater.on('error', (err) => {
-  console.error('Auto-updater error:', err);
+  console.error('[Auto-Update] Error:', err);
 });
 
 app.on('window-all-closed', () => {
