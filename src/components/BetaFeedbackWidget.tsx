@@ -23,17 +23,21 @@ export function BetaFeedbackWidget() {
     setSending(true);
 
     try {
-      // Send to Firebase
-      const { firebaseTelemetry } = await import('../services/FirebaseTelemetry');
+      // Send feedback via Netlify Forms
+      const formData = new FormData();
+      formData.append('form-name', 'beta-feedback');
+      formData.append('type', feedbackType);
+      formData.append('message', message);
+      if (email) formData.append('email', email);
+      formData.append('screenshot', includeScreenshot ? 'yes' : 'no');
 
-      await firebaseTelemetry.submitFeedback({
-        type: feedbackType,
-        message,
-        email: email || undefined,
-        includeScreenshot
+      await fetch('/', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: new URLSearchParams(formData as any).toString()
       });
 
-      console.log('Feedback submitted to Firebase');
+      console.log('Feedback submitted via Netlify Forms');
     } catch (error) {
       console.error('Failed to submit feedback:', error);
       // Still show success to user

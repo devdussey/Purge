@@ -12,7 +12,8 @@
       "Bash(taskkill:*)",
       "Read(//c/Users/Main User/Desktop/purge-errors/**)",
       "Read(//c/Users/Main User/Desktop/**)",
-      "Bash(node:*)"
+      "Bash(node:*)",
+      "Bash(npm install:*)"
     ],
     "deny": [],
     "ask": []

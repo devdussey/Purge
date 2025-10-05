@@ -33,44 +33,20 @@ export function BetaAnalyticsDashboard() {
   useEffect(() => {
     const fetchAnalytics = async () => {
       try {
-        // Fetch analytics from Firebase
-        const { getDb, COLLECTIONS } = await import('../config/firebase');
-        const { collection, getDocs, query, orderBy, limit } = await import('firebase/firestore');
-
-        const db = getDb();
-
-        // Try to fetch from analytics_summary collection
-        const analyticsSnapshot = await getDocs(collection(db, COLLECTIONS.ANALYTICS));
-
-        if (!analyticsSnapshot.empty) {
-          const data = analyticsSnapshot.docs[0].data();
-          setAnalytics({
-            totalUsers: data.totalUsers || 0,
-            activeUsers: data.activeUsers || 0,
-            threatsBlocked: data.threatsBlocked || 0,
-            averageRiskScore: data.averageRiskScore || 0,
-            topThreats: data.topThreats || [],
-            performanceMetrics: {
-              avgScanTime: data.performanceMetrics?.avgScanTime || 0,
-              avgCpuUsage: data.performanceMetrics?.avgCpuUsage || 0,
-              avgMemoryUsage: data.performanceMetrics?.avgMemoryUsage || 0
-            }
-          });
-        } else {
-          // No data yet - show zeros (clean install)
-          setAnalytics({
-            totalUsers: 0,
-            activeUsers: 0,
-            threatsBlocked: 0,
-            averageRiskScore: 0,
-            topThreats: [],
-            performanceMetrics: {
-              avgScanTime: 0,
-              avgCpuUsage: 0,
-              avgMemoryUsage: 0
-            }
-          });
-        }
+        // For now, analytics are local only
+        // In future, can integrate with Netlify Functions for aggregated stats
+        setAnalytics({
+          totalUsers: 0,
+          activeUsers: 0,
+          threatsBlocked: 0,
+          averageRiskScore: 0,
+          topThreats: [],
+          performanceMetrics: {
+            avgScanTime: 0,
+            avgCpuUsage: 0,
+            avgMemoryUsage: 0
+          }
+        });
       } catch (error) {
         console.error('Failed to fetch analytics:', error);
         // Show empty state on error

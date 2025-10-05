@@ -17,8 +17,8 @@ import { Settings } from './components/Settings';
 import { CryptoProtection } from './components/CryptoProtection';
 import { BetaAnalyticsDashboard } from './components/BetaAnalyticsDashboard';
 import { BetaFeedbackWidget } from './components/BetaFeedbackWidget';
+import { useAuth0 } from '@auth0/auth0-react';
 import { AuthScreen } from './components/Auth/AuthScreen';
-import { authService } from './services/AuthService';
 import { AIDetectionEngine } from './engine/AIDetectionEngine';
 import { DetectionEngine } from './engine/DetectionEngine';
 import { executeScript, getCommandLineExecution } from './utils/scriptRunner';
@@ -38,10 +38,9 @@ import {
 } from 'lucide-react';
 
 function App() {
+  const { isAuthenticated, isLoading: authLoading } = useAuth0();
   const { settings, updateSettings } = useSettings();
   const { recordButtonClick } = useUITest();
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [authLoading, setAuthLoading] = useState(true);
   const [isScanning, setIsScanning] = useState(false);
   const [lastOutput, setLastOutput] = useState<string>('');
   const [isElectron] = useState(!!window.electronAPI);
@@ -56,15 +55,7 @@ function App() {
   });
   const [aiModels, setAiModels] = useState(() => aiEngine.getModelStatus());
 
-  // Check authentication status on mount
-  useEffect(() => {
-    const unsubscribe = authService.onAuthStateChanged((user) => {
-      setIsAuthenticated(!!user);
-      setAuthLoading(false);
-    });
-
-    return () => unsubscribe();
-  }, []);
+  // Auth0 handles authentication automatically via hooks
 
   // Apply theme to document root whenever settings.theme changes
   useEffect(() => {

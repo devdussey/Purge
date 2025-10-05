@@ -8,6 +8,15 @@
   </head>
   <body>
     <div id="root"></div>
+
+    <!-- Hidden form for Netlify Forms -->
+    <form name="beta-feedback" netlify netlify-honeypot="bot-field" hidden>
+      <input type="text" name="type" />
+      <input type="email" name="email" />
+      <textarea name="message"></textarea>
+      <input type="text" name="screenshot" />
+    </form>
+
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>
