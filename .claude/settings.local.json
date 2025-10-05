@@ -13,7 +13,10 @@
       "Read(//c/Users/Main User/Desktop/purge-errors/**)",
       "Read(//c/Users/Main User/Desktop/**)",
       "Bash(node:*)",
-      "Bash(npm install:*)"
+      "Bash(npm install:*)",
+      "Bash(git add:*)",
+      "Bash(git commit -m \"$(cat <<''EOF''\nFix Auth0 Client ID and deploy to production\n\n- Corrected Client ID typo (VapCJHF3Vv01jDkfLcqQGH1vSxevtWKJ)\n- Auth0 domain: purge.ca.auth0.com\n- Successfully deployed to https://purge.dussey.dev\n- Auth0 authentication now working\n\n🤖 Generated with [Claude Code](https://claude.com/claude-code)\n\nCo-Authored-By: Claude <noreply@anthropic.com>\nEOF\n)\")",
+      "Bash(git push:*)"
     ],
     "deny": [],
     "ask": []
