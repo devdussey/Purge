@@ -1,9 +1,9 @@
 {
   "name": "purge",
   "private": true,
-  "version": "1.0.2",
+  "version": "0.7.0",
   "description": "Advanced AI-powered antivirus with ransomware protection, cryptocurrency wallet monitoring, and real-time threat detection",
-  "author": "DevDussey <devdussey@example.com>",
+  "author": "DevDussey <devdussey@gmail.com>",
   "type": "module",
   "scripts": {
     "dev": "vite",
