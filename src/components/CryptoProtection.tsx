@@ -3,6 +3,8 @@ import { Shield, AlertTriangle, Copy, Wallet, CheckCircle, XCircle, Activity, Lo
 import { cryptoProtection, ClipboardThreat } from '../services/CryptoProtection';
 import { PhishingChecker } from './PhishingChecker';
 import { useSettings } from '../hooks/useSettings';
+import { DownloadPromptModal } from './DownloadPromptModal';
+import { isWeb, getFeatureDisplayName } from '../utils/platform';
 
 export function CryptoProtection() {
   const { settings } = useSettings();
@@ -11,6 +13,10 @@ export function CryptoProtection() {
   const [stats, setStats] = useState(cryptoProtection.getStats());
   const [showAlert, setShowAlert] = useState(false);
   const [currentThreat, setCurrentThreat] = useState<ClipboardThreat | null>(null);
+  const [showDownloadModal, setShowDownloadModal] = useState(false);
+  const [requestedFeature, setRequestedFeature] = useState<string>('Clipboard Monitoring');
+
+  const runningOnWeb = isWeb();
 
   useEffect(() => {
     // Start monitoring based on settings
@@ -51,6 +57,14 @@ export function CryptoProtection() {
   }, [settings.cryptoClipboardMonitoring]);
 
   const toggleProtection = () => {
+    // If running on web, show download prompt
+    if (runningOnWeb) {
+      setRequestedFeature(getFeatureDisplayName('clipboard-monitoring'));
+      setShowDownloadModal(true);
+      return;
+    }
+
+    // Desktop app - actually toggle protection
     if (isActive) {
       cryptoProtection.stopClipboardMonitoring();
       setIsActive(false);
@@ -67,6 +81,12 @@ export function CryptoProtection() {
 
   return (
     <div className="space-y-6">
+      {/* Download Prompt Modal */}
+      <DownloadPromptModal
+        isOpen={showDownloadModal}
+        onClose={() => setShowDownloadModal(false)}
+        featureName={requestedFeature}
+      />
       {/* Threat Alert */}
       {showAlert && currentThreat && (
         <div className="fixed top-6 right-6 z-50 max-w-md bg-gradient-to-br from-red-900 to-red-800 border-2 border-red-500 rounded-2xl p-6 shadow-2xl animate-pulse">
@@ -135,8 +155,19 @@ export function CryptoProtection() {
               <Wallet className="h-8 w-8 text-purple-400" />
             </div>
             <div>
-              <h2 className="text-2xl font-bold text-white">Crypto Protection</h2>
-              <p className="text-purple-300">Advanced protection for crypto assets</p>
+              <div className="flex items-center gap-3">
+                <h2 className="text-2xl font-bold text-white">Crypto Protection</h2>
+                {runningOnWeb && (
+                  <span className="px-3 py-1 bg-blue-500/20 border border-blue-400/30 rounded-full text-xs font-semibold text-blue-300">
+                    WEB DEMO
+                  </span>
+                )}
+              </div>
+              <p className="text-purple-300">
+                {runningOnWeb
+                  ? 'Download desktop app for real-time protection'
+                  : 'Advanced protection for crypto assets'}
+              </p>
             </div>
           </div>
           <button

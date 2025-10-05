@@ -1,5 +1,8 @@
 import { Search, HardDrive, Download, Shield, Clock, History, Trash2, AlertTriangle, RotateCcw, Settings, Activity } from 'lucide-react';
 import { useUITest } from '../contexts/UITestContext';
+import { useState } from 'react';
+import { DownloadPromptModal } from './DownloadPromptModal';
+import { isWeb } from '../utils/platform';
 
 interface QuickActionProps {
   title: string;
@@ -112,8 +115,26 @@ export function QuickActions({
   onSettings,
   isScanning
 }: QuickActionsProps) {
+  const [showDownloadModal, setShowDownloadModal] = useState(false);
+  const [requestedFeature, setRequestedFeature] = useState<string>('');
+  const runningOnWeb = isWeb();
+
+  const handleFeatureClick = (featureName: string, action: () => void) => {
+    if (runningOnWeb) {
+      setRequestedFeature(featureName);
+      setShowDownloadModal(true);
+    } else {
+      action();
+    }
+  };
+
   return (
     <div className="mb-8">
+      <DownloadPromptModal
+        isOpen={showDownloadModal}
+        onClose={() => setShowDownloadModal(false)}
+        featureName={requestedFeature}
+      />
       <div className="flex items-center justify-between mb-6">
         <h2 className="text-2xl font-bold text-white">Quick Actions</h2>
         <div className="flex items-center space-x-2">
@@ -128,7 +149,7 @@ export function QuickActions({
           title="Quick Scan"
           description="Rapid scan of critical system areas and active processes"
           icon={Search}
-          onClick={onQuickScan}
+          onClick={() => handleFeatureClick('File Scanning', onQuickScan)}
           disabled={isScanning}
           variant="primary"
         />
@@ -136,7 +157,7 @@ export function QuickActions({
           title="Full System Scan"
           description="Comprehensive deep scan of entire system and all files"
           icon={HardDrive}
-          onClick={onFullScan}
+          onClick={() => handleFeatureClick('Full System Scan', onFullScan)}
           variant="secondary"
           disabled={isScanning}
         />
@@ -155,14 +176,14 @@ export function QuickActions({
           title="Toggle Protection"
           description="Enable/disable real-time protection"
           icon={Shield}
-          onClick={onToggleProtection}
+          onClick={() => handleFeatureClick('Real-time Protection', onToggleProtection)}
           variant="warning"
         />
         <QuickActionCard
           title="Schedule Scan"
           description="Set up automatic scanning"
           icon={Clock}
-          onClick={onScheduleScan}
+          onClick={() => handleFeatureClick('Scheduled Scans', onScheduleScan)}
           variant="secondary"
         />
         <QuickActionCard
@@ -192,7 +213,7 @@ export function QuickActions({
             title="Quarantine Manager"
             description="Manage quarantined files"
             icon={Trash2}
-            onClick={onManageQuarantine}
+            onClick={() => handleFeatureClick('Quarantine Management', onManageQuarantine)}
             variant="warning"
             badge="3"
           />
@@ -200,14 +221,14 @@ export function QuickActions({
             title="Emergency Cleanup"
             description="Remove malicious threats"
             icon={AlertTriangle}
-            onClick={onEmergencyCleanup}
+            onClick={() => handleFeatureClick('Emergency Cleanup', onEmergencyCleanup)}
             variant="danger"
           />
           <QuickActionCard
             title="System Restore"
             description="Restore system to clean state"
             icon={RotateCcw}
-            onClick={onSystemRestore}
+            onClick={() => handleFeatureClick('System Restore', onSystemRestore)}
             variant="secondary"
           />
         </div>

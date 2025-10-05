@@ -49,6 +49,8 @@ function App() {
   const [ransomwareShieldActive, setRansomwareShieldActive] = useState(true);
   const [activeTab, setActiveTab] = useState('dashboard');
   const [showAIAssistant, setShowAIAssistant] = useState(false);
+  const bypassAuth = import.meta.env.VITE_BYPASS_AUTH === 'true';
+  const [authOverride, setAuthOverride] = useState(bypassAuth);
   const [aiEngine] = useState(() => {
     const baseEngine = new DetectionEngine();
     return new AIDetectionEngine(baseEngine, 'demo-api-key');
@@ -278,11 +280,13 @@ function App() {
   }
 
   // Show auth screen if not authenticated
-  if (!isAuthenticated) {
-    return <AuthScreen onAuthSuccess={() => setIsAuthenticated(true)} />;
+  const isAuthenticatedEffective = authOverride || isAuthenticated;
+
+  if (!isAuthenticatedEffective) {
+    return <AuthScreen onAuthSuccess={() => setAuthOverride(true)} />;
   }
 
-  return (
+return (
     <div className={`${getThemeClasses()} ${settings.compactMode ? 'compact-mode' : ''}`}>
       <Header
         onNotificationsClick={() => console.log('Notifications clicked')}
