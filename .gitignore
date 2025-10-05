@@ -63,3 +63,6 @@ nul
 # Claude config
 .bolt
 .claude
+
+# Local Netlify folder
+.netlify
