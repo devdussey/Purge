@@ -1,5 +1,5 @@
 {
-  "name": "purge-antivirus",
+  "name": "purge",
   "private": true,
   "version": "1.0.2",
   "description": "Advanced AI-powered antivirus with ransomware protection, cryptocurrency wallet monitoring, and real-time threat detection",
@@ -76,7 +76,7 @@
     "win": {
       "target": "nsis",
       "icon": "public/purge-icon.ico",
-      "requestedExecutionLevel": "requireAdministrator",
+      "requestedExecutionLevel": "asInvoker",
       "publisherName": "DevDussey"
     },
     "mac": {
