@@ -11,7 +11,8 @@
       "Bash(findstr:*)",
       "Bash(taskkill:*)",
       "Read(//c/Users/Main User/Desktop/purge-errors/**)",
-      "Read(//c/Users/Main User/Desktop/**)"
+      "Read(//c/Users/Main User/Desktop/**)",
+      "Bash(node:*)"
     ],
     "deny": [],
     "ask": []

@@ -15,6 +15,10 @@ import { AIDetectionPanel } from './components/AIDetectionPanel';
 import { AISettings } from './components/AISettings';
 import { Settings } from './components/Settings';
 import { CryptoProtection } from './components/CryptoProtection';
+import { BetaAnalyticsDashboard } from './components/BetaAnalyticsDashboard';
+import { BetaFeedbackWidget } from './components/BetaFeedbackWidget';
+import { AuthScreen } from './components/Auth/AuthScreen';
+import { authService } from './services/AuthService';
 import { AIDetectionEngine } from './engine/AIDetectionEngine';
 import { DetectionEngine } from './engine/DetectionEngine';
 import { executeScript, getCommandLineExecution } from './utils/scriptRunner';
@@ -29,12 +33,15 @@ import {
   BarChart3,
   Settings as SettingsIcon,
   Brain,
-  Wallet
+  Wallet,
+  TestTube2
 } from 'lucide-react';
 
 function App() {
   const { settings, updateSettings } = useSettings();
   const { recordButtonClick } = useUITest();
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [authLoading, setAuthLoading] = useState(true);
   const [isScanning, setIsScanning] = useState(false);
   const [lastOutput, setLastOutput] = useState<string>('');
   const [isElectron] = useState(!!window.electronAPI);
@@ -49,23 +56,37 @@ function App() {
   });
   const [aiModels, setAiModels] = useState(() => aiEngine.getModelStatus());
 
+  // Check authentication status on mount
+  useEffect(() => {
+    const unsubscribe = authService.onAuthStateChanged((user) => {
+      setIsAuthenticated(!!user);
+      setAuthLoading(false);
+    });
+
+    return () => unsubscribe();
+  }, []);
+
   // Apply theme to document root whenever settings.theme changes
   useEffect(() => {
-    let effectiveTheme: 'dark' | 'light' = 'dark';
+    let effectiveTheme: 'brand' | 'dark' | 'light' = 'brand';
 
     if (settings.theme === 'auto') {
       // Check system preference
       if (window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches) {
         effectiveTheme = 'light';
+      } else {
+        effectiveTheme = 'brand';
       }
     } else if (settings.theme === 'light') {
       effectiveTheme = 'light';
-    } else {
+    } else if (settings.theme === 'dark') {
       effectiveTheme = 'dark';
+    } else {
+      effectiveTheme = 'brand';
     }
 
     // Apply to document root
-    document.documentElement.classList.remove('dark', 'light');
+    document.documentElement.classList.remove('brand', 'dark', 'light');
     document.documentElement.classList.add(effectiveTheme);
 
     console.log('Theme applied:', effectiveTheme, 'from settings.theme:', settings.theme);
@@ -238,21 +259,45 @@ function App() {
     { id: 'timeline', name: 'EDR Timeline', icon: Activity },
     { id: 'performance', name: 'Performance', icon: Zap },
     { id: 'ai', name: 'AI', icon: Brain },
+    { id: 'beta', name: 'Beta', icon: TestTube2 },
     { id: 'settings', name: 'Settings', icon: SettingsIcon }
   ];
 
   // Determine theme classes
   const getThemeClasses = () => {
     if (settings.theme === 'light') {
-      return 'min-h-screen bg-gradient-to-br from-gray-50 via-white to-gray-100';
+      return 'min-h-screen';
+    } else if (settings.theme === 'dark') {
+      return 'min-h-screen';
     }
-    // Dark theme (default)
-    return 'min-h-screen bg-gradient-to-br from-black via-gray-900 to-black';
+    // Brand theme (default)
+    return 'min-h-screen';
   };
+
+  // Show loading screen while checking auth
+  if (authLoading) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-black via-gray-900 to-purple-900/20 flex items-center justify-center">
+        <div className="text-center">
+          <img src="/purge-icon-64.png" alt="Purge Logo" className="h-16 w-16 mx-auto mb-4 animate-pulse" />
+          <div className="animate-spin rounded-full h-12 w-12 border-4 border-cyan-500 border-t-transparent mx-auto"></div>
+        </div>
+      </div>
+    );
+  }
+
+  // Show auth screen if not authenticated
+  if (!isAuthenticated) {
+    return <AuthScreen onAuthSuccess={() => setIsAuthenticated(true)} />;
+  }
 
   return (
     <div className={`${getThemeClasses()} ${settings.compactMode ? 'compact-mode' : ''}`}>
-      <Header />
+      <Header
+        onNotificationsClick={() => console.log('Notifications clicked')}
+        onSettingsClick={() => setActiveTab('settings')}
+        onProfileClick={() => console.log('Profile clicked')}
+      />
       
       <main className="max-w-7xl mx-auto px-6 lg:px-8 py-8">
         {/* Platform indicator */}
@@ -272,8 +317,8 @@ function App() {
 
         {/* Navigation Tabs */}
         <div className="mb-8">
-          <div className="bg-gradient-to-r from-gray-900/50 to-black/50 rounded-2xl border border-gray-700/30 backdrop-blur-sm p-2">
-            <nav className="flex space-x-2">
+          <div className="bg-gradient-to-r from-gray-900/50 to-black/50 rounded-2xl border border-gray-700/30 backdrop-blur-sm p-2 overflow-x-auto">
+            <nav className="flex space-x-2 min-w-min">
               {tabs.map((tab) => {
                 const IconComponent = tab.icon;
                 return (
@@ -294,7 +339,7 @@ function App() {
                       }, 100);
                       setActiveTab(tab.id);
                     }}
-                    className={`flex items-center space-x-3 px-6 py-3 rounded-xl font-medium text-sm transition-all duration-300 click-feedback ${
+                    className={`flex items-center space-x-3 px-6 py-3 rounded-xl font-medium text-sm transition-all duration-300 click-feedback whitespace-nowrap ${
                       activeTab === tab.id
                         ? 'bg-gradient-to-r from-red-600/30 to-red-700/30 text-red-400 border border-red-500/30 shadow-lg'
                         : 'text-gray-400 hover:text-white hover:bg-gray-800/50'
@@ -374,6 +419,10 @@ function App() {
           </div>
         )}
 
+        {activeTab === 'beta' && (
+          <BetaAnalyticsDashboard />
+        )}
+
         {activeTab === 'settings' && (
           <Settings />
         )}
@@ -434,6 +483,9 @@ function App() {
             </button>
           </div>
         )}
+
+        {/* Beta Feedback Widget */}
+        <BetaFeedbackWidget />
 
         {/* UI Test Panel - Debug */}
         <div className="fixed bottom-6 right-6 z-50">

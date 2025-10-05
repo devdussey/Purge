@@ -2,7 +2,7 @@ directories:
   output: release
   buildResources: build
 appId: com.devdussey.purge
-productName: Purge by DevDussey
+productName: Purge
 files:
   - filter:
       - dist/**/*
@@ -15,7 +15,7 @@ publish:
   releaseType: release
 win:
   target: nsis
-  icon: public/PurgedIcon.png
+  icon: public/purge-icon.ico
   requestedExecutionLevel: requireAdministrator
   publisherName: DevDussey
 mac:
@@ -29,4 +29,14 @@ nsis:
   allowToChangeInstallationDirectory: true
   createDesktopShortcut: true
   createStartMenuShortcut: true
+  deleteAppDataOnUninstall: false
+  shortcutName: Purge Antivirus
+  runAfterFinish: true
+  menuCategory: true
+  displayLanguageSelector: false
+  installerLanguages:
+    - en_US
+  perMachine: true
+  allowElevation: true
+  license: LICENSE.txt
 electronVersion: 28.3.3

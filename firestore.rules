@@ -1,0 +1,54 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // User profiles - Users can only read/write their own profile
+    match /users/{userId} {
+      allow read: if request.auth != null && request.auth.uid == userId;
+      allow create: if request.auth != null && request.auth.uid == userId;
+      allow update: if request.auth != null && request.auth.uid == userId;
+      allow delete: if false; // Never allow deletion
+    }
+
+    // Telemetry Events - Write only, authenticated users
+    match /telemetry_events/{eventId} {
+      allow read: if false; // Never allow clients to read telemetry
+      allow write: if request.auth != null;
+    }
+
+    // Crash Reports - Write only, authenticated users
+    match /crash_reports/{reportId} {
+      allow read: if false;
+      allow write: if request.auth != null;
+    }
+
+    // Beta Feedback - Write only, authenticated users
+    match /beta_feedback/{feedbackId} {
+      allow read: if false;
+      allow write: if request.auth != null;
+    }
+
+    // Beta Users - Write only, authenticated users
+    match /beta_users/{userId} {
+      allow read: if false;
+      allow write: if request.auth != null;
+    }
+
+    // Analytics Summary - Read only for authenticated users
+    match /analytics_summary/{docId} {
+      allow read: if request.auth != null;
+      allow write: if false; // Only backend can write
+    }
+
+    // Beta Signups from landing page - Write only, anonymous allowed
+    match /beta_signups/{signupId} {
+      allow read: if false;
+      allow write: if request.auth == null &&
+                      request.resource.data.email is string &&
+                      request.resource.data.email.matches('.*@.*\\..*') &&
+                      request.resource.data.timestamp is timestamp &&
+                      request.resource.data.source is string;
+    }
+  }
+}

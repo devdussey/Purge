@@ -2,26 +2,102 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Dark theme (default) */
+/* ========================================
+   PURGE BRAND THEME (Default)
+   Vibrant cyan-to-purple gradients
+   ======================================== */
+.brand {
+  color-scheme: dark;
+}
+
+.brand .min-h-screen {
+  background: linear-gradient(135deg, #0a0e27 0%, #1a1f3a 50%, #2a1f3a 100%);
+}
+
+.brand {
+  --color-bg-primary: #0a0e27;
+  --color-bg-secondary: #1a1f3a;
+  --color-bg-card: rgba(26, 31, 58, 0.6);
+  --color-text-primary: #ffffff;
+  --color-text-secondary: #a8b3cf;
+  --color-border: rgba(0, 212, 255, 0.2);
+
+  /* Brand gradients */
+  --gradient-primary: linear-gradient(135deg, #00D4FF 0%, #6B2FFF 100%);
+  --gradient-card: linear-gradient(135deg, rgba(0, 212, 255, 0.1) 0%, rgba(107, 47, 255, 0.1) 100%);
+  --gradient-hover: linear-gradient(135deg, rgba(0, 212, 255, 0.2) 0%, rgba(107, 47, 255, 0.2) 100%);
+}
+
+.brand .bg-gradient-to-br {
+  background: linear-gradient(135deg, rgba(0, 212, 255, 0.08) 0%, rgba(107, 47, 255, 0.08) 100%);
+  border: 1px solid rgba(0, 212, 255, 0.2);
+  backdrop-filter: blur(10px);
+}
+
+.brand .bg-gradient-to-r {
+  background: linear-gradient(90deg, rgba(0, 212, 255, 0.1) 0%, rgba(107, 47, 255, 0.1) 100%);
+}
+
+.brand button:not(.bg-red-500):not(.bg-green-500) {
+  background: linear-gradient(135deg, rgba(0, 212, 255, 0.15) 0%, rgba(107, 47, 255, 0.15) 100%);
+  border: 1px solid rgba(0, 212, 255, 0.3);
+  color: #00D4FF;
+  transition: all 0.3s ease;
+}
+
+.brand button:not(.bg-red-500):not(.bg-green-500):hover {
+  background: linear-gradient(135deg, rgba(0, 212, 255, 0.25) 0%, rgba(107, 47, 255, 0.25) 100%);
+  border-color: rgba(0, 212, 255, 0.5);
+  box-shadow: 0 0 15px rgba(0, 212, 255, 0.3);
+}
+
+/* ========================================
+   DARK MODE THEME
+   Clean, professional dark
+   ======================================== */
 .dark {
   color-scheme: dark;
 }
 
-/* Light theme overrides */
+.dark .min-h-screen {
+  background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+}
+
+.dark .bg-gradient-to-br {
+  background: rgba(30, 41, 59, 0.6);
+  border: 1px solid rgba(71, 85, 105, 0.3);
+  backdrop-filter: blur(10px);
+}
+
+.dark .bg-gradient-to-r {
+  background: rgba(51, 65, 85, 0.4);
+}
+
+.dark button:not(.bg-red-500):not(.bg-green-500) {
+  background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+}
+
+.dark button:not(.bg-red-500):not(.bg-green-500):hover {
+  background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+}
+
+/* ========================================
+   LIGHT MODE THEME
+   Bright, clean, professional
+   ======================================== */
 .light {
   color-scheme: light;
 }
 
-/* Light mode styles - override the dark gradients */
 .light .min-h-screen {
-  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%) !important;
+  background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
 }
 
-.light body {
-  @apply bg-gray-100 text-gray-900;
+.light {
+  @apply bg-gray-50 text-gray-900;
 }
 
-/* Light mode: change text colors */
+/* Light mode: text colors */
 .light h1, .light h2, .light h3, .light h4, .light h5, .light h6 {
   @apply text-gray-900;
 }
@@ -30,36 +106,48 @@
   color: inherit;
 }
 
-/* Light mode: update card backgrounds */
-.light .bg-gradient-to-br {
-  background: rgba(255, 255, 255, 0.9) !important;
-  border-color: rgba(0, 0, 0, 0.1) !important;
-}
-
-.light .bg-gradient-to-r {
-  background: rgba(255, 255, 255, 0.8) !important;
-}
-
-/* Light mode: borders */
-.light .border-gray-700,
-.light .border-gray-600,
-.light .border-red-500 {
-  border-color: rgba(0, 0, 0, 0.1) !important;
-}
-
-/* Light mode: make sure text is visible */
 .light .text-white {
   @apply text-gray-900 !important;
 }
 
 .light .text-gray-400,
 .light .text-gray-300 {
-  @apply text-gray-700 !important;
+  @apply text-gray-600 !important;
 }
 
 .light .text-red-400 {
   @apply text-red-600 !important;
 }
+
+/* Light mode: cards */
+.light .bg-gradient-to-br {
+  background: rgba(255, 255, 255, 0.9) !important;
+  border: 1px solid rgba(203, 213, 225, 0.6) !important;
+  backdrop-filter: blur(10px);
+}
+
+.light .bg-gradient-to-r {
+  background: rgba(248, 250, 252, 0.8) !important;
+}
+
+/* Light mode: buttons */
+.light button:not(.bg-red-500):not(.bg-green-500) {
+  background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+  color: white !important;
+}
+
+.light button:not(.bg-red-500):not(.bg-green-500):hover {
+  background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+}
+
+.light .border-gray-700,
+.light .border-gray-600 {
+  border-color: rgba(203, 213, 225, 0.6) !important;
+}
+
+/* ========================================
+   CUSTOM COMPONENTS
+   ======================================== */
 
 /* Custom slider styles */
 input[type="range"].slider-red::-webkit-slider-thumb {
@@ -92,6 +180,10 @@ input[type="range"].slider-red::-moz-range-track {
   background: linear-gradient(to right, #dc2626 0%, #ef4444 100%);
   border-radius: 10px;
 }
+
+/* ========================================
+   ANIMATIONS
+   ======================================== */
 
 /* Button feedback animations */
 @keyframes button-press {
@@ -171,7 +263,10 @@ input[type="range"].slider-red::-moz-range-track {
   animation: pulse-glow 2s ease-in-out infinite;
 }
 
-/* Compact Mode */
+/* ========================================
+   COMPACT MODE
+   ======================================== */
+
 .compact-mode .max-w-7xl {
   padding-left: 1rem !important;
   padding-right: 1rem !important;

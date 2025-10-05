@@ -554,8 +554,9 @@ export function Settings() {
           description="Choose your preferred color scheme"
           value={settings.theme}
           options={[
-            { value: 'dark', label: 'Dark (Default)' },
-            { value: 'light', label: 'Light' },
+            { value: 'brand', label: 'Purge Brand (Default)' },
+            { value: 'dark', label: 'Dark Mode' },
+            { value: 'light', label: 'Light Mode' },
             { value: 'auto', label: 'Auto (System)' }
           ]}
           onChange={(value) => updateSettings({ theme: value })}

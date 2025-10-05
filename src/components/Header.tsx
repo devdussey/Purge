@@ -1,7 +1,13 @@
 import {useState} from 'react';
 import { Settings, Bell, User, Shield } from 'lucide-react';
 
-export function Header() {
+interface HeaderProps {
+  onNotificationsClick?: () => void;
+  onSettingsClick?: () => void;
+  onProfileClick?: () => void;
+}
+
+export function Header({ onNotificationsClick, onSettingsClick, onProfileClick }: HeaderProps = {}) {
   const [notifications] = useState(3);
 
   return (
@@ -11,19 +17,18 @@ export function Header() {
           {/* Logo Section */}
           <div className="flex items-center space-x-4">
             <div className="relative">
-              <img 
-                src="/Dusscord Glow.png" 
-                alt="Dusscord Logo" 
+              <img
+                src="/purge-icon-64.png"
+                alt="Purge Logo"
                 className="h-12 w-12 rounded-xl shadow-lg"
               />
-              <div className="absolute inset-0 bg-red-500/20 rounded-xl animate-pulse"></div>
+              <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/20 to-purple-500/20 rounded-xl animate-pulse"></div>
             </div>
-            <div className="flex flex-col">
-              <h1 className="text-2xl font-bold bg-gradient-to-r from-red-400 to-red-600 bg-clip-text text-transparent">
-                Purge
-              </h1>
-              <p className="text-sm text-gray-400 font-medium">by DevDussey</p>
-            </div>
+            <img
+              src="/purge-logo-horizontal.svg"
+              alt="Purge"
+              className="h-8 w-auto"
+            />
           </div>
 
           {/* Status Indicator */}
@@ -36,9 +41,11 @@ export function Header() {
           </div>
 
           {/* Action Buttons */}
-          <div className="flex items-center space-x-3">
-            <div className="flex items-center space-x-2">
-              <button className="relative p-3 text-gray-400 hover:text-white hover:bg-red-900/30 rounded-xl transition-all duration-200">
+          <div className="flex items-center space-x-2">
+              <button
+                onClick={onNotificationsClick}
+                className="relative p-3 text-gray-400 hover:text-white hover:bg-red-900/30 rounded-xl transition-all duration-200"
+              >
                 <Bell className="h-5 w-5" />
                 {notifications > 0 && (
                   <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center font-bold">
@@ -46,15 +53,20 @@ export function Header() {
                   </span>
                 )}
               </button>
-              
-              <button className="p-3 text-gray-400 hover:text-white hover:bg-red-900/30 rounded-xl transition-all duration-200">
+
+              <button
+                onClick={onSettingsClick}
+                className="p-3 text-gray-400 hover:text-white hover:bg-red-900/30 rounded-xl transition-all duration-200"
+              >
                 <Settings className="h-5 w-5" />
               </button>
-              
-              <button className="p-3 text-gray-400 hover:text-white hover:bg-red-900/30 rounded-xl transition-all duration-200">
+
+              <button
+                onClick={onProfileClick}
+                className="p-3 text-gray-400 hover:text-white hover:bg-red-900/30 rounded-xl transition-all duration-200"
+              >
                 <User className="h-5 w-5" />
               </button>
-            </div>
           </div>
         </div>
       </div>

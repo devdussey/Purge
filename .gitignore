@@ -1,3 +1,4 @@
+# Logs
 logs
 *.log
 npm-debug.log*
@@ -6,22 +7,59 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
+# Dependencies
 node_modules
+
+# Build outputs
 dist
 dist-ssr
+dist-electron
 *.local
+release/
 
+# IDE
 .vscode/*
 !.vscode/extensions.json
 .idea
-.DS_Store
 *.suo
 *.ntvs*
 *.njsproj
 *.sln
 *.sw?
-.env
 
-# Release builds
-release/
+# OS
+.DS_Store
+Thumbs.db
+
+# Environment & Secrets
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+**/*token*
+**/*secret*
+**/*credential*
+
+# Documentation & Planning
+.docs/
+archives/
+AI_DEVELOPMENT_PLAN.md
+CONVERSATION_HISTORY.md
+
+# Legacy/Obsolete Scripts (deleted)
+build-installer.ps1
+convert-logo.ps1
+create-github-release.ps1
+create-ico.cjs
+Claude.ps1
+set-gh-token.sh
+
+# Temporary files
 nul
+*.tmp
+*.temp
+
+# Claude config
+.bolt
+.claude

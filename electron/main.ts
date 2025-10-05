@@ -27,7 +27,7 @@ function createWindow() {
       contextIsolation: true,
       preload: join(__dirname, 'preload.cjs'),
     },
-    icon: join(__dirname, '../public/PurgedIcon.png'),
+    icon: join(__dirname, '../public/purge-icon.ico'),
     title: 'Purge by DevDussey',
     titleBarStyle: 'default',
     show: false,

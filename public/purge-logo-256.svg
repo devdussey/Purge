@@ -5,7 +5,8 @@
                                 <stop offset="100%" style="stop-color:#6B2FFF"/>
                             </linearGradient>
                         </defs>
-                        <rect width="256" height="256" rx="50" fill="#0A0E27"/>
+                        <!-- Transparent background -->
+                        <rect width="256" height="256" rx="50" fill="none"/>
                         <path d="M128 50 L190 75 L190 140 Q190 180 128 215 Q66 180 66 140 L66 75 Z" fill="url(#gradient256)"/>
                         <text x="128" y="170" font-family="Inter, Arial, sans-serif" font-size="90" font-weight="bold" fill="#FFFFFF" text-anchor="middle">P</text>
                     </svg>

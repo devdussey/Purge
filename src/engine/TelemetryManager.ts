@@ -198,6 +198,19 @@ export class TelemetryManager extends EventEmitter {
   }
 
   private async sendEvents(events: TelemetryEvent[]) {
+    // Use Firebase if available, otherwise fall back to HTTP endpoint
+    try {
+      const { firebaseTelemetry } = await import('../services/FirebaseTelemetry');
+
+      if (firebaseTelemetry.isConfigured()) {
+        await firebaseTelemetry.sendTelemetryEvents(events);
+        return;
+      }
+    } catch (error) {
+      console.warn('Firebase not available, falling back to HTTP endpoint:', error);
+    }
+
+    // Fallback to HTTP endpoint
     const response = await fetch(this.config.endpoint, {
       method: 'POST',
       headers: {

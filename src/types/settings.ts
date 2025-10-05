@@ -44,7 +44,7 @@ export interface AppSettings {
   quarantineRetentionDays: number;
 
   // UI Settings
-  theme: 'dark' | 'light' | 'auto';
+  theme: 'brand' | 'dark' | 'light' | 'auto';
   compactMode: boolean;
   showAdvancedOptions: boolean;
 }
@@ -95,7 +95,7 @@ export const DEFAULT_SETTINGS: AppSettings = {
   quarantineRetentionDays: 30,
 
   // UI Settings
-  theme: 'dark',
+  theme: 'brand',
   compactMode: false,
   showAdvancedOptions: false,
 };
